@@ -60,6 +60,8 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
         jMIPase = new javax.swing.JMenuItem();
         jMMembresia = new javax.swing.JMenu();
         jMIMembresia = new javax.swing.JMenuItem();
+        jMEntrenador = new javax.swing.JMenu();
+        jMIEntrenador = new javax.swing.JMenuItem();
 
         jMenu3.setText("File");
         jMenuBar2.add(jMenu3);
@@ -118,6 +120,14 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
 
         jMBPrincipal.add(jMMembresia);
 
+        jMEntrenador.setText("Entrenadores");
+
+        jMIEntrenador.setText("Entrenador");
+        jMIEntrenador.addActionListener(this::jMIEntrenadorActionPerformed);
+        jMEntrenador.add(jMIEntrenador);
+
+        jMBPrincipal.add(jMEntrenador);
+
         setJMenuBar(jMBPrincipal);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -170,6 +180,10 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
         System.exit(0);
     }//GEN-LAST:event_jMISalirActionPerformed
 
+    private void jMIEntrenadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIEntrenadorActionPerformed
+        abrirVentana(new VistaEntrenador());
+    }//GEN-LAST:event_jMIEntrenadorActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -199,6 +213,8 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
     private javax.swing.JDesktopPane jDesktopPanel;
     private javax.swing.JMenu jMArchivo;
     private javax.swing.JMenuBar jMBPrincipal;
+    private javax.swing.JMenu jMEntrenador;
+    private javax.swing.JMenuItem jMIEntrenador;
     private javax.swing.JMenuItem jMIMembresia;
     private javax.swing.JMenuItem jMIPase;
     private javax.swing.JMenuItem jMISalir;

@@ -46,7 +46,7 @@ public class EntrenadorData {
         String sql = "UPDATE entrenador SET "
                 + "dni = ?, nombre = ?, apellido = ?, "
                 + "especialidad = ? "
-                + "WHERE idEntrenador = ?";
+                + "WHERE iD_Entrenador = ?";
 
         try (Connection con = Conexion.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -71,7 +71,7 @@ public class EntrenadorData {
 
         String sql = "UPDATE entrenador "
                 + "SET estado = 0 "
-                + "WHERE idEntrenador = ?";
+                + "WHERE ID_Entrenador = ?";
 
         try (Connection con = Conexion.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -92,7 +92,7 @@ public class EntrenadorData {
 
         String sql = "UPDATE entrenador "
                 + "SET estado = 1 "
-                + "WHERE idEntrenador = ?";
+                + "WHERE ID_Entrenador = ?";
 
         try (Connection con = Conexion.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -112,7 +112,7 @@ public class EntrenadorData {
     public Entrenador buscarPorId(int idEntrenador) {
 
         String sql = "SELECT * FROM entrenador "
-                + "WHERE idEntrenador = ?";
+                + "WHERE ID_Entrenador = ?";
 
         try (Connection con = Conexion.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -126,7 +126,7 @@ public class EntrenadorData {
                 Entrenador entrenador = new Entrenador();
 
                 entrenador.setIdEntrenador(
-                        rs.getInt("idEntrenador"));
+                        rs.getInt("ID_Entrenador"));
 
                 entrenador.setDni(rs.getString("dni"));
                 entrenador.setNombre(rs.getString("nombre"));
@@ -159,11 +159,12 @@ public class EntrenadorData {
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
+                //System.out.println("Entrenador encontrado: " + rs.getString("nombre"));
 
                 Entrenador entrenador = new Entrenador();
 
                 entrenador.setIdEntrenador(
-                        rs.getInt("idEntrenador"));
+                        rs.getInt("ID_Entrenador"));
 
                 entrenador.setDni(rs.getString("dni"));
                 entrenador.setNombre(rs.getString("nombre"));
