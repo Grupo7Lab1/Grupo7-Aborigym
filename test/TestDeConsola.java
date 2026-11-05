@@ -15,7 +15,6 @@ import java.util.Scanner;
  */
 public class TestDeConsola {
      public static void main(String[] args) {
-
          Scanner teclado = new Scanner(System.in);
          System.out.println("       SISTEMA ABORIGYM");
         // 1. PROBAR CONEXION A MARIADB
@@ -32,18 +31,18 @@ public class TestDeConsola {
             teclado.close();
             return;
         }
-        SocioData entidadData = new SocioData();
+        SocioData socioData = new SocioData();
         int opcion;
         do {
             System.out.println("\n========== MENU ABORIGYM ==========");
-            System.out.println("1. Registrar entidad");
-            System.out.println("2. Listar entidad");
-            System.out.println("3. Buscar entidad por DNI");
-            System.out.println("4. Buscar entidad por ID");
-            System.out.println("5. Actualizar entidad");
+            System.out.println("1. Registrar socio");
+            System.out.println("2. Listar socios");
+            System.out.println("3. Buscar socio por DNI");
+            System.out.println("4. Buscar socio por ID");
+            System.out.println("5. Actualizar socio");
             System.out.println("6. Baja logica");
             System.out.println("7. Alta logica");
-            System.out.println("8. Borrar entidad definitivamente");
+            System.out.println("8. Borrar socio definitivamente");
             System.out.println("0. Salir");
             System.out.print("Seleccione una opcion: ");
             try {
@@ -54,15 +53,15 @@ public class TestDeConsola {
             switch (opcion) {
                 // 2. REGISTRAR SOCIO
                 case 1: {
-                    System.out.println("\n--- REGISTRAR ENTIDAD ---");
+                    System.out.println("\n--- REGISTRAR SOCIO ---");
 
                     System.out.print("DNI: ");
                     String dni = teclado.nextLine();
 
-                  Socio existente = entidadData.buscarPorDni(dni);
+                    Socio existente = socioData.buscarPorDni(dni);
 
                     if (existente != null) {
-                        System.out.println("Ya existe una entidad con ese DNI.");
+                        System.out.println("Ya existe un socio con ese DNI.");
                         System.out.println(existente);
                         break;
                     }
@@ -94,71 +93,71 @@ public class TestDeConsola {
                             dni, nombre, apellido, edad,
                             correo, telefono, true
                     );
-                    if (entidadData.guardarSocio(socio)) {
-                        System.out.println("entidad registrada correctamente.");
+                    if (socioData.guardarSocio(socio)) {
+                        System.out.println("Socio registrado correctamente.");
                     } else {
-                        System.out.println("No se pudo registrar la entidad.");
+                        System.out.println("No se pudo registrar el socio.");
                     }
                     break;
                 }
                 // 3. LISTAR SOCIOS
                 case 2: {
-                    System.out.println("\n--- LISTADO DE ENTIDAD ---");
-                    List<Socio> entidades = SocioData.();
-                    if (entidades.isEmpty()) {
-                        System.out.println("No hay entidades registradas.");
+                    System.out.println("\n--- LISTADO DE SOCIOS ---");
+                    List<Socio> socios = socioData.listarSocio();
+                    if (socios.isEmpty()) {
+                        System.out.println("No hay socios registrados.");
                     } else {
-                        for (Socio e : entidades) {
-                            System.out.println(e);
+                        for (Socio s : socios) {
+                            System.out.println(s);
                         }
                     }
                     break;
                 }
                 // 4. BUSCAR POR DNI
                 case 3: {
-                    System.out.println("\n--- BUSCAR ENTIDADES POR DNI ---");
+                    System.out.println("\n--- BUSCAR SOCIO POR DNI ---");
                     System.out.print("Ingrese DNI: ");
                     String dni = teclado.nextLine();
-                    Socio e = entidadData.buscarPorDni(dni);
+                    Socio s = socioData.buscarPorDni(dni);
                     if (s != null) {
-                        System.out.println("entidad encontrada:");
-                        System.out.println(e);
+                        System.out.println("Socio encontrado:");
+                        System.out.println(s);
                     } else {
-                        System.out.println("No se encontro la entidad.");
+                        System.out.println("No se encontro el socio.");
                     }
                     break;
                 }
                 // 5. BUSCAR POR ID
                 case 4: {
-                    System.out.println("\n--- BUSCAR ENTIDAD POR ID ---");
+                    System.out.println("\n--- BUSCAR SOCIO POR ID ---");
                     int id = leerId(teclado);
                     if (id <= 0) {
                         System.out.println("ID invalido.");
                         break;
                     }
-                    Socio e = entidadData.buscarPorId(id);
-                   if (e != null) {
+                    Socio s = socioData.buscarPorId(id);
+                   if (s != null) {
                         System.out.println(s);
                     } else {
-                        System.out.println("No se encontro la entidad.");
+                        System.out.println("No se encontro el socio.");
                     }
                     break;
                 }
-                // 6. ACTUALIZAR ENTIDAD
+                // 6. ACTUALIZAR SOCIO
                 case 5: {
-                    System.out.println("\n--- ACTUALIZAR ENTIDAD ---");
+                    System.out.println("\n--- ACTUALIZAR SOCIO ---");
                     int id = leerId(teclado);
                     if (id <= 0) {
                         System.out.println("ID invalido.");
                         break;
                     }
-                    Socio e = entidadData.buscarPorId(id);
-                    if (e == null) {
-                        System.out.println("No se encontro la entidad.");
+                    Socio s = socioData.buscarPorId(id);
+                    if (s == null) {
+                        System.out.println("No se encontro el socio.");
                         break;
                     }
                     System.out.println("Datos actuales:");
-                    System.out.println(e);
+                    System.out.println(s);
                     System.out.println("\nIngrese los nuevos datos:");
                     System.out.print("DNI: ");
                     s.setDni(teclado.nextLine());
@@ -173,7 +172,7 @@ public class TestDeConsola {
                             System.out.println("Edad invalida.");
                             break;
                         }
-                        e.setEdad(edad);
+                        s.setEdad(edad);
                     } catch (NumberFormatException e) {
                         System.out.println("La edad debe ser un numero entero.");
                         break;
@@ -182,10 +181,10 @@ public class TestDeConsola {
                     s.setCorreo(teclado.nextLine());
                     System.out.print("Telefono: ");
                     s.setTelefono(teclado.nextLine());
-                    if (entidadData.modificar(e)) {
+                    if (socioData.modificar(s)) {
                         System.out.println("Socio actualizado correctamente.");
                     } else {
-                        System.out.println("No se pudo actualizar la entidad.");
+                        System.out.println("No se pudo actualizar el socio.");
                     }
                     break;
                 }
@@ -197,10 +196,12 @@ public class TestDeConsola {
                         System.out.println("ID invalido.");
                         break;
                     }
-                    if (entidadData.darDeBaja(id)) {
-                        System.out.println("entidaddado de baja. El registro se conserva.");
+                    if (socioData.darDeBaja(id)) {
+                        System.out.println(
+                                "Socio dado de baja. El registro se conserva."
+                        );
                     } else {
-                        System.out.println("No se pudo dar de baja la entidad.");
+                        System.out.println("No se pudo dar de baja al socio.");
                     }
                     break;
                 }
@@ -212,36 +213,41 @@ public class TestDeConsola {
                         System.out.println("ID invalido.");
                         break;
                     }
-                    if (entidadData.darDeAlta(id)) {
+                    if (socioData.darDeAlta(id)) {
                         System.out.println("Socio reactivado correctamente.");
                     } else {
-                        System.out.println("No se pudo dar de alta a la entidad.");
+                        System.out.println("No se pudo dar de alta al socio.");
                     }
                     break;
                 }
                 // 9. BORRAR DEFINITIVAMENTE
                 case 8: {
-                    System.out.println("\n--- BORRAR ENTIDAD ---");
+                    System.out.println("\n--- BORRAR SOCIO ---");
                     int id = leerId(teclado);
                     if (id <= 0) {
                         System.out.println("ID invalido.");
                         break;
                     }
-                   Socio e = entidadData.buscarPorId(id);
-                    if (e == null) {
-                        System.out.println("No se encontro la entidad.");
+                    Socio s = socioData.buscarPorId(id);
+                    if (s == null) {
+                        System.out.println("No se encontro el socio.");
                         break;
                     }
-                    System.out.println("entidad seleccionada:");
-                    System.out.println(e);
-                    System.out.print("Esta operacion es definitiva."+ "Escriba SI para confirmar: "
+                    System.out.println("Socio seleccionado:");
+                    System.out.println(s);
+                    System.out.print(
+                            "Esta operacion es definitiva. "
+                            + "Escriba SI para confirmar: "
                     );
                     String confirmacion = teclado.nextLine();
                     if (confirmacion.equalsIgnoreCase("SI")) {
-                        if (entidadData.eliminar(id)) {
-                            System.out.println("Entidad eliminada definitivamente.");
+                        if (socioData.eliminar(id)) {
+                            System.out.println("Socio eliminado definitivamente.");
                         } else {
-                            System.out.println("No se pudo borrar. "+ "Puede tener pases o asistencias asociados.");
+                            System.out.println(
+                                    "No se pudo borrar. "
+                                    + "Puede tener pases o asistencias asociados."
+                            );
                         }
                     } else {
                         System.out.println("Operacion cancelada.");
@@ -260,7 +266,7 @@ public class TestDeConsola {
     // METODO AUXILIAR PARA LEER EL ID
     private static int leerId(Scanner teclado) {
         try {
-            System.out.print("Ingrese el ID de la entidad: ");
+            System.out.print("Ingrese el ID del socio: ");
             return Integer.parseInt(teclado.nextLine());
         } catch (NumberFormatException e) {
             return -1;
