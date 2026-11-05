@@ -3,15 +3,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-import Modelo.entidad;
-import Persistencia.entidadData;
+import Modelo.Socio;
+import Persistencia.SocioData;
 import Modelo.Conexion;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Scanner;
 /**
  *
- * @author Nestor Marchizone
+ * @author Rotta Alejandro
  */
 public class TestDeConsola {
      public static void main(String[] args) {
@@ -32,7 +32,7 @@ public class TestDeConsola {
             teclado.close();
             return;
         }
-        entidadData entidadData = new entidadData();
+        SocioData entidadData = new SocioData();
         int opcion;
         do {
             System.out.println("\n========== MENU ABORIGYM ==========");
@@ -59,7 +59,7 @@ public class TestDeConsola {
                     System.out.print("DNI: ");
                     String dni = teclado.nextLine();
 
-                  entidad existente = entidadData.buscarPorDni(dni);
+                  Socio existente = entidadData.buscarPorDni(dni);
 
                     if (existente != null) {
                         System.out.println("Ya existe una entidad con ese DNI.");
@@ -90,7 +90,7 @@ public class TestDeConsola {
                     String correo = teclado.nextLine();
                     System.out.print("Telefono: ");
                     String telefono = teclado.nextLine();
-                    Socio socio = new entidad(
+                    Socio socio = new Socio(
                             dni, nombre, apellido, edad,
                             correo, telefono, true
                     );
@@ -104,11 +104,11 @@ public class TestDeConsola {
                 // 3. LISTAR SOCIOS
                 case 2: {
                     System.out.println("\n--- LISTADO DE ENTIDAD ---");
-                    List<entidad> entidades = entidadData.listarentidades();
+                    List<Socio> entidades = SocioData.();
                     if (entidades.isEmpty()) {
                         System.out.println("No hay entidades registradas.");
                     } else {
-                        for (entidad e : entidades) {
+                        for (Socio e : entidades) {
                             System.out.println(e);
                         }
                     }
@@ -119,7 +119,7 @@ public class TestDeConsola {
                     System.out.println("\n--- BUSCAR ENTIDADES POR DNI ---");
                     System.out.print("Ingrese DNI: ");
                     String dni = teclado.nextLine();
-                    entidad e = entidadData.buscarPorDni(dni);
+                    Socio e = entidadData.buscarPorDni(dni);
                     if (s != null) {
                         System.out.println("entidad encontrada:");
                         System.out.println(e);
@@ -136,7 +136,7 @@ public class TestDeConsola {
                         System.out.println("ID invalido.");
                         break;
                     }
-                    entidad e = entidadData.buscarPorId(id);
+                    Socio e = entidadData.buscarPorId(id);
                    if (e != null) {
                         System.out.println(s);
                     } else {
@@ -152,7 +152,7 @@ public class TestDeConsola {
                         System.out.println("ID invalido.");
                         break;
                     }
-                    entidad e = entidadData.buscarPorId(id);
+                    Socio e = entidadData.buscarPorId(id);
                     if (e == null) {
                         System.out.println("No se encontro la entidad.");
                         break;
@@ -227,7 +227,7 @@ public class TestDeConsola {
                         System.out.println("ID invalido.");
                         break;
                     }
-                   entidad e = entidadData.buscarPorId(id);
+                   Socio e = entidadData.buscarPorId(id);
                     if (e == null) {
                         System.out.println("No se encontro la entidad.");
                         break;

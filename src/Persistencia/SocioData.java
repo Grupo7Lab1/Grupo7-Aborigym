@@ -4,7 +4,7 @@
  */
 package Persistencia;
 
-import Modelo.entidad;
+import Modelo.Socio;
 import Modelo.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,10 +16,10 @@ import java.util.List;
 
 
 
-public class entidadData {
+public class SocioData {
 
     // GUARDAR ENTIDAD
-    public boolean guardarEntidad(entidad s) {
+    public boolean guardarSocio(Socio s) {
 
         String sql = "INSERT INTO Socio "
                 + "(DNI, Nombre, Apellido, Edad, Correo, Telefono, Estado) "
@@ -44,9 +44,9 @@ public class entidadData {
     }
 
     // LISTAR ENTIDADES
-    public List<entidad> listarEntidad() {
+    public List<Socio> listarSocio() {
 
-        List<entidad> entidades = new ArrayList<>();
+        List<Socio> entidades = new ArrayList<>();
 
         String sql = "SELECT ID_Socio, DNI, Nombre, Apellido, "
                 + "Edad, Correo, Telefono, Estado "
@@ -56,7 +56,7 @@ public class entidadData {
 
             while (rs.next()) {
 
-                entidad s = new entidad(
+                Socio s = new Socio(
                         rs.getInt("ID_Socio"),
                         rs.getString("DNI"),
                         rs.getString("Nombre"),
@@ -78,7 +78,7 @@ public class entidadData {
     }
 
     // BUSCAR ENTIDAD POR DNI
-    public entidad buscarPorDni(String dni) {
+    public Socio buscarPorDni(String dni) {
 
         String sql = "SELECT ID_Socio, DNI, Nombre, Apellido, "
                 + "Edad, Correo, Telefono, Estado "
@@ -92,7 +92,7 @@ public class entidadData {
 
                 if (rs.next()) {
 
-                    return new entidad(
+                    return new Socio(
                             rs.getInt("ID_Socio"),
                             rs.getString("DNI"),
                             rs.getString("Nombre"),
@@ -114,7 +114,7 @@ public class entidadData {
     }
 
     // BUSCAR ENTIDAD POR ID
-    public entidad buscarPorId(int idSocio) {
+    public Socio buscarPorId(int idSocio) {
 
         String sql = "SELECT ID_Socio, DNI, Nombre, Apellido, "
                 + "Edad, Correo, Telefono, Estado "
@@ -128,7 +128,7 @@ public class entidadData {
 
                 if (rs.next()) {
 
-                    return new entidad(
+                    return new Socio(
                             rs.getInt("ID_Socio"),
                             rs.getString("DNI"),
                             rs.getString("Nombre"),
@@ -149,8 +149,8 @@ public class entidadData {
         return null;
     }
 
-    // MODIFICAR ENTIDAD
-    public boolean modificar(entidad s) {
+    // MODIFICAR SOCIO
+    public boolean modificar(Socio s) {
 
         String sql = "UPDATE Socio SET "
                 + "DNI = ?, "
@@ -218,7 +218,7 @@ public class entidadData {
         }
     }
 
-    // ELIMINAR ENTIDAD (BAJA FISICA)
+    // ELIMINAR SOCIO(BAJA FISICA)
     public boolean eliminar(int idSocio) {
 
         String sql = "DELETE FROM Socio WHERE ID_Socio = ?";

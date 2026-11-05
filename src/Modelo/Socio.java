@@ -8,7 +8,7 @@ package Modelo;
  *
  * @author noeal
  */
-public class entidad {
+public class Socio {
 
     private int idSocio;
     private String dni;
@@ -20,11 +20,11 @@ public class entidad {
     private boolean estado;
 
     // Constructor vacío
-    public entidad() {
+    public Socio() {
     }
 
     // Constructor sin ID (para dar de alta un socio)
-    public entidad(String dni, String nombre, String apellido,
+    public Socio(String dni, String nombre, String apellido,
             int edad, String correo, String telefono, boolean estado) {
 
         this.dni = dni;
@@ -37,7 +37,7 @@ public class entidad {
     }
 
     // Constructor completo (para recuperar un socio de la BD)
-    public entidad(int idSocio, String dni, String nombre, String apellido,
+    public Socio(int idSocio, String dni, String nombre, String apellido,
             int edad, String correo, String telefono, boolean estado) {
 
         this.idSocio = idSocio;
