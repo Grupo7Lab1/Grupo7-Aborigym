@@ -17,7 +17,7 @@ import java.util.List;
 public class PaseData {
 
     public boolean guardarPase(Pase pase) {
-        String sql = "INSERT INTO pases "
+        String sql = "INSERT INTO pase "
                 + "(ID_Socio, ID_Membresia, EntradasIniciales, "
                 + "CantidadEntradas, Fecha_Inicio, Fecha_Fin, Costo, Estado) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -43,7 +43,7 @@ public class PaseData {
     }
 
     public boolean modificarPase(Pase pase) {
-        String sql = "UPDATE pases SET "
+        String sql = "UPDATE pase SET "
                 + "ID_Socio = ?, ID_Membresia = ?, "
                 + "EntradasIniciales = ?, CantidadEntradas = ?, "
                 + "Fecha_Inicio = ?, Fecha_Fin = ?, "
@@ -72,7 +72,7 @@ public class PaseData {
     }
 
     public boolean eliminarPase(int idPase) {
-        String sql = "DELETE FROM pases WHERE ID_Pase = ?";
+        String sql = "DELETE FROM pase WHERE ID_Pase = ?";
 
         try (Connection con = Conexion.conectar();
              PreparedStatement ps = con.prepareStatement(sql)) {

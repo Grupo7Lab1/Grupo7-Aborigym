@@ -324,7 +324,7 @@ public class VistaPases extends javax.swing.JInternalFrame {
     String sql = "SELECT ID_Pase, ID_Socio, ID_Membresia, "
             + "EntradasIniciales, CantidadEntradas, "
             + "Fecha_Inicio, Fecha_Fin, Costo, Estado "
-            + "FROM pases ORDER BY ID_Pase";
+            + "FROM pase ORDER BY ID_Pase";
 
     try (Connection con = Modelo.Conexion.conectar();
          PreparedStatement ps = con.prepareStatement(sql);

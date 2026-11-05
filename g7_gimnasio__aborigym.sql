@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-10-2026 a las 02:00:13
+-- Tiempo de generación: 27-10-2026 a las 23:54:42
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -138,12 +138,37 @@ INSERT INTO `entrenador` (`ID_Entrenador`, `DNI`, `Nombre`, `Apellido`, `Especia
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `membresia`
+--
+
+CREATE TABLE `membresia` (
+  `ID_Membresia` int(11) NOT NULL,
+  `Nombre` varchar(50) NOT NULL,
+  `CantidadClases` int(11) NOT NULL CHECK (`CantidadClases` > 0),
+  `DuracionDias` int(11) NOT NULL CHECK (`DuracionDias` > 0),
+  `Precio` decimal(10,2) NOT NULL CHECK (`Precio` >= 0)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `membresia`
+--
+
+INSERT INTO `membresia` (`ID_Membresia`, `Nombre`, `CantidadClases`, `DuracionDias`, `Precio`) VALUES
+(1, 'Membresia 8 clases', 8, 30, 18000.00),
+(2, 'Membresia 12 clases', 12, 30, 25000.00),
+(3, 'Membresia 20 clases', 20, 30, 35000.00);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `pase`
 --
 
 CREATE TABLE `pase` (
   `ID_Pase` int(11) NOT NULL,
   `ID_Socio` int(11) NOT NULL,
+  `ID_Membresia` int(11) DEFAULT NULL,
+  `EntradasIniciales` int(11) DEFAULT NULL,
   `CantidadEntradas` int(11) NOT NULL,
   `Fecha_Inicio` date NOT NULL,
   `Fecha_Fin` date NOT NULL,
@@ -155,17 +180,17 @@ CREATE TABLE `pase` (
 -- Volcado de datos para la tabla `pase`
 --
 
-INSERT INTO `pase` (`ID_Pase`, `ID_Socio`, `CantidadEntradas`, `Fecha_Inicio`, `Fecha_Fin`, `Costo`, `Estado`) VALUES
-(1, 1, 7, '2026-10-08', '2026-11-07', 25000.00, 1),
-(2, 2, 16, '2026-10-16', '2026-11-15', 35000.00, 1),
-(3, 3, 0, '2026-10-10', '2026-11-09', 18000.00, 1),
-(4, 4, 8, '2026-10-20', '2026-11-19', 18000.00, 1),
-(5, 5, 12, '2026-09-10', '2026-10-10', 25000.00, 1),
-(6, 7, 0, '2026-08-16', '2026-09-15', 18000.00, 0),
-(7, 7, 9, '2026-10-05', '2026-11-04', 25000.00, 1),
-(8, 8, 8, '2026-08-31', '2026-09-30', 18000.00, 0),
-(9, 9, 1, '2026-10-06', '2026-11-05', 18000.00, 1),
-(10, 10, 3, '2026-09-15', '2026-10-15', 18000.00, 1);
+INSERT INTO `pase` (`ID_Pase`, `ID_Socio`, `ID_Membresia`, `EntradasIniciales`, `CantidadEntradas`, `Fecha_Inicio`, `Fecha_Fin`, `Costo`, `Estado`) VALUES
+(1, 1, 2, 12, 7, '2026-10-08', '2026-11-07', 25000.00, 1),
+(2, 2, 3, 20, 16, '2026-10-16', '2026-11-15', 35000.00, 1),
+(3, 3, 1, 8, 0, '2026-10-10', '2026-11-09', 18000.00, 1),
+(4, 4, 1, 8, 8, '2026-10-20', '2026-11-19', 18000.00, 1),
+(5, 5, 2, 12, 12, '2026-09-10', '2026-10-10', 25000.00, 1),
+(6, 7, 1, 8, 0, '2026-08-16', '2026-09-15', 18000.00, 0),
+(7, 7, 2, 12, 9, '2026-10-05', '2026-11-04', 25000.00, 1),
+(8, 8, 1, 8, 8, '2026-08-31', '2026-09-30', 18000.00, 0),
+(9, 9, 1, 8, 1, '2026-10-06', '2026-11-05', 18000.00, 1),
+(10, 10, 1, 8, 3, '2026-09-15', '2026-10-15', 18000.00, 1);
 
 -- --------------------------------------------------------
 
@@ -227,6 +252,12 @@ ALTER TABLE `entrenador`
   ADD UNIQUE KEY `uq_entrenador_dni` (`DNI`);
 
 --
+-- Indices de la tabla `membresia`
+--
+ALTER TABLE `membresia`
+  ADD PRIMARY KEY (`ID_Membresia`);
+
+--
 -- Indices de la tabla `pase`
 --
 ALTER TABLE `pase`
@@ -264,6 +295,12 @@ ALTER TABLE `entrenador`
   MODIFY `ID_Entrenador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT de la tabla `membresia`
+--
+ALTER TABLE `membresia`
+  MODIFY `ID_Membresia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT de la tabla `pase`
 --
 ALTER TABLE `pase`
@@ -273,7 +310,7 @@ ALTER TABLE `pase`
 -- AUTO_INCREMENT de la tabla `socio`
 --
 ALTER TABLE `socio`
-  MODIFY `ID_Socio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `ID_Socio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Restricciones para tablas volcadas
