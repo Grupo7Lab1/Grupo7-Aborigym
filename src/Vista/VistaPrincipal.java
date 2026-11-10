@@ -50,6 +50,9 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
         jMenu1 = new javax.swing.JMenu();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu2 = new javax.swing.JMenu();
+        jMenu5 = new javax.swing.JMenu();
         jDesktopPanel = new javax.swing.JDesktopPane();
         jMBPrincipal = new javax.swing.JMenuBar();
         jMArchivo = new javax.swing.JMenu();
@@ -62,6 +65,10 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
         jMIMembresia = new javax.swing.JMenuItem();
         jMEntrenador = new javax.swing.JMenu();
         jMIEntrenador = new javax.swing.JMenuItem();
+        jMAsistencia = new javax.swing.JMenu();
+        jMIAsistencia = new javax.swing.JMenuItem();
+        jMClaseGym = new javax.swing.JMenu();
+        jMIClaseGym = new javax.swing.JMenuItem();
 
         jMenu3.setText("File");
         jMenuBar2.add(jMenu3);
@@ -71,13 +78,19 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
 
         jMenu1.setText("jMenu1");
 
+        jMenu2.setText("File");
+        jMenuBar1.add(jMenu2);
+
+        jMenu5.setText("Edit");
+        jMenuBar1.add(jMenu5);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         javax.swing.GroupLayout jDesktopPanelLayout = new javax.swing.GroupLayout(jDesktopPanel);
         jDesktopPanel.setLayout(jDesktopPanelLayout);
         jDesktopPanelLayout.setHorizontalGroup(
             jDesktopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 523, Short.MAX_VALUE)
         );
         jDesktopPanelLayout.setVerticalGroup(
             jDesktopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -127,6 +140,22 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
         jMEntrenador.add(jMIEntrenador);
 
         jMBPrincipal.add(jMEntrenador);
+
+        jMAsistencia.setText("Asistencia");
+
+        jMIAsistencia.setText("Asistencia");
+        jMIAsistencia.addActionListener(this::jMIAsistenciaActionPerformed);
+        jMAsistencia.add(jMIAsistencia);
+
+        jMBPrincipal.add(jMAsistencia);
+
+        jMClaseGym.setText("ClaseGym");
+
+        jMIClaseGym.setText("ClaseGym");
+        jMIClaseGym.addActionListener(this::jMIClaseGymActionPerformed);
+        jMClaseGym.add(jMIClaseGym);
+
+        jMBPrincipal.add(jMClaseGym);
 
         setJMenuBar(jMBPrincipal);
 
@@ -184,6 +213,14 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
         abrirVentana(new VistaEntrenador());
     }//GEN-LAST:event_jMIEntrenadorActionPerformed
 
+    private void jMIAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIAsistenciaActionPerformed
+        abrirVentana(new VistaAsistencia());
+    }//GEN-LAST:event_jMIAsistenciaActionPerformed
+
+    private void jMIClaseGymActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIClaseGymActionPerformed
+      abrirVentana(new VistaClaseGym());
+    }//GEN-LAST:event_jMIClaseGymActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -212,8 +249,12 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane jDesktopPanel;
     private javax.swing.JMenu jMArchivo;
+    private javax.swing.JMenu jMAsistencia;
     private javax.swing.JMenuBar jMBPrincipal;
+    private javax.swing.JMenu jMClaseGym;
     private javax.swing.JMenu jMEntrenador;
+    private javax.swing.JMenuItem jMIAsistencia;
+    private javax.swing.JMenuItem jMIClaseGym;
     private javax.swing.JMenuItem jMIEntrenador;
     private javax.swing.JMenuItem jMIMembresia;
     private javax.swing.JMenuItem jMIPase;
@@ -223,8 +264,11 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
     private javax.swing.JMenu jMPases;
     private javax.swing.JMenu jMSocio;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
     // End of variables declaration//GEN-END:variables
 }
