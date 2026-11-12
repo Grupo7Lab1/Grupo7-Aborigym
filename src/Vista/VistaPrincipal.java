@@ -116,24 +116,7 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
             .addGap(0, 433, Short.MAX_VALUE)
         );
 
-<<<<<<< Updated upstream
-        jMArchivo.setBackground(new java.awt.Color(204, 204, 255));
-        jMArchivo.setForeground(new java.awt.Color(0, 0, 0));
-        jMArchivo.setText("Archivo");
-        jMArchivo.addActionListener(this::jMArchivoActionPerformed);
-
-        jMISalir.setText("Salir");
-        jMISalir.addActionListener(this::jMISalirActionPerformed);
-        jMArchivo.add(jMISalir);
-
-        jMBPrincipal.add(jMArchivo);
-
-        jMSocio.setBackground(new java.awt.Color(204, 204, 255));
-        jMSocio.setForeground(new java.awt.Color(0, 0, 0));
-        jMSocio.setText("Socio");
-=======
         jMSocio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/partner.png"))); // NOI18N
->>>>>>> Stashed changes
         jMSocio.addActionListener(this::jMSocioActionPerformed);
 
         jMIsocio.setText("Socio");
@@ -142,14 +125,8 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
 
         jMBPrincipal.add(jMSocio);
 
-<<<<<<< Updated upstream
-        jMPases.setBackground(new java.awt.Color(204, 204, 255));
-        jMPases.setForeground(new java.awt.Color(0, 0, 0));
-        jMPases.setText("Pases");
-=======
         jMPases.setBackground(new java.awt.Color(255, 255, 255));
         jMPases.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/Pase.png"))); // NOI18N
->>>>>>> Stashed changes
         jMPases.addActionListener(this::jMPasesActionPerformed);
 
         jMIPase.setText("Pase");
@@ -158,13 +135,7 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
 
         jMBPrincipal.add(jMPases);
 
-<<<<<<< Updated upstream
-        jMMembresia.setBackground(new java.awt.Color(204, 204, 255));
-        jMMembresia.setForeground(new java.awt.Color(0, 0, 0));
-        jMMembresia.setText("Membresia");
-=======
         jMMembresia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/membership.png"))); // NOI18N
->>>>>>> Stashed changes
         jMMembresia.addActionListener(this::jMMembresiaActionPerformed);
 
         jMIMembresia.setText("Membresia");
@@ -173,13 +144,7 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
 
         jMBPrincipal.add(jMMembresia);
 
-<<<<<<< Updated upstream
-        jMEntrenador.setBackground(new java.awt.Color(204, 204, 255));
-        jMEntrenador.setForeground(new java.awt.Color(0, 0, 0));
-        jMEntrenador.setText("Entrenadores");
-=======
         jMEntrenador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/coach.png"))); // NOI18N
->>>>>>> Stashed changes
 
         jMIEntrenador.setText("Entrenador");
         jMIEntrenador.addActionListener(this::jMIEntrenadorActionPerformed);
@@ -187,13 +152,7 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
 
         jMBPrincipal.add(jMEntrenador);
 
-<<<<<<< Updated upstream
-        jMAsistencia.setBackground(new java.awt.Color(204, 204, 255));
-        jMAsistencia.setForeground(new java.awt.Color(0, 0, 0));
-        jMAsistencia.setText("Asistencia");
-=======
         jMAsistencia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/asistencia.png"))); // NOI18N
->>>>>>> Stashed changes
 
         jMIAsistencia.setText("Asistencia");
         jMIAsistencia.addActionListener(this::jMIAsistenciaActionPerformed);
@@ -201,13 +160,7 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
 
         jMBPrincipal.add(jMAsistencia);
 
-<<<<<<< Updated upstream
-        jMClaseGym.setBackground(new java.awt.Color(204, 204, 255));
-        jMClaseGym.setForeground(new java.awt.Color(0, 0, 0));
-        jMClaseGym.setText("ClaseGym");
-=======
         jMClaseGym.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/clasegym.png"))); // NOI18N
->>>>>>> Stashed changes
 
         jMIClaseGym.setText("ClaseGym");
         jMIClaseGym.addActionListener(this::jMIClaseGymActionPerformed);
