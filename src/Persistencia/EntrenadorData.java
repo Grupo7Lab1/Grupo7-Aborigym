@@ -40,28 +40,27 @@ public class EntrenadorData {
 
     public boolean modificar(Entrenador entrenador) {
 
-    String sql = "UPDATE entrenador SET "
-            + "dni = ?, nombre = ?, apellido = ?, "
-            + "especialidad = ?, estado = ? "
-            + "WHERE ID_Entrenador = ?";
+        String sql = "UPDATE entrenador SET "
+                + "dni = ?, nombre = ?, apellido = ?, "
+                + "especialidad = ?, estado = ? "
+                + "WHERE ID_Entrenador = ?";
 
-    try (Connection con = Conexion.conectar();
-         PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = Conexion.conectar(); PreparedStatement ps = con.prepareStatement(sql)) {
 
-        ps.setString(1, entrenador.getDni());
-        ps.setString(2, entrenador.getNombre());
-        ps.setString(3, entrenador.getApellido());
-        ps.setString(4, entrenador.getEspecialidad());
-        ps.setBoolean(5, entrenador.isEstado());
-        ps.setInt(6, entrenador.getIdEntrenador());
+            ps.setString(1, entrenador.getDni());
+            ps.setString(2, entrenador.getNombre());
+            ps.setString(3, entrenador.getApellido());
+            ps.setString(4, entrenador.getEspecialidad());
+            ps.setBoolean(5, entrenador.isEstado());
+            ps.setInt(6, entrenador.getIdEntrenador());
 
-        return ps.executeUpdate() > 0;
+            return ps.executeUpdate() > 0;
 
-    } catch (SQLException e) {
-        System.out.println("Error al modificar entrenador: "
-                + e.getMessage());
-        return false;
-    }
+        } catch (SQLException e) {
+            System.out.println("Error al modificar entrenador: "
+                    + e.getMessage());
+            return false;
+        }
     }
 
     public boolean bajaLogica(int idEntrenador) {
@@ -114,7 +113,14 @@ public class EntrenadorData {
             try (ResultSet rs = ps.executeQuery()) {
 
                 if (rs.next()) {
-                    // Construcción del objeto
+                    Entrenador entrenador = new Entrenador();
+                    entrenador.setIdEntrenador(rs.getInt("ID_Entrenador"));
+                    entrenador.setDni(rs.getString("dni"));
+                    entrenador.setNombre(rs.getString("nombre"));
+                    entrenador.setApellido(rs.getString("apellido"));
+                    entrenador.setEspecialidad(rs.getString("especialidad"));
+                    entrenador.setEstado(rs.getBoolean("estado"));
+                    return entrenador;
                 }
             }
 

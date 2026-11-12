@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Persistencia;
+
 import Modelo.Conexion;
 import Modelo.Pase;
 
@@ -22,8 +23,7 @@ public class PaseData {
                 + "CantidadEntradas, Fecha_Inicio, Fecha_Fin, Costo, Estado) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection con = Conexion.conectar();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = Conexion.conectar(); PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, pase.getIdSocio());
             ps.setInt(2, pase.getIdMembresia());
@@ -50,8 +50,7 @@ public class PaseData {
                 + "Costo = ?, Estado = ? "
                 + "WHERE ID_Pase = ?";
 
-        try (Connection con = Conexion.conectar();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = Conexion.conectar(); PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, pase.getIdSocio());
             ps.setInt(2, pase.getIdMembresia());
@@ -74,8 +73,7 @@ public class PaseData {
     public boolean eliminarPase(int idPase) {
         String sql = "DELETE FROM pase WHERE ID_Pase = ?";
 
-        try (Connection con = Conexion.conectar();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = Conexion.conectar(); PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, idPase);
             return ps.executeUpdate() == 1;
@@ -92,11 +90,9 @@ public class PaseData {
         String sql = "SELECT ID_Pase, ID_Socio, ID_Membresia, "
                 + "EntradasIniciales, CantidadEntradas, "
                 + "Fecha_Inicio, Fecha_Fin, Costo, Estado "
-                + "FROM pases ORDER BY ID_Pase";
+                + "FROM pase ORDER BY ID_Pase";
 
-        try (Connection con = Conexion.conectar();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (Connection con = Conexion.conectar(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 Pase p = new Pase();
