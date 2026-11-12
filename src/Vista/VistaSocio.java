@@ -64,12 +64,18 @@ public class VistaSocio extends javax.swing.JInternalFrame {
 
         jLabel1.setText("E-Mail");
 
+        jBGuardar.setBackground(new java.awt.Color(204, 204, 255));
+        jBGuardar.setForeground(new java.awt.Color(0, 0, 0));
         jBGuardar.setText("Guardar");
         jBGuardar.addActionListener(this::jBGuardarActionPerformed);
 
+        jBNuevo.setBackground(new java.awt.Color(204, 204, 255));
+        jBNuevo.setForeground(new java.awt.Color(0, 0, 0));
         jBNuevo.setText("Nuevo");
         jBNuevo.addActionListener(this::jBNuevoActionPerformed);
 
+        jBEliminar.setBackground(new java.awt.Color(204, 204, 255));
+        jBEliminar.setForeground(new java.awt.Color(0, 0, 0));
         jBEliminar.setText("Eliminar");
         jBEliminar.addActionListener(this::jBEliminarActionPerformed);
 

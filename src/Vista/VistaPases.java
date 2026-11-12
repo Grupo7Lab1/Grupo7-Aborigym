@@ -60,12 +60,10 @@ public class VistaPases extends javax.swing.JInternalFrame {
 
         jLSocio.setText("Socio");
 
-        jCBSocio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jCBSocio.addActionListener(this::jCBSocioActionPerformed);
 
         jLTipoDePase.setText("Tipo de Pase");
 
-        jCBTipoDePase.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jCBTipoDePase.addActionListener(this::jCBTipoDePaseActionPerformed);
 
         jLFechaDeInicio.setText("Fecha de Inicio");
@@ -74,18 +72,25 @@ public class VistaPases extends javax.swing.JInternalFrame {
 
         jLEstado.setText("Estado");
 
-        jCBEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jCBEstado.addActionListener(this::jCBEstadoActionPerformed);
 
+        jBAgregar.setBackground(new java.awt.Color(204, 204, 255));
+        jBAgregar.setForeground(new java.awt.Color(0, 0, 0));
         jBAgregar.setText("Agregar");
         jBAgregar.addActionListener(this::jBAgregarActionPerformed);
 
+        jBModificar.setBackground(new java.awt.Color(204, 204, 255));
+        jBModificar.setForeground(new java.awt.Color(0, 0, 0));
         jBModificar.setText("Modificar");
         jBModificar.addActionListener(this::jBModificarActionPerformed);
 
+        jBEliminar.setBackground(new java.awt.Color(204, 204, 255));
+        jBEliminar.setForeground(new java.awt.Color(0, 0, 0));
         jBEliminar.setText("Eliminar");
         jBEliminar.addActionListener(this::jBEliminarActionPerformed);
 
+        jBLimpiar.setBackground(new java.awt.Color(204, 204, 255));
+        jBLimpiar.setForeground(new java.awt.Color(0, 0, 0));
         jBLimpiar.setText("Limpiar");
         jBLimpiar.addActionListener(this::jBLimpiarActionPerformed);
 

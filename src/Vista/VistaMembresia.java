@@ -70,12 +70,18 @@ public class VistaMembresia extends javax.swing.JInternalFrame {
 
         jLDuracion.setText("Duracion  (Dias)");
 
+        jBGuardar.setBackground(new java.awt.Color(204, 204, 255));
+        jBGuardar.setForeground(new java.awt.Color(0, 0, 0));
         jBGuardar.setText("Guardar");
         jBGuardar.addActionListener(this::jBGuardarActionPerformed);
 
+        jBNueva.setBackground(new java.awt.Color(204, 204, 255));
+        jBNueva.setForeground(new java.awt.Color(0, 0, 0));
         jBNueva.setText("Nueva");
         jBNueva.addActionListener(this::jBNuevaActionPerformed);
 
+        jBEliminar.setBackground(new java.awt.Color(204, 204, 255));
+        jBEliminar.setForeground(new java.awt.Color(0, 0, 0));
         jBEliminar.setText("Eliminar");
         jBEliminar.addActionListener(this::jBEliminarActionPerformed);
 

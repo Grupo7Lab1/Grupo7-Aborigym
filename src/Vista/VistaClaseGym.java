@@ -134,12 +134,10 @@ public class VistaClaseGym extends javax.swing.JInternalFrame {
 
         jLDisciplina.setText("Disciplina");
 
-        jCBDisciplina.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jCBDisciplina.addActionListener(this::jCBDisciplinaActionPerformed);
 
         jLEntrenador.setText("Entrenador");
 
-        jCBEntrenador.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jCBEntrenador.addActionListener(this::jCBEntrenadorActionPerformed);
 
         jLHorario.setText("Horario");
@@ -150,14 +148,20 @@ public class VistaClaseGym extends javax.swing.JInternalFrame {
 
         jLEstado.setText("Estado");
 
-        jCBEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
+        jBGuardar.setBackground(new java.awt.Color(204, 204, 255));
+        jBGuardar.setForeground(new java.awt.Color(0, 0, 0));
         jBGuardar.setText("Guardar");
 
+        jBModificar.setBackground(new java.awt.Color(204, 204, 255));
+        jBModificar.setForeground(new java.awt.Color(0, 0, 0));
         jBModificar.setText("Modificar");
 
+        jBBorrar.setBackground(new java.awt.Color(204, 204, 255));
+        jBBorrar.setForeground(new java.awt.Color(0, 0, 0));
         jBBorrar.setText("Borrar");
 
+        jBLimpiar.setBackground(new java.awt.Color(204, 204, 255));
+        jBLimpiar.setForeground(new java.awt.Color(0, 0, 0));
         jBLimpiar.setText("Limpiar");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -197,12 +201,12 @@ public class VistaClaseGym extends javax.swing.JInternalFrame {
                         .addComponent(jBGuardar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jBModificar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(50, 50, 50)
-                .addComponent(jSPClaseGym, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(jSPClaseGym, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(217, Short.MAX_VALUE)
+                .addContainerGap(317, Short.MAX_VALUE)
                 .addComponent(jLDatosDeLaClase, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(209, 209, 209))
+                .addGap(109, 109, 109))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

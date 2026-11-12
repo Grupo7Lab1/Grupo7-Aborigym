@@ -97,6 +97,8 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
             .addGap(0, 277, Short.MAX_VALUE)
         );
 
+        jMArchivo.setBackground(new java.awt.Color(204, 204, 255));
+        jMArchivo.setForeground(new java.awt.Color(0, 0, 0));
         jMArchivo.setText("Archivo");
         jMArchivo.addActionListener(this::jMArchivoActionPerformed);
 
@@ -106,6 +108,8 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
 
         jMBPrincipal.add(jMArchivo);
 
+        jMSocio.setBackground(new java.awt.Color(204, 204, 255));
+        jMSocio.setForeground(new java.awt.Color(0, 0, 0));
         jMSocio.setText("Socio");
         jMSocio.addActionListener(this::jMSocioActionPerformed);
 
@@ -115,6 +119,8 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
 
         jMBPrincipal.add(jMSocio);
 
+        jMPases.setBackground(new java.awt.Color(204, 204, 255));
+        jMPases.setForeground(new java.awt.Color(0, 0, 0));
         jMPases.setText("Pases");
         jMPases.addActionListener(this::jMPasesActionPerformed);
 
@@ -124,6 +130,8 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
 
         jMBPrincipal.add(jMPases);
 
+        jMMembresia.setBackground(new java.awt.Color(204, 204, 255));
+        jMMembresia.setForeground(new java.awt.Color(0, 0, 0));
         jMMembresia.setText("Membresia");
         jMMembresia.addActionListener(this::jMMembresiaActionPerformed);
 
@@ -133,6 +141,8 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
 
         jMBPrincipal.add(jMMembresia);
 
+        jMEntrenador.setBackground(new java.awt.Color(204, 204, 255));
+        jMEntrenador.setForeground(new java.awt.Color(0, 0, 0));
         jMEntrenador.setText("Entrenadores");
 
         jMIEntrenador.setText("Entrenador");
@@ -141,6 +151,8 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
 
         jMBPrincipal.add(jMEntrenador);
 
+        jMAsistencia.setBackground(new java.awt.Color(204, 204, 255));
+        jMAsistencia.setForeground(new java.awt.Color(0, 0, 0));
         jMAsistencia.setText("Asistencia");
 
         jMIAsistencia.setText("Asistencia");
@@ -149,6 +161,8 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
 
         jMBPrincipal.add(jMAsistencia);
 
+        jMClaseGym.setBackground(new java.awt.Color(204, 204, 255));
+        jMClaseGym.setForeground(new java.awt.Color(0, 0, 0));
         jMClaseGym.setText("ClaseGym");
 
         jMIClaseGym.setText("ClaseGym");
