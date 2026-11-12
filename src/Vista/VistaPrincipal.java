@@ -4,6 +4,10 @@
  */
 package Vista;
 
+import java.awt.Graphics;
+import java.awt.Image;
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author Nestor Marchizone
@@ -53,10 +57,18 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
-        jDesktopPanel = new javax.swing.JDesktopPane();
+        ImageIcon fondo =  new ImageIcon(getClass().getResource("/Recursos/aborigym_WallPaper.png"));
+        Image fondoPrincipal = fondo.getImage();
+        jDesktopPanel = new javax.swing.JDesktopPane(){
+
+            public void paintComponent (Graphics g ){
+
+                g.drawImage(fondoPrincipal, 0, 0, getWidth(),getHeight(),this);
+
+            }
+
+        };
         jMBPrincipal = new javax.swing.JMenuBar();
-        jMArchivo = new javax.swing.JMenu();
-        jMISalir = new javax.swing.JMenuItem();
         jMSocio = new javax.swing.JMenu();
         jMIsocio = new javax.swing.JMenuItem();
         jMPases = new javax.swing.JMenu();
@@ -69,6 +81,8 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
         jMIAsistencia = new javax.swing.JMenuItem();
         jMClaseGym = new javax.swing.JMenu();
         jMIClaseGym = new javax.swing.JMenuItem();
+        jMArchivo = new javax.swing.JMenu();
+        jMISalir = new javax.swing.JMenuItem();
 
         jMenu3.setText("File");
         jMenuBar2.add(jMenu3);
@@ -85,18 +99,24 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
         jMenuBar1.add(jMenu5);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setForeground(java.awt.Color.black);
+        setIconImage(new javax.swing.ImageIcon(
+            getClass().getResource("/Recursos/aborigym_icono.png")
+        ).getImage());
+        setPreferredSize(new java.awt.Dimension(600, 300));
 
         javax.swing.GroupLayout jDesktopPanelLayout = new javax.swing.GroupLayout(jDesktopPanel);
         jDesktopPanel.setLayout(jDesktopPanelLayout);
         jDesktopPanelLayout.setHorizontalGroup(
             jDesktopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 523, Short.MAX_VALUE)
+            .addGap(0, 900, Short.MAX_VALUE)
         );
         jDesktopPanelLayout.setVerticalGroup(
             jDesktopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 277, Short.MAX_VALUE)
+            .addGap(0, 433, Short.MAX_VALUE)
         );
 
+<<<<<<< Updated upstream
         jMArchivo.setBackground(new java.awt.Color(204, 204, 255));
         jMArchivo.setForeground(new java.awt.Color(0, 0, 0));
         jMArchivo.setText("Archivo");
@@ -111,6 +131,9 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
         jMSocio.setBackground(new java.awt.Color(204, 204, 255));
         jMSocio.setForeground(new java.awt.Color(0, 0, 0));
         jMSocio.setText("Socio");
+=======
+        jMSocio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/partner.png"))); // NOI18N
+>>>>>>> Stashed changes
         jMSocio.addActionListener(this::jMSocioActionPerformed);
 
         jMIsocio.setText("Socio");
@@ -119,9 +142,14 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
 
         jMBPrincipal.add(jMSocio);
 
+<<<<<<< Updated upstream
         jMPases.setBackground(new java.awt.Color(204, 204, 255));
         jMPases.setForeground(new java.awt.Color(0, 0, 0));
         jMPases.setText("Pases");
+=======
+        jMPases.setBackground(new java.awt.Color(255, 255, 255));
+        jMPases.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/Pase.png"))); // NOI18N
+>>>>>>> Stashed changes
         jMPases.addActionListener(this::jMPasesActionPerformed);
 
         jMIPase.setText("Pase");
@@ -130,9 +158,13 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
 
         jMBPrincipal.add(jMPases);
 
+<<<<<<< Updated upstream
         jMMembresia.setBackground(new java.awt.Color(204, 204, 255));
         jMMembresia.setForeground(new java.awt.Color(0, 0, 0));
         jMMembresia.setText("Membresia");
+=======
+        jMMembresia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/membership.png"))); // NOI18N
+>>>>>>> Stashed changes
         jMMembresia.addActionListener(this::jMMembresiaActionPerformed);
 
         jMIMembresia.setText("Membresia");
@@ -141,9 +173,13 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
 
         jMBPrincipal.add(jMMembresia);
 
+<<<<<<< Updated upstream
         jMEntrenador.setBackground(new java.awt.Color(204, 204, 255));
         jMEntrenador.setForeground(new java.awt.Color(0, 0, 0));
         jMEntrenador.setText("Entrenadores");
+=======
+        jMEntrenador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/coach.png"))); // NOI18N
+>>>>>>> Stashed changes
 
         jMIEntrenador.setText("Entrenador");
         jMIEntrenador.addActionListener(this::jMIEntrenadorActionPerformed);
@@ -151,9 +187,13 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
 
         jMBPrincipal.add(jMEntrenador);
 
+<<<<<<< Updated upstream
         jMAsistencia.setBackground(new java.awt.Color(204, 204, 255));
         jMAsistencia.setForeground(new java.awt.Color(0, 0, 0));
         jMAsistencia.setText("Asistencia");
+=======
+        jMAsistencia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/asistencia.png"))); // NOI18N
+>>>>>>> Stashed changes
 
         jMIAsistencia.setText("Asistencia");
         jMIAsistencia.addActionListener(this::jMIAsistenciaActionPerformed);
@@ -161,15 +201,30 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
 
         jMBPrincipal.add(jMAsistencia);
 
+<<<<<<< Updated upstream
         jMClaseGym.setBackground(new java.awt.Color(204, 204, 255));
         jMClaseGym.setForeground(new java.awt.Color(0, 0, 0));
         jMClaseGym.setText("ClaseGym");
+=======
+        jMClaseGym.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/clasegym.png"))); // NOI18N
+>>>>>>> Stashed changes
 
         jMIClaseGym.setText("ClaseGym");
         jMIClaseGym.addActionListener(this::jMIClaseGymActionPerformed);
         jMClaseGym.add(jMIClaseGym);
 
         jMBPrincipal.add(jMClaseGym);
+
+        jMArchivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/logout.png"))); // NOI18N
+        jMArchivo.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jMArchivo.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        jMArchivo.addActionListener(this::jMArchivoActionPerformed);
+
+        jMISalir.setText("Salir");
+        jMISalir.addActionListener(this::jMISalirActionPerformed);
+        jMArchivo.add(jMISalir);
+
+        jMBPrincipal.add(jMArchivo);
 
         setJMenuBar(jMBPrincipal);
 
@@ -204,35 +259,51 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
     }//GEN-LAST:event_jMPasesActionPerformed
 
     private void jMMembresiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMMembresiaActionPerformed
+        jDesktopPanel.removeAll();
+        jDesktopPanel.repaint();
         abrirVentana(new VistaMembresia());
     }//GEN-LAST:event_jMMembresiaActionPerformed
 
     private void jMIsocioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIsocioActionPerformed
-          abrirVentana(new VistaSocio());
+        jDesktopPanel.removeAll();
+        jDesktopPanel.repaint();  
+        abrirVentana(new VistaSocio());
     }//GEN-LAST:event_jMIsocioActionPerformed
 
     private void jMIPaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIPaseActionPerformed
-         abrirVentana(new VistaPases());
+        jDesktopPanel.removeAll();
+        jDesktopPanel.repaint();
+        abrirVentana(new VistaPases());
     }//GEN-LAST:event_jMIPaseActionPerformed
 
     private void jMIMembresiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIMembresiaActionPerformed
+        jDesktopPanel.removeAll();
+        jDesktopPanel.repaint();
         abrirVentana(new VistaMembresia());
     }//GEN-LAST:event_jMIMembresiaActionPerformed
 
     private void jMISalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMISalirActionPerformed
+        jDesktopPanel.removeAll();
+        jDesktopPanel.repaint();
         System.exit(0);
     }//GEN-LAST:event_jMISalirActionPerformed
 
     private void jMIEntrenadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIEntrenadorActionPerformed
+        jDesktopPanel.removeAll();
+        jDesktopPanel.repaint();
         abrirVentana(new VistaEntrenador());
     }//GEN-LAST:event_jMIEntrenadorActionPerformed
 
     private void jMIAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIAsistenciaActionPerformed
+        jDesktopPanel.removeAll();
+        jDesktopPanel.repaint();
         abrirVentana(new VistaAsistencia());
     }//GEN-LAST:event_jMIAsistenciaActionPerformed
 
     private void jMIClaseGymActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIClaseGymActionPerformed
-      abrirVentana(new VistaClaseGym());
+        jDesktopPanel.removeAll();
+        jDesktopPanel.repaint();
+        abrirVentana(new VistaClaseGym());
     }//GEN-LAST:event_jMIClaseGymActionPerformed
 
     /**
