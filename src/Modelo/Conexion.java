@@ -14,7 +14,7 @@ import java.sql.SQLException;
  */
 public class Conexion {
      private static final String URL
-            = "jdbc:mariadb://localhost:3306/g7_gimnasio_aborigym";
+            = "jdbc:mariadb://localhost:3306/g7_gimnasio_ aborigym";
 
     private static final String USUARIO = "root";
     private static final String CLAVE = "";

@@ -125,7 +125,6 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
 
         jMBPrincipal.add(jMSocio);
 
-        jMPases.setBackground(new java.awt.Color(255, 255, 255));
         jMPases.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/Pase.png"))); // NOI18N
         jMPases.addActionListener(this::jMPasesActionPerformed);
 
