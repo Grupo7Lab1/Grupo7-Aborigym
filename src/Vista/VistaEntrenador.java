@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
  */
 package Vista;
+
 import Modelo.Entrenador;
 import Persistencia.EntrenadorData;
 import javax.swing.JOptionPane;
@@ -13,42 +14,120 @@ import javax.swing.table.DefaultTableModel;
  * @author User
  */
 public class VistaEntrenador extends javax.swing.JInternalFrame {
-    
+
     private EntrenadorData entrenadorData = new EntrenadorData();
 
-    
     public VistaEntrenador() {
         initComponents();
         cargarTabla();
     }
-    
+
     private void cargarTabla() {
 
-    DefaultTableModel modelo = (DefaultTableModel) tablaEntrenadores.getModel();
+        DefaultTableModel modelo = (DefaultTableModel) tablaEntrenadores.getModel();
 
-    modelo.setRowCount(0);
-    for (Entrenador entrenador : entrenadorData.listarEntrenadores()) {
+        modelo.setRowCount(0);
+        for (Entrenador entrenador : entrenadorData.listarEntrenadores()) {
 
-        modelo.addRow(new Object[]{
-            entrenador.getIdEntrenador(),
-            entrenador.getDni(),
-            entrenador.getNombre(),
-            entrenador.getApellido(),
-            entrenador.getEspecialidad(),
-            entrenador.isEstado() ? "Activo" : "Inactivo"
-        });
+            modelo.addRow(new Object[]{
+                entrenador.getIdEntrenador(),
+                entrenador.getDni(),
+                entrenador.getNombre(),
+                entrenador.getApellido(),
+                entrenador.getEspecialidad(),
+                entrenador.isEstado() ? "Activo" : "Inactivo"
+            });
+        }
     }
-}
+
     private void limpiarCampos() {
 
-    jtID.setText("");
-    jtDni.setText("");
-    jtNombre.setText("");
-    jtApellido.setText("");
-    jtEspecialidad.setText("");
+        jtID.setText("");
+        jtDni.setText("");
+        jtNombre.setText("");
+        jtApellido.setText("");
+        jtEspecialidad.setText("");
 
-    tablaEntrenadores.clearSelection();
-}
+        tablaEntrenadores.clearSelection();
+    }
+
+    private boolean validarCampos() {
+
+        // Validar campos vacíos
+        if (jtDni.getText().trim().isEmpty()
+                || jtNombre.getText().trim().isEmpty()
+                || jtApellido.getText().trim().isEmpty()
+                || jtEspecialidad.getText().trim().isEmpty()) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Complete todos los campos");
+            return false;
+        }
+
+        //VALIDA DNI NUMERICO
+        String dni = jtDni.getText().trim();
+
+        // CONTROLA QUE SOLAMENTE SEAN NUMEROS
+        for (int i = 0; i < dni.length(); i++) {
+
+            if (!Character.isDigit(dni.charAt(i))) {
+                JOptionPane.showMessageDialog(this,
+                        "El DNI debe contener solamente números");
+                jtDni.requestFocus();
+                return false;
+            }
+        }
+
+        // CONTROL CANTIDAD DE DIGITOS
+        if (dni.length() < 7 || dni.length() > 8) {
+            JOptionPane.showMessageDialog(this,
+                    "El DNI debe tener 7 u 8 dígitos");
+            jtDni.requestFocus();
+            return false;
+        }
+
+        //CONTROLA QUE EL NOMBRE CONTENGA SOLO LETRAS
+        for (int i = 0; i < jtNombre.getText().trim().length(); i++) {
+
+            char letra = jtNombre.getText().trim().charAt(i);
+
+            if (!Character.isLetter(letra) && letra != ' ') {
+                JOptionPane.showMessageDialog(this,
+                        "El nombre debe contener solamente letras");
+                jtNombre.requestFocus();
+                return false;
+            }
+        }
+
+        //CONTROLA QUE EL APELLIDO CONTEGA SOLO LETRAS
+        for (int i = 0; i < jtApellido.getText().trim().length(); i++) {
+
+            char letra = jtApellido.getText().trim().charAt(i);
+
+            if (!Character.isLetter(letra) && letra != ' ') {
+                JOptionPane.showMessageDialog(this,
+                        "El apellido debe contener solamente letras");
+                jtApellido.requestFocus();
+                return false;
+            }
+        }
+
+// CONTROLA QUE LA ESPECIALIDAD CONTENGA SOLO LETRAS
+        for (int i = 0; i < jtEspecialidad.getText().trim().length(); i++) {
+
+            char letra = jtEspecialidad.getText().trim().charAt(i);
+
+            if (!Character.isLetter(letra) && letra != ' ') {
+                JOptionPane.showMessageDialog(this,
+                        "La especialidad debe contener solamente letras");
+                jtEspecialidad.requestFocus();
+                return false;
+            }
+        }
+
+        return true;
+
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -244,161 +323,202 @@ public class VistaEntrenador extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBajaActionPerformed
-        
+
         if (jtID.getText().trim().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Seleccione un entrenador de la tabla");
-        return;
+            JOptionPane.showMessageDialog(this, "Seleccione un entrenador de la tabla");
+            return;
         }
 
-         int id = Integer.parseInt(jtID.getText());
+        int id = Integer.parseInt(jtID.getText());
 
-          int respuesta = JOptionPane.showConfirmDialog(this,
-            "¿Está seguro de dar de baja a este entrenador?",
-            "Confirmar baja",
-            JOptionPane.YES_NO_OPTION
-          );
+        //VALIDACION
+        Entrenador entrenador = entrenadorData.buscarPorId(id);
+        if (entrenador == null) {
+            JOptionPane.showMessageDialog(this,
+                    "No se encontró el entrenador");
+            return;
+        }
 
-          if (respuesta == JOptionPane.YES_OPTION) {
+        if (!entrenador.isEstado()) {
+            JOptionPane.showMessageDialog(this,
+                    "El entrenador ya se encuentra dado de baja");
+            return;
+        }
 
-             if (entrenadorData.bajaLogica(id)) {
+        int respuesta = JOptionPane.showConfirmDialog(this,
+                "¿Está seguro de dar de baja a este entrenador?",
+                "Confirmar baja",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (respuesta == JOptionPane.YES_OPTION) {
+
+            if (entrenadorData.bajaLogica(id)) {
 
                 JOptionPane.showMessageDialog(this, "Entrenador dado de baja correctamente");
                 cargarTabla();
 
-                } else {
+            } else {
 
-                   JOptionPane.showMessageDialog(this, "No se pudo dar de baja al entrenador");
-                 }
-            }  
+                JOptionPane.showMessageDialog(this, "No se pudo dar de baja al entrenador");
+            }
+        }
 
 
     }//GEN-LAST:event_jbBajaActionPerformed
 
     private void jbAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAltaActionPerformed
-       
+
         if (jtID.getText().trim().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Seleccione un entrenador de la tabla");
-        return;
-       }
+            JOptionPane.showMessageDialog(this, "Seleccione un entrenador de la tabla");
+            return;
+        }
 
-          int id = Integer.parseInt(jtID.getText());
+        int id = Integer.parseInt(jtID.getText());
+        // BUSCA ENTRENADOR
+        Entrenador entrenador = entrenadorData.buscarPorId(id);
 
-          int respuesta = JOptionPane.showConfirmDialog(this,
-            "¿Está seguro de dar de alta a este entrenador?",
-            "Confirmar alta",
-            JOptionPane.YES_NO_OPTION
-            );
+        if (entrenador == null) {
+            JOptionPane.showMessageDialog(this,
+                    "No se encontró el entrenador");
+            return;
+        }
 
-           if (respuesta == JOptionPane.YES_OPTION) {
+// COMPRUEBA SI YA ESTA ACTIVO
+        if (entrenador.isEstado()) {
+            JOptionPane.showMessageDialog(this,
+                    "El entrenador ya se encuentra activo");
+            return;
+        }
 
-                if (entrenadorData.altaLogica(id)) {
+        int respuesta = JOptionPane.showConfirmDialog(this,
+                "¿Está seguro de dar de alta a este entrenador?",
+                "Confirmar alta",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (respuesta == JOptionPane.YES_OPTION) {
+
+            if (entrenadorData.altaLogica(id)) {
 
                 JOptionPane.showMessageDialog(this, "Entrenador dado de alta correctamente");
                 cargarTabla();
 
-             } else {
+            } else {
 
-                 JOptionPane.showMessageDialog(this, "No se pudo dar de alta al entrenador");
-                }
+                JOptionPane.showMessageDialog(this, "No se pudo dar de alta al entrenador");
             }
+        }
     }//GEN-LAST:event_jbAltaActionPerformed
-    
+
     private void jbLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLimpiarActionPerformed
-       
+
         limpiarCampos();
     }//GEN-LAST:event_jbLimpiarActionPerformed
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
-       
-        if(jtDni.getText().trim().isEmpty()|| jtNombre.getText().trim().isEmpty()|| 
-           jtApellido.getText().trim().isEmpty()||jtEspecialidad.getText().trim().isEmpty()){
-            
-            JOptionPane.showMessageDialog(this, "Por favor complete todos los campos");
+
+        // VALIDAR CAMPOS
+        if (!validarCampos()) {
             return;
         }
-        try{
-            
-        Entrenador entrenador = new Entrenador();
-   
-        entrenador.setDni(jtDni.getText());
-        entrenador.setNombre(jtNombre.getText());
-        entrenador.setApellido(jtApellido.getText());
-        entrenador.setEspecialidad(jtEspecialidad.getText());
-        entrenador.setEstado(true);
-        
-        
-        if (entrenadorData.insertar(entrenador)) {
-        JOptionPane.showMessageDialog(this, "Entrenador guardado correctamente");
-        cargarTabla();
-        limpiarCampos();
-       } else {
-        JOptionPane.showMessageDialog(this, "Error al guardar el entrenador");
-       }
-  
-       } catch(Exception ex){
-           JOptionPane.showMessageDialog(this, "Ocuurio un error.." +ex.getMessage());
-       }
-       
-    
+        // VALIDAR DNI DUPLICADO
+        if (entrenadorData.existeDni(jtDni.getText().trim())) {
+            JOptionPane.showMessageDialog(this,
+                    "Ya existe un entrenador registrado con ese DNI");
+            return;
+        }
+        try {
+
+            Entrenador entrenador = new Entrenador();
+
+            entrenador.setDni(jtDni.getText());
+            entrenador.setNombre(jtNombre.getText());
+            entrenador.setApellido(jtApellido.getText());
+            entrenador.setEspecialidad(jtEspecialidad.getText());
+            entrenador.setEstado(true);
+
+            if (entrenadorData.insertar(entrenador)) {
+                JOptionPane.showMessageDialog(this, "Entrenador guardado correctamente");
+                cargarTabla();
+                limpiarCampos();
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al guardar el entrenador");
+            }
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Ocuurio un error.." + ex.getMessage());
+        }
+
+
     }//GEN-LAST:event_jbGuardarActionPerformed
 
     private void tablaEntrenadoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaEntrenadoresMouseClicked
-      
-        int fila=tablaEntrenadores.getSelectedRow();
-         if (fila >= 0) {
-             
-        
-        jtID.setText(tablaEntrenadores.getValueAt(fila, 0).toString());
-        jtDni.setText(tablaEntrenadores.getValueAt(fila, 1).toString());
-        jtNombre.setText(tablaEntrenadores.getValueAt(fila, 2).toString());
-        jtApellido.setText(tablaEntrenadores.getValueAt(fila, 3).toString());
-        jtEspecialidad.setText(tablaEntrenadores.getValueAt(fila, 4).toString());
-        
-   
-    }
-        
+
+        int fila = tablaEntrenadores.getSelectedRow();
+        if (fila >= 0) {
+
+            jtID.setText(tablaEntrenadores.getValueAt(fila, 0).toString());
+            jtDni.setText(tablaEntrenadores.getValueAt(fila, 1).toString());
+            jtNombre.setText(tablaEntrenadores.getValueAt(fila, 2).toString());
+            jtApellido.setText(tablaEntrenadores.getValueAt(fila, 3).toString());
+            jtEspecialidad.setText(tablaEntrenadores.getValueAt(fila, 4).toString());
+
+        }
+
     }//GEN-LAST:event_tablaEntrenadoresMouseClicked
 
     private void jbModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarActionPerformed
-         
+
         if (jtID.getText().trim().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Seleccione un entrenador de la tabla");
-        return;
-    }
-
-       if (jtDni.getText().trim().isEmpty() ||
-        jtNombre.getText().trim().isEmpty() ||
-        jtApellido.getText().trim().isEmpty() ||
-        jtEspecialidad.getText().trim().isEmpty()) {
-
-        JOptionPane.showMessageDialog(this, "Complete todos los campos");
-        return;
-    }
-
-      try {
-
-        Entrenador entrenador = new Entrenador();
-
-        entrenador.setIdEntrenador(Integer.parseInt(jtID.getText()));
-        entrenador.setDni(jtDni.getText());
-        entrenador.setNombre(jtNombre.getText());
-        entrenador.setApellido(jtApellido.getText());
-        entrenador.setEspecialidad(jtEspecialidad.getText());
-
-        if (entrenadorData.modificar(entrenador)) {
-
-            JOptionPane.showMessageDialog(this, "Entrenador modificado correctamente");
-            cargarTabla();
-
-        } else {
-
-            JOptionPane.showMessageDialog(this, "No se pudo modificar el entrenador");
+            JOptionPane.showMessageDialog(this, "Seleccione un entrenador de la tabla");
+            return;
         }
 
-     } catch (Exception ex) {
-        JOptionPane.showMessageDialog(this, "Ocurrió un error: " + ex.getMessage());
-    }
-        
+        if (jtDni.getText().trim().isEmpty()
+                || jtNombre.getText().trim().isEmpty()
+                || jtApellido.getText().trim().isEmpty()
+                || jtEspecialidad.getText().trim().isEmpty()) {
+
+            JOptionPane.showMessageDialog(this, "Complete todos los campos");
+            return;
+        }
+        //VALIDACION SI AL MODIFICAR YA EXITE DNI
+        int id = Integer.parseInt(jtID.getText());
+
+        if (entrenadorData.existeDniEnOtroEntrenador(
+                jtDni.getText().trim(), id)) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Ese DNI ya pertenece a otro entrenador");
+            jtDni.requestFocus();
+            return;
+        }
+
+        try {
+
+            Entrenador entrenador = new Entrenador();
+
+            entrenador.setIdEntrenador(Integer.parseInt(jtID.getText()));
+            entrenador.setDni(jtDni.getText());
+            entrenador.setNombre(jtNombre.getText());
+            entrenador.setApellido(jtApellido.getText());
+            entrenador.setEspecialidad(jtEspecialidad.getText());
+
+            if (entrenadorData.modificar(entrenador)) {
+
+                JOptionPane.showMessageDialog(this, "Entrenador modificado correctamente");
+                cargarTabla();
+
+            } else {
+
+                JOptionPane.showMessageDialog(this, "No se pudo modificar el entrenador");
+            }
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Ocurrió un error: " + ex.getMessage());
+        }
+
     }//GEN-LAST:event_jbModificarActionPerformed
 
     private void jtApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtApellidoActionPerformed
@@ -407,35 +527,35 @@ public class VistaEntrenador extends javax.swing.JInternalFrame {
 
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
 
-       if (jtBuscar.getText().trim().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Ingrese el ID del entrenador");
-        return;
-    }
-
-    try {
-     
-        int id = Integer.parseInt(jtBuscar.getText().trim());
-
-        Entrenador entrenador = entrenadorData.buscarPorId(id);
-
-        if (entrenador != null) {
-
-            jtID.setText(String.valueOf(entrenador.getIdEntrenador()));
-            jtDni.setText(entrenador.getDni());
-            jtNombre.setText(entrenador.getNombre());
-            jtApellido.setText(entrenador.getApellido());
-            jtEspecialidad.setText(entrenador.getEspecialidad());
-
-            JOptionPane.showMessageDialog(this, "Entrenador encontrado");
-
-        } else {
-            JOptionPane.showMessageDialog(this, "No se encontró el entrenador");
-            limpiarCampos();
+        if (jtBuscar.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese el ID del entrenador");
+            return;
         }
 
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "El ID debe ser un número");
-    }
+        try {
+
+            int id = Integer.parseInt(jtBuscar.getText().trim());
+
+            Entrenador entrenador = entrenadorData.buscarPorId(id);
+
+            if (entrenador != null) {
+
+                jtID.setText(String.valueOf(entrenador.getIdEntrenador()));
+                jtDni.setText(entrenador.getDni());
+                jtNombre.setText(entrenador.getNombre());
+                jtApellido.setText(entrenador.getApellido());
+                jtEspecialidad.setText(entrenador.getEspecialidad());
+
+                JOptionPane.showMessageDialog(this, "Entrenador encontrado");
+
+            } else {
+                JOptionPane.showMessageDialog(this, "No se encontró el entrenador");
+                limpiarCampos();
+            }
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El ID debe ser un número");
+        }
     }//GEN-LAST:event_jbBuscarActionPerformed
 
 

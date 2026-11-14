@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 public class EntrenadorData {
 
@@ -167,6 +168,51 @@ public class EntrenadorData {
         }
 
         return lista;
+    }
+
+    public boolean existeDni(String dni) {
+
+        String sql = "SELECT COUNT(*) FROM entrenador WHERE dni = ?";
+
+        try (Connection con = Conexion.conectar(); PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, dni);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,
+                    "Error al verificar DNI: " + ex.getMessage());
+        }
+
+        return false;
+    }
+
+    public boolean existeDniEnOtroEntrenador(String dni, int idEntrenador) {
+
+        String sql = "SELECT COUNT(*) FROM entrenador "
+                + "WHERE dni = ? AND ID_Entrenador <> ?";
+
+        try (Connection con = Conexion.conectar(); PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, dni);
+            ps.setInt(2, idEntrenador);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al verificar DNI: " + e.getMessage());
+        }
+
+        return false;
     }
 
 }
