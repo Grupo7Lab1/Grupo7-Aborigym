@@ -3,17 +3,26 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
  */
 package Vista;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import Modelo.Pase;
+import Modelo.Socio;
+import Persistencia.PaseData;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Nestor Marchizone
  */
 public class VistaPases extends javax.swing.JInternalFrame {
+
+    private List<Socio> sociosDisponibles = new ArrayList<>();
 
     /**
      * Creates new form VistaPases
@@ -113,27 +122,30 @@ public class VistaPases extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLSocio, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCBSocio, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLTipoDePase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jCBTipoDePase, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLFechaDeInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jDCFechaDeInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLFechaDeFinalizacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jDCFechaDeFinalizacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jCBEstado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jBAgregar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                        .addComponent(jBModificar))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jBEliminar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jBLimpiar)))
-                .addGap(18, 18, 18)
-                .addComponent(jSPPases, javax.swing.GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLSocio, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLTipoDePase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLFechaDeInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLFechaDeFinalizacion, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+                            .addComponent(jLEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jBEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(102, 102, 102))
+                            .addComponent(jCBTipoDePase, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCBSocio, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jDCFechaDeInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jDCFechaDeFinalizacion, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCBEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jBAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+                            .addGap(120, 120, 120)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jBModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jBLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jSPPases, javax.swing.GroupLayout.PREFERRED_SIZE, 542, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -162,13 +174,13 @@ public class VistaPases extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jCBEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jBAgregar)
-                            .addComponent(jBModificar))
+                        .addComponent(jBAgregar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jBEliminar)
-                            .addComponent(jBLimpiar)))
+                        .addComponent(jBEliminar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jBModificar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jBLimpiar))
                     .addComponent(jSPPases, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -200,16 +212,29 @@ public class VistaPases extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jCBEstadoActionPerformed
 
     private void jBAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAgregarActionPerformed
-        if (jCBSocio.getSelectedItem() == null) {
-            javax.swing.JOptionPane.showMessageDialog(
-                    this, "Seleccioná un socio.");
+
+        // 1. Validar socio
+        int indiceSocio = jCBSocio.getSelectedIndex();
+
+        if (indiceSocio == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccioná un socio.");
             return;
         }
 
+        // 2. Validar tipo de pase
+        int indiceMembresia = jCBTipoDePase.getSelectedIndex();
+
+        if (indiceMembresia == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccioná un tipo de pase.");
+            return;
+        }
+
+        // 3. Validar fechas
         if (jDCFechaDeInicio.getDate() == null
                 || jDCFechaDeFinalizacion.getDate() == null) {
-            javax.swing.JOptionPane.showMessageDialog(
-                    this, "Seleccioná las dos fechas.");
+
+            JOptionPane.showMessageDialog(this,
+                    "Seleccioná las fechas de inicio y finalización.");
             return;
         }
 
@@ -224,38 +249,103 @@ public class VistaPases extends javax.swing.JInternalFrame {
                 .toLocalDate();
 
         if (fin.isBefore(inicio)) {
-            javax.swing.JOptionPane.showMessageDialog(this, "La fecha de finalización no puede ser anterior al inicio.");
+            JOptionPane.showMessageDialog(this,
+                    "La fecha de finalización no puede ser anterior al inicio.");
             return;
         }
 
-        javax.swing.JOptionPane.showMessageDialog(this, "Validación correcta. El siguiente paso es guardar el pase.");
+        // 4. Recuperar el socio seleccionado
+        Socio socioSeleccionado = sociosDisponibles.get(indiceSocio);
+
+        // 5. Obtener los datos de la membresía
+        int[] idsMembresia = {1, 2, 3};
+        int[] entradas = {8, 12, 20};
+        double[] precios = {18000, 25000, 35000};
+
+        int idMembresia = idsMembresia[indiceMembresia];
+        int cantidadEntradas = entradas[indiceMembresia];
+        double costo = precios[indiceMembresia];
+
+        // 6. Recuperar el estado
+        boolean estado = "Activo".equals(
+                jCBEstado.getSelectedItem()
+        );
+
+        // 7. Crear el objeto Pase
+        Pase pase = new Pase();
+
+        pase.setIdSocio(socioSeleccionado.getIdSocio());
+        pase.setIdMembresia(idMembresia);
+        pase.setEntradasIniciales(cantidadEntradas);
+        pase.setCantidadEntradas(cantidadEntradas);
+        pase.setFechaInicio(inicio);
+        pase.setFechaFin(fin);
+        pase.setCosto(costo);
+        pase.setEstado(estado);
+
+        // 8. Guardar en MariaDB
+        PaseData paseData = new PaseData();
+
+        if (paseData.guardarPase(pase)) {
+
+            JOptionPane.showMessageDialog(this,
+                    "¡Pase guardado correctamente!");
+
+            // Actualizar la tabla
+            listarPases();
+
+            // Limpiar los campos
+            jCBSocio.setSelectedIndex(-1);
+            jCBTipoDePase.setSelectedIndex(0);
+            jDCFechaDeInicio.setDate(null);
+            jDCFechaDeFinalizacion.setDate(null);
+            jCBEstado.setSelectedIndex(0);
+
+        } else {
+
+            JOptionPane.showMessageDialog(this,
+                    "No se pudo guardar el pase. Revisá la consola de NetBeans.",
+                    "Error al guardar",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jBAgregarActionPerformed
 
     private void jBModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBModificarActionPerformed
+
         int fila = jTPases.getSelectedRow();
 
         if (fila == -1) {
-            javax.swing.JOptionPane.showMessageDialog(
-                    this,
-                    "Seleccioná un pase de la tabla para modificarlo."
-            );
+            JOptionPane.showMessageDialog(this,
+                    "Seleccioná un pase de la tabla para modificarlo.");
             return;
         }
 
-        if (jCBSocio.getSelectedItem() == null) {
-            javax.swing.JOptionPane.showMessageDialog(
-                    this,
-                    "Seleccioná un socio."
-            );
+        // Recuperar el ID del pase seleccionado
+        int idPase = (int) jTPases.getValueAt(fila, 0);
+
+        // Validar socio
+        int indiceSocio = jCBSocio.getSelectedIndex();
+
+        if (indiceSocio == -1) {
+            JOptionPane.showMessageDialog(this,
+                    "Seleccioná un socio.");
             return;
         }
 
+        // Validar membresía
+        int indiceMembresia = jCBTipoDePase.getSelectedIndex();
+
+        if (indiceMembresia == -1) {
+            JOptionPane.showMessageDialog(this,
+                    "Seleccioná un tipo de pase.");
+            return;
+        }
+
+        // Validar fechas
         if (jDCFechaDeInicio.getDate() == null
                 || jDCFechaDeFinalizacion.getDate() == null) {
-            javax.swing.JOptionPane.showMessageDialog(
-                    this,
-                    "Seleccioná las fechas de inicio y finalización."
-            );
+            JOptionPane.showMessageDialog(this,
+                    "Seleccioná las fechas de inicio y finalización.");
             return;
         }
 
@@ -270,17 +360,70 @@ public class VistaPases extends javax.swing.JInternalFrame {
                 .toLocalDate();
 
         if (fin.isBefore(inicio)) {
-            javax.swing.JOptionPane.showMessageDialog(
-                    this,
-                    "La fecha de finalización no puede ser anterior a la fecha de inicio."
-            );
+            JOptionPane.showMessageDialog(this,
+                    "La fecha de finalización no puede ser anterior al inicio.");
             return;
         }
+        fin = fin.plusDays(7);
 
-        javax.swing.JOptionPane.showMessageDialog(
+        int confirmacion = JOptionPane.showConfirmDialog(
                 this,
-                "Validación correcta. El siguiente paso es actualizar el pase."
+                "Validación correcta.\n"
+                + "Fecha de finalización actualizada: " + fin
+                + "\n¿Deseás actualizar el pase?",
+                "Actualizar pase",
+                JOptionPane.YES_NO_OPTION
         );
+
+        if (confirmacion != JOptionPane.YES_OPTION) {
+            return;
+        }
+        // Recuperar socio
+        Socio socioSeleccionado = sociosDisponibles.get(indiceSocio);
+
+        // Datos de membresía
+        int[] idsMembresia = {1, 2, 3};
+        int[] entradas = {8, 12, 20};
+        double[] precios = {18000, 25000, 35000};
+
+        int idMembresia = idsMembresia[indiceMembresia];
+        int cantidadEntradas = entradas[indiceMembresia];
+        double costo = precios[indiceMembresia];
+
+        // Estado
+        boolean estado = "Activo".equals(
+                jCBEstado.getSelectedItem());
+
+        // Construir objeto Pase
+        Pase pase = new Pase();
+
+        pase.setIdPase(idPase);
+        pase.setIdSocio(socioSeleccionado.getIdSocio());
+        pase.setIdMembresia(idMembresia);
+        pase.setEntradasIniciales(cantidadEntradas);
+        pase.setCantidadEntradas(cantidadEntradas);
+        pase.setFechaInicio(inicio);
+        pase.setFechaFin(fin);
+        pase.setCosto(costo);
+        pase.setEstado(estado);
+
+// Actualizar MariaDB
+        PaseData paseData = new PaseData();
+
+        if (paseData.modificarPase(pase)) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Pase modificado correctamente.");
+
+            listarPases();
+
+        } else {
+
+            JOptionPane.showMessageDialog(this,
+                    "No se pudo modificar el pase.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jBModificarActionPerformed
 
     private void jBEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEliminarActionPerformed
@@ -322,38 +465,43 @@ public class VistaPases extends javax.swing.JInternalFrame {
 // Listar Socio
 
     private void listarPases() {
-         DefaultTableModel modelo = (DefaultTableModel) jTPases.getModel();
 
-    modelo.setRowCount(0);
+        DefaultTableModel modelo
+                = (DefaultTableModel) jTPases.getModel();
 
-    String sql = "SELECT ID_Pase, ID_Socio, ID_Membresia, "
-            + "EntradasIniciales, CantidadEntradas, "
-            + "Fecha_Inicio, Fecha_Fin, Costo, Estado "
-            + "FROM pase ORDER BY ID_Pase";
+        modelo.setRowCount(0);
 
-    try (Connection con = Modelo.Conexion.conectar();
-         PreparedStatement ps = con.prepareStatement(sql);
-         ResultSet rs = ps.executeQuery()) {
+        String sql = "SELECT ID_Pase, ID_Socio, ID_Membresia, "
+                + "EntradasIniciales, CantidadEntradas, "
+                + "Fecha_Inicio, Fecha_Fin, Costo, Estado "
+                + "FROM pase ORDER BY ID_Pase";
 
-        while (rs.next()) {
-            modelo.addRow(new Object[]{
-                rs.getInt("ID_Pase"),
-                rs.getInt("ID_Socio"),
-                rs.getInt("ID_Membresia"),
-                rs.getInt("EntradasIniciales"),
-                rs.getInt("CantidadEntradas"),
-                rs.getDate("Fecha_Inicio"),
-                rs.getDate("Fecha_Fin"),
-                rs.getDouble("Costo"),
-                rs.getBoolean("Estado") ? "Activo" : "Inactivo"
-            });
+        try (Connection con = Modelo.Conexion.conectar(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+
+                modelo.addRow(new Object[]{
+                    rs.getInt("ID_Pase"),
+                    rs.getInt("ID_Socio"),
+                    rs.getInt("ID_Membresia"),
+                    rs.getInt("EntradasIniciales"),
+                    rs.getInt("CantidadEntradas"),
+                    rs.getDate("Fecha_Inicio"),
+                    rs.getDate("Fecha_Fin"),
+                    rs.getDouble("Costo"),
+                    rs.getBoolean("Estado") ? "Activo" : "Inactivo"
+                });
+            }
+
+        } catch (SQLException e) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Error al listar los pases:\n" + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
         }
-
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(this,
-                "Error al conectar o listar pases:\n"
-                + e.getMessage());
-    }
     }
 
 // Configurar los tipos de pase
@@ -372,14 +520,21 @@ public class VistaPases extends javax.swing.JInternalFrame {
     }
 
     private void configurarTabla() {
-        javax.swing.table.DefaultTableModel modelo
-                = new javax.swing.table.DefaultTableModel(
-                        new Object[][]{},
-                        new String[]{
-                            "ID", "Socio", "Tipo de Pase",
-                            "Fecha de Inicio", "Fecha de Finalización", "Estado"
-                        }
-                ) {
+
+        DefaultTableModel modelo = new DefaultTableModel(
+                new Object[][]{},
+                new String[]{
+                    "ID Pase",
+                    "ID Socio",
+                    "ID Membresía",
+                    "Entradas Iniciales",
+                    "Entradas Disponibles",
+                    "Fecha Inicio",
+                    "Fecha Finalización",
+                    "Costo",
+                    "Estado"
+                }
+        ) {
             @Override
             public boolean isCellEditable(int fila, int columna) {
                 return false;
@@ -391,10 +546,13 @@ public class VistaPases extends javax.swing.JInternalFrame {
 
     private void cargarSocios() {
         jCBSocio.removeAllItems();
+        sociosDisponibles.clear();
 
         Persistencia.SocioData socioData = new Persistencia.SocioData();
 
-        for (Modelo.Socio socio : socioData.listarSocio()) {
+        sociosDisponibles = socioData.listarSocio();
+
+        for (Socio socio : sociosDisponibles) {
             jCBSocio.addItem(socio.toString());
         }
     }

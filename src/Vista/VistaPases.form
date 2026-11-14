@@ -24,30 +24,36 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jLSocio" min="-2" pref="58" max="-2" attributes="0"/>
-                  <Component id="jCBSocio" max="32767" attributes="0"/>
-                  <Component id="jLTipoDePase" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jCBTipoDePase" max="32767" attributes="0"/>
-                  <Component id="jLFechaDeInicio" max="32767" attributes="0"/>
-                  <Component id="jDCFechaDeInicio" max="32767" attributes="0"/>
-                  <Component id="jLFechaDeFinalizacion" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jDCFechaDeFinalizacion" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jLEstado" max="32767" attributes="0"/>
-                  <Component id="jCBEstado" max="32767" attributes="0"/>
-                  <Group type="102" attributes="0">
-                      <Component id="jBAgregar" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="29" max="32767" attributes="0"/>
-                      <Component id="jBModificar" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jLSocio" min="-2" pref="58" max="-2" attributes="0"/>
+                          <Component id="jLTipoDePase" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jLFechaDeInicio" max="32767" attributes="0"/>
+                          <Component id="jLFechaDeFinalizacion" alignment="0" pref="183" max="32767" attributes="0"/>
+                          <Component id="jLEstado" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jBEliminar" max="32767" attributes="0"/>
+                              <EmptySpace min="-2" pref="102" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="jCBTipoDePase" alignment="0" min="-2" pref="159" max="-2" attributes="0"/>
+                          <Component id="jCBSocio" alignment="0" min="-2" pref="159" max="-2" attributes="0"/>
+                          <Component id="jDCFechaDeInicio" alignment="0" min="-2" pref="159" max="-2" attributes="0"/>
+                          <Component id="jDCFechaDeFinalizacion" alignment="0" min="-2" pref="159" max="-2" attributes="0"/>
+                          <Component id="jCBEstado" alignment="0" min="-2" pref="159" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Component id="jBAgregar" pref="81" max="32767" attributes="0"/>
+                          <EmptySpace min="-2" pref="120" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
-                  <Group type="102" attributes="0">
-                      <Component id="jBEliminar" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Component id="jBLimpiar" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="jBModificar" max="32767" attributes="0"/>
+                      <Component id="jBLimpiar" max="32767" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="jSPPases" pref="517" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
+              <Component id="jSPPases" min="-2" pref="542" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -78,15 +84,13 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jCBEstado" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jBAgregar" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jBModificar" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="jBAgregar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jBEliminar" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jBLimpiar" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="jBEliminar" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="jBModificar" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="jBLimpiar" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jSPPases" pref="0" max="32767" attributes="0"/>
               </Group>

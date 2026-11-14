@@ -18,8 +18,19 @@ public class Conexion {
 
     private static final String USUARIO = "root";
     private static final String CLAVE = "";
-
-    public static Connection conectar() throws SQLException {
+public static Connection conectar() throws SQLException {
         return DriverManager.getConnection(URL, USUARIO, CLAVE);
     }
+    public static void main(String[] args) {
+
+    try (Connection con = conectar()) {
+
+        System.out.println("Conexión exitosa con ABORIGYM");
+        System.out.println("Base de datos: " +
+                con.getCatalog());
+
+    } catch (SQLException e) {
+        System.out.println("Error de conexión: " + e.getMessage());
+    }
+}
 }
