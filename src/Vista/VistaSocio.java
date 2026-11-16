@@ -165,22 +165,58 @@ public class VistaSocio extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGuardarActionPerformed
+
         String dni = jTDNI.getText().trim();
         String nombreCompleto = jTNombreyApellido.getText().trim();
         String telefono = jTTelefono.getText().trim();
         String correo = jTEmail.getText().trim();
 
+        //CONTROLA CAMPOS VACIOS
         if (dni.isEmpty() || nombreCompleto.isEmpty()
                 || telefono.isEmpty() || correo.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Completá todos los campos.");
             return;
         }
 
+        // CONTROLA CATIDAD DE DIGITOS DNI
+        if (dni.length() < 7 || dni.length() > 8) {
+            JOptionPane.showMessageDialog(this,
+                    "El DNI debe tener entre 7 y 8 números.");
+            return;
+        }
+
+        for (int i = 0; i < dni.length(); i++) {
+            if (!Character.isDigit(dni.charAt(i))) {
+                JOptionPane.showMessageDialog(this,
+                        "El DNI solo debe contener números.");
+                return;
+            }
+        }
+        //CONTROLA DNI DUPLICADO
+
+        if (socioData.buscarPorDni(dni) != null) {
+            JOptionPane.showMessageDialog(this,
+                    "Ya existe un socio con ese DNI.");
+            return;
+        }
+
         String[] partes = nombreCompleto.split("\\s+", 2);
+
+        if (!esNombreValido(nombreCompleto)) {
+            JOptionPane.showMessageDialog(this,
+                    "El nombre y apellido solo deben contener letras y no mas 30 caracteres.");
+            return;
+        }
 
         if (partes.length < 2) {
             JOptionPane.showMessageDialog(this,
                     "Ingresá nombre y apellido.");
+            return;
+        }
+
+        if (!esTelefonoValido(telefono)) {
+            JOptionPane.showMessageDialog(this,
+                    "El telefono debe tener 10 numeros, sin guiones ni espacios (Ej: 2664121512)");
             return;
         }
 
@@ -219,7 +255,7 @@ public class VistaSocio extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "No se pudo guardar el socio.");
 
     }//GEN-LAST:event_jBGuardarActionPerformed
-        }
+    }
     private void jBNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBNuevoActionPerformed
         limpiarFormulario();
     }//GEN-LAST:event_jBNuevoActionPerformed
@@ -259,45 +295,93 @@ public class VistaSocio extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "No se pudo eliminar el socio.");
         }
     }//GEN-LAST:event_jBEliminarActionPerformed
-        private void configurarTabla() {
-            modeloTabla = new DefaultTableModel(new Object[]{"DNI", "Nombre y Apellido", "Teléfono", "E-Mail"}, 0
-            ) {
-                @Override
-                public boolean isCellEditable(int fila, int columna) {
-                    return false;
-                }
-            };
 
-            jTListado.setModel(modeloTabla);
-            jTListado.setSelectionMode(
-                    javax.swing.ListSelectionModel.SINGLE_SELECTION
-            );
+    private boolean esNombreValido(String nombreCompleto) {
+
+        if (nombreCompleto.length() > 30) { // LIMITE DE CARACTERES
+            return false;
         }
 
-        private void listarSocios() {
-            modeloTabla.setRowCount(0);
+        for (int i = 0; i <nombreCompleto.length(); i++) {
+            char c = nombreCompleto.charAt(i);
 
-            List<Socio> socios = socioData.listarSocio();
-
-            for (Socio socio : socios) {
-                modeloTabla.addRow(new Object[]{
-                    socio.getDni(),
-                    socio.getApellido() + ", " + socio.getNombre(),
-                    socio.getTelefono(),
-                    socio.getCorreo()
-                });
+            if (!Character.isLetter(c) && c != ' ') {
+                return false;
             }
         }
 
-        private void limpiarFormulario() {
-            jTDNI.setText("");
-            jTNombreyApellido.setText("");
-            jTTelefono.setText("");
-            jTEmail.setText("");
+        return true;
+    }
 
-            jTListado.clearSelection();
-            jTDNI.requestFocus();
+    private boolean esTelefonoValido(String telefono) {
+
+        // VERIFICA QUE TENGA 10 DIGITOS
+        if (telefono.length() != 10) {
+            return false;
         }
+
+        // RECORRE Y VERIFICA QUE SEA NUMERO, RECHAZA GUIONES,ESPACIOS,LETRAS
+        for (int i = 0; i < telefono.length(); i++) {
+            if (!Character.isDigit(telefono.charAt(i))) {
+                return false;
+            }
+        }
+
+        // VERIFICA QUE NO ESCRIBAN 10 VECES EL MISMO NUMERO
+        char primero = telefono.charAt(0);
+        boolean todosIguales = true;
+        for (int i = 1; i < telefono.length(); i++) {
+            if (telefono.charAt(i) != primero) {
+                todosIguales = false;
+                break;
+            }
+        }
+        if (todosIguales) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private void configurarTabla() {
+        modeloTabla = new DefaultTableModel(new Object[]{"DNI", "Nombre y Apellido", "Teléfono", "E-Mail"}, 0
+        ) {
+            @Override
+            public boolean isCellEditable(int fila, int columna) {
+                return false;
+            }
+        };
+
+        jTListado.setModel(modeloTabla);
+        jTListado.setSelectionMode(
+                javax.swing.ListSelectionModel.SINGLE_SELECTION
+        );
+    }
+
+    private void listarSocios() {
+        modeloTabla.setRowCount(0);
+
+        List<Socio> socios = socioData.listarSocio();
+
+        for (Socio socio : socios) {
+            modeloTabla.addRow(new Object[]{
+                socio.getDni(),
+                socio.getApellido() + ", " + socio.getNombre(),
+                socio.getTelefono(),
+                socio.getCorreo()
+            });
+        }
+    }
+
+    private void limpiarFormulario() {
+        jTDNI.setText("");
+        jTNombreyApellido.setText("");
+        jTTelefono.setText("");
+        jTEmail.setText("");
+
+        jTListado.clearSelection();
+        jTDNI.requestFocus();
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBEliminar;
     private javax.swing.JButton jBGuardar;
