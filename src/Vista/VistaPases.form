@@ -26,22 +26,20 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jLSocio" min="-2" pref="58" max="-2" attributes="0"/>
-                          <Component id="jLTipoDePase" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jLFechaDeInicio" max="32767" attributes="0"/>
-                          <Component id="jLFechaDeFinalizacion" alignment="0" pref="183" max="32767" attributes="0"/>
-                          <Component id="jLEstado" max="32767" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="jBEliminar" max="32767" attributes="0"/>
-                              <EmptySpace min="-2" pref="102" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="jCBTipoDePase" alignment="0" min="-2" pref="159" max="-2" attributes="0"/>
-                          <Component id="jCBSocio" alignment="0" min="-2" pref="159" max="-2" attributes="0"/>
-                          <Component id="jDCFechaDeInicio" alignment="0" min="-2" pref="159" max="-2" attributes="0"/>
-                          <Component id="jDCFechaDeFinalizacion" alignment="0" min="-2" pref="159" max="-2" attributes="0"/>
-                          <Component id="jCBEstado" alignment="0" min="-2" pref="159" max="-2" attributes="0"/>
+                      <Component id="jLSocio" min="-2" pref="58" max="-2" attributes="0"/>
+                      <Component id="jLTipoDePase" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jLFechaDeInicio" max="32767" attributes="0"/>
+                      <Component id="jLFechaDeFinalizacion" alignment="0" pref="183" max="32767" attributes="0"/>
+                      <Component id="jLEstado" max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="jBEliminar" max="32767" attributes="0"/>
+                          <EmptySpace min="-2" pref="102" max="-2" attributes="0"/>
                       </Group>
+                      <Component id="jCBTipoDePase" alignment="0" min="-2" pref="159" max="-2" attributes="0"/>
+                      <Component id="jCBSocio" alignment="0" min="-2" pref="159" max="-2" attributes="0"/>
+                      <Component id="jDCFechaDeInicio" alignment="0" min="-2" pref="159" max="-2" attributes="0"/>
+                      <Component id="jDCFechaDeFinalizacion" alignment="0" min="-2" pref="159" max="-2" attributes="0"/>
+                      <Component id="jCBEstado" alignment="0" min="-2" pref="159" max="-2" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Component id="jBAgregar" pref="81" max="32767" attributes="0"/>
                           <EmptySpace min="-2" pref="120" max="-2" attributes="0"/>
@@ -173,9 +171,6 @@
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="cc" red="cc" type="rgb"/>
         </Property>
-        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="0" green="0" red="0" type="rgb"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="Agregar"/>
       </Properties>
       <Events>
@@ -186,9 +181,6 @@
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="cc" red="cc" type="rgb"/>
-        </Property>
-        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="0" green="0" red="0" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Modificar"/>
       </Properties>
@@ -201,9 +193,6 @@
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="cc" red="cc" type="rgb"/>
         </Property>
-        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="0" green="0" red="0" type="rgb"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="Eliminar"/>
       </Properties>
       <Events>
@@ -214,9 +203,6 @@
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="cc" red="cc" type="rgb"/>
-        </Property>
-        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="0" green="0" red="0" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Limpiar"/>
       </Properties>

@@ -123,4 +123,26 @@ public class PaseData {
 
         return lista;
     }
+
+    public boolean tienePaseActivo(int idSocio) {
+
+        String sql = "SELECT COUNT(*) FROM pase "
+                + "WHERE ID_Socio = ? AND Estado = 1";
+
+        try (Connection con = Conexion.conectar(); PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, idSocio);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error al verificar pase: " + e.getMessage());
+        }
+
+        return false;
+    }
 }

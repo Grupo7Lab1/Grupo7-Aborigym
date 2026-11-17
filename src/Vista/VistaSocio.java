@@ -225,6 +225,13 @@ public class VistaSocio extends javax.swing.JInternalFrame {
             return;
         }
 
+        String email = jTEmail.getText().trim(); // OBTIENE EL EMAIL Y ELIMINA LOS ESPACIOS
+
+        if (!esEmailValido(email)) {
+            JOptionPane.showMessageDialog(this, "Ingrese un email válido");
+            return;
+        }
+
         String entradaEdad = JOptionPane.showInputDialog(this, "Ingresá la edad del socio:");
 
         if (entradaEdad == null) {
@@ -302,7 +309,7 @@ public class VistaSocio extends javax.swing.JInternalFrame {
             return false;
         }
 
-        for (int i = 0; i <nombreCompleto.length(); i++) {
+        for (int i = 0; i < nombreCompleto.length(); i++) {
             char c = nombreCompleto.charAt(i);
 
             if (!Character.isLetter(c) && c != ' ') {
@@ -337,6 +344,30 @@ public class VistaSocio extends javax.swing.JInternalFrame {
             }
         }
         if (todosIguales) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean esEmailValido(String email) {
+
+        if (email.contains(" ")) {
+            return false;
+        }
+
+        int arroba = email.indexOf("@");
+        int punto = email.lastIndexOf(".");
+
+        if (arroba <= 0) {
+            return false;
+        }
+
+        if (punto <= arroba + 1) {
+            return false;
+        }
+
+        if (punto == email.length() - 1) {
             return false;
         }
 

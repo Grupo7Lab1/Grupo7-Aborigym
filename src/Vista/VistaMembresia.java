@@ -212,20 +212,46 @@ public class VistaMembresia extends javax.swing.JInternalFrame {
         int duracion;
 
         if (tipo.isEmpty()) {
-            avisar("Escribí el tipo de membresía.");
+            avisar("Ingresá el tipo de membresía.");
             return;
         }
 
-        try {
-            precio = Double.parseDouble(
-                    jTPrecio.getText().trim().replace(",", ".")
-            );
+        if (tipo.length() < 3) {
+            avisar("El tipo de membresía debe tener al menos 3 caracteres.");
+            return;
+        }
 
-            if (precio < 0) {
+        String textoPrecio = jTPrecio.getText().trim().replace(",", ".");
+
+        if (textoPrecio.replace(".", "").length() > 10) {
+            avisar("El precio no puede superar los 10 dígitos.");
+            return;
+        }
+        try {
+            precio = Double.parseDouble(textoPrecio);
+
+            if (precio <= 0 || Double.isInfinite(precio) || Double.isNaN(precio)) {
                 throw new NumberFormatException();
             }
+
+        } catch (NumberFormatException e) {
+            avisar("El precio debe ser un número válido y mayor que 0.");
+            return;
+        }
+
+        int cantidadClases;
+
+        try {
+            cantidadClases = Integer.parseInt(
+                    jTCantidadDeClases.getText().trim()
+            );
+
+            if (cantidadClases <= 0) {
+                throw new NumberFormatException();
+            }
+
         } catch (NumberFormatException ex) {
-            avisar("El precio debe ser un número válido.");
+            avisar("La cantidad de clases debe ser un número entero mayor que 0.");
             return;
         }
 
@@ -249,24 +275,30 @@ public class VistaMembresia extends javax.swing.JInternalFrame {
         }
 
         if (seleccionada == null) {
-            membresias.add(new Membresia(
-                    proximoId++,
-                    tipo,
+
+            Membresia nueva = new Membresia(
                     0,
+                    tipo,
+                    cantidadClases,
                     duracion,
                     precio
-            ));
-        } else {
-            seleccionada.setNombre(tipo);
-            seleccionada.setPrecio(precio);
-            seleccionada.setDuracionDias(duracion);
+            );
+
+            MembresiaData data = new MembresiaData();
+
+            if (data.guardarMembresia(nueva)) {
+                JOptionPane.showMessageDialog(this,
+                        "Membresía guardada correctamente.");
+
+                cargarMembresias();
+                modoNuevo();
+
+            } else {
+                avisar("No se pudo guardar la membresía.");
+            }
+
+            return;
         }
-
-        refrescarTabla();
-        modoNuevo();
-
-        JOptionPane.showMessageDialog(this,
-                "Membresía guardada correctamente.");
     }//GEN-LAST:event_jBGuardarActionPerformed
 
     private void jBNuevaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBNuevaActionPerformed
@@ -303,16 +335,22 @@ public class VistaMembresia extends javax.swing.JInternalFrame {
         double precio;
         int duracion;
 
-        try {
-            precio = Double.parseDouble(
-                    jTPrecio.getText().trim().replace(",", ".")
-            );
+        String textoPrecio = jTPrecio.getText().trim().replace(",", ".");
 
-            if (precio < 0) {
+        if (textoPrecio.replace(".", "").length() > 10) {
+            avisar("El precio no puede superar los 10 dígitos.");
+            return;
+        }
+
+        try {
+            precio = Double.parseDouble(textoPrecio);
+
+            if (precio <= 0 || Double.isInfinite(precio) || Double.isNaN(precio)) {
                 throw new NumberFormatException();
             }
+
         } catch (NumberFormatException e) {
-            avisar("El precio debe ser un número válido.");
+            avisar("El precio debe ser un número válido y mayor que 0.");
             return;
         }
 
@@ -328,14 +366,25 @@ public class VistaMembresia extends javax.swing.JInternalFrame {
         }
 
         seleccionada.setNombre(tipo);
+        // seleccionada.setCantidadClases(cantidadClases);
         seleccionada.setPrecio(precio);
         seleccionada.setDuracionDias(duracion);
 
-        refrescarTabla();
-        modoNuevo();
+        MembresiaData data = new MembresiaData();
 
-        JOptionPane.showMessageDialog(this,
-                "Membresía modificada correctamente.");
+        if (data.modificarMembresia(seleccionada)) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Membresía modificada correctamente.");
+
+            cargarMembresias();
+            modoNuevo();
+
+        } else {
+            avisar("No se pudo modificar la membresía.");
+        }
+
+
     }//GEN-LAST:event_jBModificarActionPerformed
 
     private void jTCantidadDeClasesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTCantidadDeClasesActionPerformed

@@ -248,6 +248,12 @@ public class VistaPases extends javax.swing.JInternalFrame {
                 .atZone(java.time.ZoneId.systemDefault())
                 .toLocalDate();
 
+        if (inicio.isBefore(java.time.LocalDate.now())) {
+            JOptionPane.showMessageDialog(this,
+                    "La fecha de inicio no puede ser anterior al día actual.");
+            return;
+        }
+
         if (fin.isBefore(inicio)) {
             JOptionPane.showMessageDialog(this,
                     "La fecha de finalización no puede ser anterior al inicio.");
@@ -256,6 +262,20 @@ public class VistaPases extends javax.swing.JInternalFrame {
 
         // 4. Recuperar el socio seleccionado
         Socio socioSeleccionado = sociosDisponibles.get(indiceSocio);
+
+        if (!socioSeleccionado.isEstado()) {
+            JOptionPane.showMessageDialog(this,
+                    "No se puede asignar un pase a un socio inactivo.");
+            return;
+        }
+
+        PaseData paseData = new PaseData();
+
+        if (paseData.tienePaseActivo(socioSeleccionado.getIdSocio())) {
+            JOptionPane.showMessageDialog(this,
+                    "Este socio ya tiene un pase activo.");
+            return;
+        }
 
         // 5. Obtener los datos de la membresía
         int[] idsMembresia = {1, 2, 3};
@@ -283,8 +303,7 @@ public class VistaPases extends javax.swing.JInternalFrame {
         pase.setCosto(costo);
         pase.setEstado(estado);
 
-        // 8. Guardar en MariaDB
-        PaseData paseData = new PaseData();
+ 
 
         if (paseData.guardarPase(pase)) {
 
@@ -359,6 +378,12 @@ public class VistaPases extends javax.swing.JInternalFrame {
                 .atZone(java.time.ZoneId.systemDefault())
                 .toLocalDate();
 
+        if (inicio.isBefore(java.time.LocalDate.now())) {
+            JOptionPane.showMessageDialog(this,
+                    "La fecha de inicio no puede ser anterior al día actual.");
+            return;
+        }
+
         if (fin.isBefore(inicio)) {
             JOptionPane.showMessageDialog(this,
                     "La fecha de finalización no puede ser anterior al inicio.");
@@ -380,6 +405,12 @@ public class VistaPases extends javax.swing.JInternalFrame {
         }
         // Recuperar socio
         Socio socioSeleccionado = sociosDisponibles.get(indiceSocio);
+
+        if (!socioSeleccionado.isEstado()) {
+            JOptionPane.showMessageDialog(this,
+                    "No se puede asignar un pase a un socio inactivo.");
+            return;
+        }
 
         // Datos de membresía
         int[] idsMembresia = {1, 2, 3};
@@ -427,28 +458,50 @@ public class VistaPases extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBModificarActionPerformed
 
     private void jBEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEliminarActionPerformed
+
         int fila = jTPases.getSelectedRow();
 
         if (fila == -1) {
-            javax.swing.JOptionPane.showMessageDialog(
-                    this,
-                    "Seleccioná un pase de la tabla para eliminarlo."
-            );
+            JOptionPane.showMessageDialog(this,
+                    "Seleccioná un pase de la tabla para eliminarlo.");
             return;
         }
 
-        int confirmacion = javax.swing.JOptionPane.showConfirmDialog(
-                this, "¿Estás seguro de que querés eliminar este pase?", "Confirmar eliminación",
-                javax.swing.JOptionPane.YES_NO_OPTION,
-                javax.swing.JOptionPane.WARNING_MESSAGE
+        int confirmacion = JOptionPane.showConfirmDialog(
+                this,
+                "¿Estás seguro de que querés eliminar este pase?",
+                "Confirmar eliminación",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE
         );
 
-        if (confirmacion != javax.swing.JOptionPane.YES_OPTION) {
+        if (confirmacion != JOptionPane.YES_OPTION) {
             return;
         }
 
-        javax.swing.JOptionPane.showMessageDialog(this, "Confirmación correcta. El siguiente paso es eliminar el pase de la base de datos."
-        );
+        // Recuperar el ID del pase seleccionado
+        int idPase = (int) jTPases.getValueAt(fila, 0);
+
+        // Eliminar de la base de datos
+        PaseData paseData = new PaseData();
+
+        if (paseData.eliminarPase(idPase)) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Pase eliminado correctamente.");
+
+            listarPases();
+
+            jTPases.clearSelection();
+
+        } else {
+
+            JOptionPane.showMessageDialog(this,
+                    "No se pudo eliminar el pase.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+
     }//GEN-LAST:event_jBEliminarActionPerformed
 
     private void jBLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBLimpiarActionPerformed
