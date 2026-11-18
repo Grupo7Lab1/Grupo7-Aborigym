@@ -4,73 +4,118 @@
  */
 package Vista;
 
+import Modelo.ClaseGym;
 import Modelo.Entrenador;
-
+import Persistencia.ClaseGymData;
 import Persistencia.EntrenadorData;
 import java.util.List;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author rotta
- */
 public class VistaClaseGym extends javax.swing.JInternalFrame {
 
     private List<Entrenador> entrenadoresCargados = new ArrayList<>();
+    private List<ClaseGym> clasesCargadas = new ArrayList<>();
+    private ClaseGym claseSeleccionada = null;
+    private DefaultTableModel modeloTabla;
 
-    /**
-     * Creates new form VistaClaseGym
-     */
     public VistaClaseGym() {
         initComponents();
-
+        Iconos.aplicar(this);
         setClosable(true);
-        setDefaultCloseOperation(
-                javax.swing.WindowConstants.DISPOSE_ON_CLOSE
-        );
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        configurarTabla();
         cargarDisciplinas();
-        cargarEntrenadores();
         cargarHorarios();
         cargarCapacidades();
         cargarEstados();
+        initEventos();
+        cargarTabla();
     }
 
-    private void cargarEntrenadores() {
+    private void configurarTabla() {
+        modeloTabla = new DefaultTableModel(
+                new Object[]{"ID", "Disciplina", "Entrenador", "Horario", "Capacidad", "Estado"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        jTable1.setModel(modeloTabla);
+        jTable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    }
 
-        jCBEntrenador.removeAllItems();
-        entrenadoresCargados.clear();
+    private void initEventos() {
+        jBGuardar.addActionListener(this::guardarClase);
+        jBModificar.addActionListener(this::modificarClase);
+        jBBorrar.addActionListener(this::borrarClase);
+        jBLimpiar.addActionListener(e -> limpiarFormulario());
 
-        EntrenadorData ed = new EntrenadorData();
+        jTable1.getSelectionModel().addListSelectionListener(e -> {
+            int fila = jTable1.getSelectedRow();
+            if (!e.getValueIsAdjusting() && fila >= 0 && fila < clasesCargadas.size()) {
+                cargarClaseEnFormulario(clasesCargadas.get(fila));
+            }
+        });
+    }
 
-        List<Entrenador> lista = ed.listarEntrenadores();
+    private void cargarTabla() {
+        modeloTabla.setRowCount(0);
+        ClaseGymData data = new ClaseGymData();
+        clasesCargadas = data.listarClases();
 
-        if (lista == null || lista.isEmpty()) {
-            System.out.println("No hay entrenadores registrados.");
-            return;
+        for (ClaseGym c : clasesCargadas) {
+            modeloTabla.addRow(new Object[]{
+                c.getId(),
+                c.getDisciplina(),
+                c.getEntrenador() != null ? c.getEntrenador().getApellido() + ", " + c.getEntrenador().getNombre() : "Sin asignar",
+                c.getHorario(),
+                c.getCapacidad(),
+                c.isEstado() ? "Activa" : "Inactiva"
+            });
         }
+    }
 
-        for (Entrenador entrenador : lista) {
+    private void cargarClaseEnFormulario(ClaseGym c) {
+        claseSeleccionada = c;
+        jCBDisciplina.setSelectedItem(c.getDisciplina());
 
-            if (entrenador.isEstado()) {
-
-                entrenadoresCargados.add(entrenador);
-
-                jCBEntrenador.addItem(
-                        entrenador.getNombre() + " "
-                        + entrenador.getApellido()
-                );
+        if (c.getEntrenador() != null) {
+            for (int i = 0; i < entrenadoresCargados.size(); i++) {
+                if (entrenadoresCargados.get(i).getIdEntrenador() == c.getEntrenador().getIdEntrenador()) {
+                    jCBEntrenador.setSelectedIndex(i);
+                    break;
+                }
             }
         }
 
-        System.out.println(
-                "Entrenadores cargados: " + entrenadoresCargados.size()
-        );
+        jCBHorario.setSelectedItem(c.getHorario());
+        jCBCapacidad.setSelectedItem(String.valueOf(c.getCapacidad()));
+        jCBEstado.setSelectedItem(c.isEstado() ? "Activa" : "Inactiva");
+    }
+
+    private void limpiarFormulario() {
+        claseSeleccionada = null;
+        jTable1.clearSelection();
+        if (jCBDisciplina.getItemCount() > 0) {
+            jCBDisciplina.setSelectedIndex(0);
+        }
+        if (jCBHorario.getItemCount() > 0) {
+            jCBHorario.setSelectedIndex(0);
+        }
+        if (jCBCapacidad.getItemCount() > 0) {
+            jCBCapacidad.setSelectedIndex(0);
+        }
+        if (jCBEstado.getItemCount() > 0) {
+            jCBEstado.setSelectedIndex(0);
+        }
     }
 
     private void cargarDisciplinas() {
         jCBDisciplina.removeAllItems();
-
         jCBDisciplina.addItem("Musculación");
         jCBDisciplina.addItem("Spinning");
         jCBDisciplina.addItem("Funcional");
@@ -78,7 +123,7 @@ public class VistaClaseGym extends javax.swing.JInternalFrame {
     }
 
     private void cargarHorarios() {
-
+        jCBHorario.removeAllItems();
         jCBHorario.addItem("08:00 - 09:00");
         jCBHorario.addItem("09:00 - 10:00");
         jCBHorario.addItem("10:00 - 11:00");
@@ -87,7 +132,7 @@ public class VistaClaseGym extends javax.swing.JInternalFrame {
     }
 
     private void cargarCapacidades() {
-
+        jCBCapacidad.removeAllItems();
         jCBCapacidad.addItem("10");
         jCBCapacidad.addItem("15");
         jCBCapacidad.addItem("20");
@@ -100,12 +145,7 @@ public class VistaClaseGym extends javax.swing.JInternalFrame {
         jCBEstado.addItem("Inactiva");
     }
 
-    // Evento del JComboBox Entrenador
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -326,61 +366,167 @@ public class VistaClaseGym extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jCBDisciplinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBDisciplinaActionPerformed
-        cargarEntrenadores();
         jCBEntrenador.removeAllItems();
         entrenadoresCargados.clear();
 
         String disciplina = (String) jCBDisciplina.getSelectedItem();
-
         if (disciplina == null) {
             return;
         }
 
         EntrenadorData entrenadorData = new EntrenadorData();
-
         List<Entrenador> lista = entrenadorData.listarEntrenadores();
 
         for (Entrenador entrenador : lista) {
-
             if (entrenador.isEstado()
                     && entrenador.getEspecialidad() != null
                     && entrenador.getEspecialidad().equalsIgnoreCase(disciplina)) {
 
                 entrenadoresCargados.add(entrenador);
-
                 jCBEntrenador.addItem(
-                        entrenador.getNombre() + " "
-                        + entrenador.getApellido()
+                        entrenador.getNombre() + " " + entrenador.getApellido()
                 );
             }
-        }
-
-        if (entrenadoresCargados.isEmpty()) {
-            System.out.println(
-                    "No hay entrenadores activos para esta disciplina."
-            );
         }
     }//GEN-LAST:event_jCBDisciplinaActionPerformed
 
     private void jCBEntrenadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBEntrenadorActionPerformed
 
-        int indice = jCBEntrenador.getSelectedIndex();
 
-        if (indice < 0 || indice >= entrenadoresCargados.size()) {
-            return;
-        }
-
-        Entrenador entrenador = entrenadoresCargados.get(indice);
-
-        System.out.println("Entrenador: "
-                + entrenador.getNombre() + " " + entrenador.getApellido());
-
-        System.out.println("ID: " + entrenador.getIdEntrenador());
     }//GEN-LAST:event_jCBEntrenadorActionPerformed
 
     private void jCBHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBHorarioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jCBHorarioActionPerformed
+    private void guardarClase(java.awt.event.ActionEvent evt) {
+        if (claseSeleccionada != null) {
+            JOptionPane.showMessageDialog(this,
+                    "Esa clase ya existe. Usa MODIFICAR para guardar cambios o LIMPIAR para crear una nueva.");
+            return;
+        }
+
+        int indiceEntrenador = jCBEntrenador.getSelectedIndex();
+        if (indiceEntrenador < 0 || indiceEntrenador >= entrenadoresCargados.size()) {
+            JOptionPane.showMessageDialog(this,
+                    "No hay un entrenador activo disponible para esa disciplina.",
+                    "Validación", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String disciplina = (String) jCBDisciplina.getSelectedItem();
+        Entrenador entrenador = entrenadoresCargados.get(indiceEntrenador);
+        String horario = (String) jCBHorario.getSelectedItem();
+        int capacidad = Integer.parseInt((String) jCBCapacidad.getSelectedItem());
+        boolean estado = "Activa".equals(jCBEstado.getSelectedItem());
+
+        ClaseGymData data = new ClaseGymData();
+
+        if (estado && data.entrenadorOcupadoEnHorario(entrenador.getIdEntrenador(), horario, 0)) {
+            JOptionPane.showMessageDialog(this,
+                    "El entrenador " + entrenador.getNombre() + " " + entrenador.getApellido()
+                    + " ya tiene otra clase asignada en el horario " + horario + ".",
+                    "Horario superpuesto", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        ClaseGym nueva = new ClaseGym(0, disciplina, entrenador, horario, capacidad, estado);
+
+        if (data.guardarClase(nueva)) {
+            JOptionPane.showMessageDialog(this, "Clase guardada correctamente.");
+            cargarTabla();
+            limpiarFormulario();
+        } else {
+            JOptionPane.showMessageDialog(this, "No se pudo guardar la clase.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void modificarClase(java.awt.event.ActionEvent evt) {
+        if (claseSeleccionada == null) {
+            JOptionPane.showMessageDialog(this, "Seleccioná una clase de la tabla para modificar.");
+            return;
+        }
+
+        int indiceEntrenador = jCBEntrenador.getSelectedIndex();
+        if (indiceEntrenador < 0 || indiceEntrenador >= entrenadoresCargados.size()) {
+            JOptionPane.showMessageDialog(this,
+                    "Seleccioná un entrenador válido para esa disciplina.",
+                    "Validación", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String disciplina = (String) jCBDisciplina.getSelectedItem();
+        Entrenador entrenador = entrenadoresCargados.get(indiceEntrenador);
+        String horario = (String) jCBHorario.getSelectedItem();
+        int capacidad = Integer.parseInt((String) jCBCapacidad.getSelectedItem());
+        boolean estado = "Activa".equals(jCBEstado.getSelectedItem());
+
+        ClaseGymData data = new ClaseGymData();
+
+        if (estado && data.entrenadorOcupadoEnHorario(entrenador.getIdEntrenador(), horario, claseSeleccionada.getId())) {
+            JOptionPane.showMessageDialog(this,
+                    "El entrenador " + entrenador.getNombre() + " " + entrenador.getApellido()
+                    + " ya tiene otra clase asignada en el horario " + horario + ".",
+                    "Horario superpuesto", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        claseSeleccionada.setDisciplina(disciplina);
+        claseSeleccionada.setEntrenador(entrenador);
+        claseSeleccionada.setHorario(horario);
+        claseSeleccionada.setCapacidad(capacidad);
+        claseSeleccionada.setEstado(estado);
+
+        if (data.modificarClase(claseSeleccionada)) {
+            JOptionPane.showMessageDialog(this, "Clase modificada correctamente.");
+            cargarTabla();
+            limpiarFormulario();
+        } else {
+            JOptionPane.showMessageDialog(this, "No se pudo modificar la clase.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void borrarClase(java.awt.event.ActionEvent evt) {
+        if (claseSeleccionada == null) {
+            JOptionPane.showMessageDialog(this, "Seleccioná una clase de la tabla.");
+            return;
+        }
+
+        ClaseGymData data = new ClaseGymData();
+
+        if (claseSeleccionada.isEstado()) {
+            int r = JOptionPane.showConfirmDialog(this,
+                    "¿Deseás dar de baja (inactivar) la clase de " + claseSeleccionada.getDisciplina() + "?",
+                    "Confirmar baja lógica", JOptionPane.YES_NO_OPTION);
+
+            if (r == JOptionPane.YES_OPTION) {
+                if (data.bajaLogica(claseSeleccionada.getId())) {
+                    JOptionPane.showMessageDialog(this, "Clase dada de baja correctamente.");
+                    cargarTabla();
+                    limpiarFormulario();
+                } else {
+                    JOptionPane.showMessageDialog(this, "No se pudo dar de baja la clase.",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } else {
+            int r = JOptionPane.showConfirmDialog(this,
+                    "La clase ya está inactiva. ¿Deseás eliminarla definitivamente de la base de datos?",
+                    "Confirmar eliminación", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+
+            if (r == JOptionPane.YES_OPTION) {
+                if (data.eliminarClase(claseSeleccionada.getId())) {
+                    JOptionPane.showMessageDialog(this, "Clase eliminada correctamente.");
+                    cargarTabla();
+                    limpiarFormulario();
+                } else {
+                    JOptionPane.showMessageDialog(this, "No se pudo eliminar la clase (puede tener asistencias asociadas).",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
