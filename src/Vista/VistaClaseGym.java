@@ -110,6 +110,9 @@ public class VistaClaseGym extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        panelCapas = new javax.swing.JLayeredPane();
+        panelControles = new javax.swing.JPanel();
+        lblFondo = new javax.swing.JLabel();
         jLDatosDeLaClase = new javax.swing.JLabel();
         jLDisciplina = new javax.swing.JLabel();
         jCBDisciplina = new javax.swing.JComboBox<>();
@@ -128,41 +131,85 @@ public class VistaClaseGym extends javax.swing.JInternalFrame {
         jSPClaseGym = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
-        setTitle("Gestion de Clases");
+        setTitle("Gestión de Clases");
 
-        jLDatosDeLaClase.setText("Datos de la clase");
+        panelControles.setOpaque(false);
 
-        jLDisciplina.setText("Disciplina");
+        jLDatosDeLaClase.setBackground(new java.awt.Color(51, 51, 51));
+        jLDatosDeLaClase.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jLDatosDeLaClase.setForeground(new java.awt.Color(245, 249, 250));
+        jLDatosDeLaClase.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLDatosDeLaClase.setText("DATOS DE LA CLASE");
+        jLDatosDeLaClase.setOpaque(true);
+
+        jLDisciplina.setBackground(new java.awt.Color(51, 51, 51));
+        jLDisciplina.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jLDisciplina.setForeground(new java.awt.Color(245, 249, 250));
+        jLDisciplina.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLDisciplina.setText("DISCIPLINA");
+        jLDisciplina.setOpaque(true);
 
         jCBDisciplina.addActionListener(this::jCBDisciplinaActionPerformed);
 
-        jLEntrenador.setText("Entrenador");
+        jLEntrenador.setBackground(new java.awt.Color(51, 51, 51));
+        jLEntrenador.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jLEntrenador.setForeground(new java.awt.Color(245, 249, 250));
+        jLEntrenador.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLEntrenador.setText("ENTRENADOR");
+        jLEntrenador.setOpaque(true);
 
         jCBEntrenador.addActionListener(this::jCBEntrenadorActionPerformed);
 
-        jLHorario.setText("Horario");
+        jLHorario.setBackground(new java.awt.Color(51, 51, 51));
+        jLHorario.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jLHorario.setForeground(new java.awt.Color(245, 249, 250));
+        jLHorario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLHorario.setText("HORARIO");
+        jLHorario.setOpaque(true);
 
         jCBHorario.addActionListener(this::jCBHorarioActionPerformed);
 
-        jLCapacidad.setText("Capacidad");
+        jLCapacidad.setBackground(new java.awt.Color(51, 51, 51));
+        jLCapacidad.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jLCapacidad.setForeground(new java.awt.Color(245, 249, 250));
+        jLCapacidad.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLCapacidad.setText("CAPACIDAD");
+        jLCapacidad.setOpaque(true);
 
-        jLEstado.setText("Estado");
+        jLEstado.setBackground(new java.awt.Color(51, 51, 51));
+        jLEstado.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jLEstado.setForeground(new java.awt.Color(245, 249, 250));
+        jLEstado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLEstado.setText("ESTADO");
+        jLEstado.setOpaque(true);
 
-        jBGuardar.setBackground(new java.awt.Color(204, 204, 255));
-        jBGuardar.setForeground(new java.awt.Color(0, 0, 0));
-        jBGuardar.setText("Guardar");
+        jBGuardar.setBackground(new java.awt.Color(42, 105, 95));
+        jBGuardar.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jBGuardar.setForeground(new java.awt.Color(245, 249, 250));
+        jBGuardar.setText("GUARDAR");
+        jBGuardar.setContentAreaFilled(false);
+        jBGuardar.setOpaque(true);
 
-        jBModificar.setBackground(new java.awt.Color(204, 204, 255));
-        jBModificar.setForeground(new java.awt.Color(0, 0, 0));
-        jBModificar.setText("Modificar");
+        jBModificar.setBackground(new java.awt.Color(255, 189, 87));
+        jBModificar.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jBModificar.setForeground(new java.awt.Color(245, 249, 250));
+        jBModificar.setText("MODIFICAR");
+        jBModificar.setContentAreaFilled(false);
+        jBModificar.setOpaque(true);
 
-        jBBorrar.setBackground(new java.awt.Color(204, 204, 255));
-        jBBorrar.setForeground(new java.awt.Color(0, 0, 0));
-        jBBorrar.setText("Borrar");
+        jBBorrar.setBackground(new java.awt.Color(133, 49, 65));
+        jBBorrar.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jBBorrar.setForeground(new java.awt.Color(245, 249, 250));
+        jBBorrar.setText("BORRAR");
+        jBBorrar.setContentAreaFilled(false);
+        jBBorrar.setOpaque(true);
 
-        jBLimpiar.setBackground(new java.awt.Color(204, 204, 255));
-        jBLimpiar.setForeground(new java.awt.Color(0, 0, 0));
-        jBLimpiar.setText("Limpiar");
+        jBLimpiar.setBackground(new java.awt.Color(55, 169, 183));
+        jBLimpiar.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jBLimpiar.setForeground(new java.awt.Color(245, 249, 250));
+        jBLimpiar.setText("LIMPIAR");
+        jBLimpiar.setContentAreaFilled(false);
+        jBLimpiar.setOpaque(true);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -177,73 +224,102 @@ public class VistaClaseGym extends javax.swing.JInternalFrame {
         ));
         jSPClaseGym.setViewportView(jTable1);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jCBDisciplina, 0, 122, Short.MAX_VALUE)
-                        .addComponent(jLEntrenador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLDisciplina, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jCBEntrenador, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLHorario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jCBHorario, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLCapacidad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jCBCapacidad, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jCBEstado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jBLimpiar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jBBorrar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jBGuardar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jBModificar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(50, 50, 50)
-                .addComponent(jSPClaseGym, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(317, Short.MAX_VALUE)
-                .addComponent(jLDatosDeLaClase, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(109, 109, 109))
+        javax.swing.GroupLayout panelControlesLayout = new javax.swing.GroupLayout(panelControles);
+        panelControles.setLayout(panelControlesLayout);
+        panelControlesLayout.setHorizontalGroup(
+            panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelControlesLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jCBDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLEntrenador, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jCBEntrenador, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jCBHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLCapacidad, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jCBCapacidad, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jCBEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(panelControlesLayout.createSequentialGroup()
+                            .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jBGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jBLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(6)
+                            .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jBModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jBBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGap(12)
+                    .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLDatosDeLaClase, 0, 465, Short.MAX_VALUE)
+                        .addComponent(jSPClaseGym, 0, 465, Short.MAX_VALUE))
+                    .addContainerGap())
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jLDatosDeLaClase)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLDisciplina)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jCBDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLEntrenador)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jCBEntrenador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLHorario)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCBHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLCapacidad)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCBCapacidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLEstado)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCBEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jBGuardar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jBModificar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jBBorrar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jBLimpiar))
-                    .addComponent(jSPClaseGym, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 6, Short.MAX_VALUE))
+        panelControlesLayout.setVerticalGroup(
+            panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelControlesLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(panelControlesLayout.createSequentialGroup()
+                            .addComponent(jLDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(6)
+                            .addComponent(jCBDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(6)
+                            .addComponent(jLEntrenador, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(6)
+                            .addComponent(jCBEntrenador, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(6)
+                            .addComponent(jLHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(6)
+                            .addComponent(jCBHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(6)
+                            .addComponent(jLCapacidad, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(6)
+                            .addComponent(jCBCapacidad, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(6)
+                            .addComponent(jLEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(6)
+                            .addComponent(jCBEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(6)
+                            .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jBGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jBModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(12)
+                            .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jBLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jBBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(panelControlesLayout.createSequentialGroup()
+                            .addComponent(jLDatosDeLaClase, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(6)
+                            .addComponent(jSPClaseGym, 0, 0, Short.MAX_VALUE)))
+                    .addContainerGap())
+        );
+        lblFondo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/fondos/clasegym.jpg"))); // NOI18N
+        panelCapas.setLayer(panelControles, javax.swing.JLayeredPane.PALETTE_LAYER);
+        panelCapas.setLayer(lblFondo, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        javax.swing.GroupLayout panelCapasLayout = new javax.swing.GroupLayout(panelCapas);
+        panelCapas.setLayout(panelCapasLayout);
+        panelCapasLayout.setHorizontalGroup(
+            panelCapasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panelControles, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblFondo, 0, 0, Short.MAX_VALUE)
+        );
+        panelCapasLayout.setVerticalGroup(
+            panelCapasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panelControles, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblFondo, 0, 0, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout ventanaLayout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(ventanaLayout);
+        ventanaLayout.setHorizontalGroup(
+            ventanaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panelCapas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        ventanaLayout.setVerticalGroup(
+            ventanaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panelCapas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -308,6 +384,9 @@ public class VistaClaseGym extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel lblFondo;
+    private javax.swing.JLayeredPane panelCapas;
+    private javax.swing.JPanel panelControles;
     private javax.swing.JButton jBBorrar;
     private javax.swing.JButton jBGuardar;
     private javax.swing.JButton jBLimpiar;

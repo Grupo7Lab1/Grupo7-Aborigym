@@ -105,6 +105,9 @@ public class VistaAsistencia extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        panelCapas = new javax.swing.JLayeredPane();
+        panelControles = new javax.swing.JPanel();
+        lblFondo = new javax.swing.JLabel();
         jLRegistrodeAsistencia = new javax.swing.JLabel();
         jLSocios = new javax.swing.JLabel();
         jLClase = new javax.swing.JLabel();
@@ -125,38 +128,72 @@ public class VistaAsistencia extends javax.swing.JInternalFrame {
         JLEntradasDisponibles = new javax.swing.JLabel();
         jTEntradasDisponibles = new javax.swing.JTextField();
 
-        setTitle("Gestion de Asistencia");
+        setTitle("Gestión de Asistencia");
 
-        jLRegistrodeAsistencia.setText("Registro de  asistencia");
+        panelControles.setOpaque(false);
 
-        jLSocios.setText("Socios");
+        jLRegistrodeAsistencia.setBackground(new java.awt.Color(51, 51, 51));
+        jLRegistrodeAsistencia.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jLRegistrodeAsistencia.setForeground(new java.awt.Color(245, 249, 250));
+        jLRegistrodeAsistencia.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLRegistrodeAsistencia.setText("REGISTRO DE ASISTENCIA");
+        jLRegistrodeAsistencia.setOpaque(true);
 
-        jLClase.setText("Clase");
+        jLSocios.setBackground(new java.awt.Color(51, 51, 51));
+        jLSocios.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jLSocios.setForeground(new java.awt.Color(245, 249, 250));
+        jLSocios.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLSocios.setText("SOCIO");
+        jLSocios.setOpaque(true);
+
+        jLClase.setBackground(new java.awt.Color(51, 51, 51));
+        jLClase.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jLClase.setForeground(new java.awt.Color(245, 249, 250));
+        jLClase.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLClase.setText("CLASE");
+        jLClase.setOpaque(true);
 
         jCBClase.addActionListener(this::jCBClaseActionPerformed);
 
-        jLabel1.setText("Fecha de Asistencia");
+        jLabel1.setBackground(new java.awt.Color(51, 51, 51));
+        jLabel1.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(245, 249, 250));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("FECHA DE ASISTENCIA");
+        jLabel1.setOpaque(true);
 
         jCBSocios.addActionListener(this::jCBSociosActionPerformed);
 
-        jBRegistrar.setBackground(new java.awt.Color(204, 204, 255));
-        jBRegistrar.setForeground(new java.awt.Color(0, 0, 0));
-        jBRegistrar.setText("Registrar");
+        jBRegistrar.setBackground(new java.awt.Color(42, 105, 95));
+        jBRegistrar.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jBRegistrar.setForeground(new java.awt.Color(245, 249, 250));
+        jBRegistrar.setText("REGISTRAR");
+        jBRegistrar.setContentAreaFilled(false);
+        jBRegistrar.setOpaque(true);
         jBRegistrar.addActionListener(this::jBRegistrarActionPerformed);
 
-        jBModificar.setBackground(new java.awt.Color(204, 204, 255));
-        jBModificar.setForeground(new java.awt.Color(0, 0, 0));
-        jBModificar.setText("Modificar");
+        jBModificar.setBackground(new java.awt.Color(255, 189, 87));
+        jBModificar.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jBModificar.setForeground(new java.awt.Color(245, 249, 250));
+        jBModificar.setText("MODIFICAR");
+        jBModificar.setContentAreaFilled(false);
+        jBModificar.setOpaque(true);
         jBModificar.addActionListener(this::jBModificarActionPerformed);
 
-        jBBorrar.setBackground(new java.awt.Color(204, 204, 255));
-        jBBorrar.setForeground(new java.awt.Color(0, 0, 0));
-        jBBorrar.setText("Borrar");
+        jBBorrar.setBackground(new java.awt.Color(133, 49, 65));
+        jBBorrar.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jBBorrar.setForeground(new java.awt.Color(245, 249, 250));
+        jBBorrar.setText("BORRAR");
+        jBBorrar.setContentAreaFilled(false);
+        jBBorrar.setOpaque(true);
         jBBorrar.addActionListener(this::jBBorrarActionPerformed);
 
-        jBLimpiar.setBackground(new java.awt.Color(204, 204, 255));
-        jBLimpiar.setForeground(new java.awt.Color(0, 0, 0));
-        jBLimpiar.setText("Limpiar");
+        jBLimpiar.setBackground(new java.awt.Color(55, 169, 183));
+        jBLimpiar.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jBLimpiar.setForeground(new java.awt.Color(245, 249, 250));
+        jBLimpiar.setText("LIMPIAR");
+        jBLimpiar.setContentAreaFilled(false);
+        jBLimpiar.setOpaque(true);
         jBLimpiar.addActionListener(this::jBLimpiarActionPerformed);
 
         jTAsistencia.setModel(new javax.swing.table.DefaultTableModel(
@@ -172,10 +209,16 @@ public class VistaAsistencia extends javax.swing.JInternalFrame {
         ));
         jSPAsistencia.setViewportView(jTAsistencia);
 
-        jLPase.setText("Pase");
+        jLPase.setBackground(new java.awt.Color(51, 51, 51));
+        jLPase.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jLPase.setForeground(new java.awt.Color(245, 249, 250));
+        jLPase.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLPase.setText("PASE");
+        jLPase.setOpaque(true);
 
         jCBPases.addActionListener(this::jCBPasesActionPerformed);
 
+<<<<<<< Updated upstream
         jLId.setText("id:");
 
         jTIdSocio.addActionListener(this::jTIdSocioActionPerformed);
@@ -257,6 +300,98 @@ public class VistaAsistencia extends javax.swing.JInternalFrame {
                         .addComponent(jBLimpiar))
                     .addComponent(jSPAsistencia, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(24, 24, 24))
+=======
+        javax.swing.GroupLayout panelControlesLayout = new javax.swing.GroupLayout(panelControles);
+        panelControles.setLayout(panelControlesLayout);
+        panelControlesLayout.setHorizontalGroup(
+            panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelControlesLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLSocios, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jCBSocios, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLPase, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jCBPases, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLClase, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jCBClase, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jDCFechaDeAsistencia, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(panelControlesLayout.createSequentialGroup()
+                            .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jBRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jBLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(6)
+                            .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jBModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jBBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGap(12)
+                    .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLRegistrodeAsistencia, 0, 465, Short.MAX_VALUE)
+                        .addComponent(jSPAsistencia, 0, 465, Short.MAX_VALUE))
+                    .addContainerGap())
+        );
+        panelControlesLayout.setVerticalGroup(
+            panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelControlesLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(panelControlesLayout.createSequentialGroup()
+                            .addComponent(jLSocios, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(6)
+                            .addComponent(jCBSocios, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(6)
+                            .addComponent(jLPase, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(6)
+                            .addComponent(jCBPases, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(6)
+                            .addComponent(jLClase, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(6)
+                            .addComponent(jCBClase, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(6)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(6)
+                            .addComponent(jDCFechaDeAsistencia, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(6)
+                            .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jBRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jBModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(12)
+                            .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jBLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jBBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(panelControlesLayout.createSequentialGroup()
+                            .addComponent(jLRegistrodeAsistencia, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(6)
+                            .addComponent(jSPAsistencia, 0, 0, Short.MAX_VALUE)))
+                    .addContainerGap())
+        );
+        lblFondo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/fondos/asistencia.jpg"))); // NOI18N
+        panelCapas.setLayer(panelControles, javax.swing.JLayeredPane.PALETTE_LAYER);
+        panelCapas.setLayer(lblFondo, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        javax.swing.GroupLayout panelCapasLayout = new javax.swing.GroupLayout(panelCapas);
+        panelCapas.setLayout(panelCapasLayout);
+        panelCapasLayout.setHorizontalGroup(
+            panelCapasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panelControles, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblFondo, 0, 0, Short.MAX_VALUE)
+        );
+        panelCapasLayout.setVerticalGroup(
+            panelCapasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panelControles, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblFondo, 0, 0, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout ventanaLayout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(ventanaLayout);
+        ventanaLayout.setHorizontalGroup(
+            ventanaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panelCapas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        ventanaLayout.setVerticalGroup(
+            ventanaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panelCapas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+>>>>>>> Stashed changes
         );
 
         pack();
@@ -585,7 +720,13 @@ public class VistaAsistencia extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+<<<<<<< Updated upstream
     private javax.swing.JLabel JLEntradasDisponibles;
+=======
+    private javax.swing.JLabel lblFondo;
+    private javax.swing.JLayeredPane panelCapas;
+    private javax.swing.JPanel panelControles;
+>>>>>>> Stashed changes
     private javax.swing.JButton jBBorrar;
     private javax.swing.JButton jBLimpiar;
     private javax.swing.JButton jBModificar;
@@ -593,12 +734,12 @@ public class VistaAsistencia extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> jCBClase;
     private javax.swing.JComboBox<String> jCBPases;
     private javax.swing.JComboBox<String> jCBSocios;
-    private com.toedter.calendar.JDateChooser jDCFechaDeAsistencia;
     private javax.swing.JLabel jLClase;
     private javax.swing.JLabel jLId;
     private javax.swing.JLabel jLPase;
     private javax.swing.JLabel jLRegistrodeAsistencia;
     private javax.swing.JLabel jLSocios;
+    private com.toedter.calendar.JDateChooser jDCFechaDeAsistencia;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jSPAsistencia;
     private javax.swing.JTable jTAsistencia;

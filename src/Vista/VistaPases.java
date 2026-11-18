@@ -30,6 +30,7 @@ public class VistaPases extends javax.swing.JInternalFrame {
     public VistaPases() {
         initComponents();
         Iconos.aplicar(this);
+        pack();
         configurarVentana();
         configurarTabla();
         cargarSocios();
@@ -48,6 +49,8 @@ public class VistaPases extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        panelCapas = new javax.swing.JLayeredPane();
+        panelControles = new javax.swing.JPanel();
         jLSocio = new javax.swing.JLabel();
         jCBSocio = new javax.swing.JComboBox<>();
         jLTipoDePase = new javax.swing.JLabel();
@@ -60,47 +63,79 @@ public class VistaPases extends javax.swing.JInternalFrame {
         jCBEstado = new javax.swing.JComboBox<>();
         jBAgregar = new javax.swing.JButton();
         jBModificar = new javax.swing.JButton();
-        jBEliminar = new javax.swing.JButton();
         jBLimpiar = new javax.swing.JButton();
         jSPPases = new javax.swing.JScrollPane();
         jTPases = new javax.swing.JTable();
+        jBEliminar = new javax.swing.JButton();
+        lblFondo = new javax.swing.JLabel();
 
         setTitle("Vista Pases");
 
-        jLSocio.setText("Socio");
+        panelControles.setOpaque(false);
+
+        jLSocio.setBackground(new java.awt.Color(51, 51, 51));
+        jLSocio.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jLSocio.setForeground(new java.awt.Color(245, 249, 250));
+        jLSocio.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLSocio.setText("SOCIO");
+        jLSocio.setOpaque(true);
 
         jCBSocio.addActionListener(this::jCBSocioActionPerformed);
 
-        jLTipoDePase.setText("Tipo de Pase");
+        jLTipoDePase.setBackground(new java.awt.Color(51, 51, 51));
+        jLTipoDePase.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jLTipoDePase.setForeground(new java.awt.Color(245, 249, 250));
+        jLTipoDePase.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLTipoDePase.setText("TIPO DE PASE");
+        jLTipoDePase.setOpaque(true);
 
         jCBTipoDePase.addActionListener(this::jCBTipoDePaseActionPerformed);
 
-        jLFechaDeInicio.setText("Fecha de Inicio");
+        jLFechaDeInicio.setBackground(new java.awt.Color(51, 51, 51));
+        jLFechaDeInicio.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jLFechaDeInicio.setForeground(new java.awt.Color(245, 249, 250));
+        jLFechaDeInicio.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLFechaDeInicio.setText("FECHA DE INICIO");
+        jLFechaDeInicio.setOpaque(true);
 
-        jLFechaDeFinalizacion.setText("Fecha de Finalizacion");
+        jLFechaDeFinalizacion.setBackground(new java.awt.Color(51, 51, 51));
+        jLFechaDeFinalizacion.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jLFechaDeFinalizacion.setForeground(new java.awt.Color(245, 249, 250));
+        jLFechaDeFinalizacion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLFechaDeFinalizacion.setText("FECHA DE FINALIZACION");
+        jLFechaDeFinalizacion.setOpaque(true);
 
-        jLEstado.setText("Estado");
+        jLEstado.setBackground(new java.awt.Color(51, 51, 51));
+        jLEstado.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jLEstado.setForeground(new java.awt.Color(245, 249, 250));
+        jLEstado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLEstado.setText("ESTADO");
+        jLEstado.setOpaque(true);
 
         jCBEstado.addActionListener(this::jCBEstadoActionPerformed);
 
-        jBAgregar.setBackground(new java.awt.Color(204, 204, 255));
-        jBAgregar.setForeground(new java.awt.Color(0, 0, 0));
-        jBAgregar.setText("Agregar");
+        jBAgregar.setBackground(new java.awt.Color(42, 105, 95));
+        jBAgregar.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jBAgregar.setForeground(new java.awt.Color(245, 249, 250));
+        jBAgregar.setText("AGREGAR");
+        jBAgregar.setContentAreaFilled(false);
+        jBAgregar.setOpaque(true);
         jBAgregar.addActionListener(this::jBAgregarActionPerformed);
 
-        jBModificar.setBackground(new java.awt.Color(204, 204, 255));
-        jBModificar.setForeground(new java.awt.Color(0, 0, 0));
-        jBModificar.setText("Modificar");
+        jBModificar.setBackground(new java.awt.Color(255, 189, 87));
+        jBModificar.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jBModificar.setForeground(new java.awt.Color(245, 249, 250));
+        jBModificar.setText("MODIFICAR");
+        jBModificar.setContentAreaFilled(false);
+        jBModificar.setOpaque(true);
         jBModificar.addActionListener(this::jBModificarActionPerformed);
 
-        jBEliminar.setBackground(new java.awt.Color(204, 204, 255));
-        jBEliminar.setForeground(new java.awt.Color(0, 0, 0));
-        jBEliminar.setText("Eliminar");
-        jBEliminar.addActionListener(this::jBEliminarActionPerformed);
-
-        jBLimpiar.setBackground(new java.awt.Color(204, 204, 255));
-        jBLimpiar.setForeground(new java.awt.Color(0, 0, 0));
-        jBLimpiar.setText("Limpiar");
+        jBLimpiar.setBackground(new java.awt.Color(55, 169, 183));
+        jBLimpiar.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jBLimpiar.setForeground(new java.awt.Color(245, 249, 250));
+        jBLimpiar.setText("LIMPIAR");
+        jBLimpiar.setContentAreaFilled(false);
+        jBLimpiar.setOpaque(true);
         jBLimpiar.addActionListener(this::jBLimpiarActionPerformed);
 
         jTPases.setModel(new javax.swing.table.DefaultTableModel(
@@ -116,12 +151,21 @@ public class VistaPases extends javax.swing.JInternalFrame {
         ));
         jSPPases.setViewportView(jTPases);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+        jBEliminar.setBackground(new java.awt.Color(133, 49, 65));
+        jBEliminar.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jBEliminar.setForeground(new java.awt.Color(245, 249, 250));
+        jBEliminar.setText("ELIMINAR");
+        jBEliminar.setContentAreaFilled(false);
+        jBEliminar.setOpaque(true);
+        jBEliminar.addActionListener(this::jBEliminarActionPerformed);
+
+        javax.swing.GroupLayout panelControlesLayout = new javax.swing.GroupLayout(panelControles);
+        panelControles.setLayout(panelControlesLayout);
+        panelControlesLayout.setHorizontalGroup(
+            panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelControlesLayout.createSequentialGroup()
                 .addContainerGap()
+<<<<<<< Updated upstream
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jLSocio, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -146,15 +190,40 @@ public class VistaPases extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jSPPases, javax.swing.GroupLayout.PREFERRED_SIZE, 542, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+=======
+                .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jCBSocio, 0, 194, 194)
+                    .addComponent(jLTipoDePase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jCBTipoDePase, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLFechaDeInicio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jDCFechaDeInicio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLFechaDeFinalizacion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jDCFechaDeFinalizacion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jCBEstado, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(panelControlesLayout.createSequentialGroup()
+                        .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jBLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jBAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jBModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jBEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jLEstado, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLSocio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSPPases, javax.swing.GroupLayout.DEFAULT_SIZE, 472, Short.MAX_VALUE)
+                .addGap(4, 4, 4))
+>>>>>>> Stashed changes
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+        panelControlesLayout.setVerticalGroup(
+            panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelControlesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLSocio)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jSPPases, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(panelControlesLayout.createSequentialGroup()
+                        .addComponent(jLSocio)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jCBSocio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLTipoDePase)
@@ -162,26 +231,59 @@ public class VistaPases extends javax.swing.JInternalFrame {
                         .addComponent(jCBTipoDePase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLFechaDeInicio)
-                        .addGap(12, 12, 12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jDCFechaDeInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLFechaDeFinalizacion)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jDCFechaDeFinalizacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLEstado)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCBEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jBAgregar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jBAgregar)
+                            .addComponent(jBModificar))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jBEliminar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jBModificar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jBLimpiar))
-                    .addComponent(jSPPases, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jBLimpiar)
+                            .addComponent(jBEliminar))))
+                .addGap(16, 16, 16))
+        );
+
+        lblFondo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/fondos/pases.jpg"))); // NOI18N
+
+        panelCapas.setLayer(panelControles, javax.swing.JLayeredPane.PALETTE_LAYER);
+        panelCapas.setLayer(lblFondo, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        javax.swing.GroupLayout panelCapasLayout = new javax.swing.GroupLayout(panelCapas);
+        panelCapas.setLayout(panelCapasLayout);
+        panelCapasLayout.setHorizontalGroup(
+            panelCapasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panelControles, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblFondo, 0, 0, Short.MAX_VALUE)
+        );
+        panelCapasLayout.setVerticalGroup(
+            panelCapasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblFondo, 0, 0, Short.MAX_VALUE)
+            .addGroup(panelCapasLayout.createSequentialGroup()
+                .addComponent(panelControles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panelCapas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(panelCapas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(1, 1, 1))
         );
 
         pack();
@@ -625,5 +727,8 @@ public class VistaPases extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLTipoDePase;
     private javax.swing.JScrollPane jSPPases;
     private javax.swing.JTable jTPases;
+    private javax.swing.JLabel lblFondo;
+    private javax.swing.JLayeredPane panelCapas;
+    private javax.swing.JPanel panelControles;
     // End of variables declaration//GEN-END:variables
 }

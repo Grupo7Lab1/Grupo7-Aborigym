@@ -57,14 +57,13 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
-        ImageIcon fondo =  new ImageIcon(getClass().getResource("/Recursos/aborigym_WallPaper.png"));
-        Image fondoPrincipal = fondo.getImage();
+        ImageIcon fondo = new ImageIcon(getClass().getResource("/Recursos/fondos/socio.jpg"));
+        Image miImagen = fondo.getImage();
         jDesktopPanel = new javax.swing.JDesktopPane(){
 
-            public void paintComponent (Graphics g ){
+            public void paintComponent(Graphics g){
 
-                g.drawImage(fondoPrincipal, 0, 0, getWidth(),getHeight(),this);
-
+                g.drawImage(miImagen,0,0,getWidth(),getHeight(),this);
             }
 
         };
@@ -103,7 +102,6 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
         setIconImage(new javax.swing.ImageIcon(
             getClass().getResource("/Recursos/aborigym_icono.png")
         ).getImage());
-        setPreferredSize(new java.awt.Dimension(600, 300));
 
         javax.swing.GroupLayout jDesktopPanelLayout = new javax.swing.GroupLayout(jDesktopPanel);
         jDesktopPanel.setLayout(jDesktopPanelLayout);
@@ -115,6 +113,9 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
             jDesktopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 433, Short.MAX_VALUE)
         );
+
+        jMBPrincipal.setBackground(new java.awt.Color(153, 153, 255));
+        jMBPrincipal.setForeground(new java.awt.Color(153, 153, 255));
 
         jMSocio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/partner.png"))); // NOI18N
         jMSocio.addActionListener(this::jMSocioActionPerformed);

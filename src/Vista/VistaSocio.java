@@ -25,6 +25,7 @@ public class VistaSocio extends javax.swing.JInternalFrame {
     public VistaSocio() {
         initComponents();
         Iconos.aplicar(this);
+        pack();
         configurarTabla();
         listarSocios();
         setClosable(true);
@@ -39,6 +40,8 @@ public class VistaSocio extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        panelCapas = new javax.swing.JLayeredPane();
+        panelControles = new javax.swing.JPanel();
         jLDNI = new javax.swing.JLabel();
         jTDNI = new javax.swing.JTextField();
         jLNombreyApellido = new javax.swing.JLabel();
@@ -53,33 +56,72 @@ public class VistaSocio extends javax.swing.JInternalFrame {
         jLListado = new javax.swing.JLabel();
         jSPListado = new javax.swing.JScrollPane();
         jTListado = new javax.swing.JTable();
+        lblFondo = new javax.swing.JLabel();
 
+        setBackground(new java.awt.Color(153, 153, 255));
+        setClosable(true);
         setTitle("Socio");
 
+        panelControles.setOpaque(false);
+
+        jLDNI.setBackground(new java.awt.Color(51, 51, 51));
+        jLDNI.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jLDNI.setForeground(new java.awt.Color(245, 249, 250));
+        jLDNI.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLDNI.setText("DNI");
+        jLDNI.setOpaque(true);
 
-        jLNombreyApellido.setText("Nombre y Apellido");
+        jLNombreyApellido.setBackground(new java.awt.Color(51, 51, 51));
+        jLNombreyApellido.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jLNombreyApellido.setForeground(new java.awt.Color(245, 249, 250));
+        jLNombreyApellido.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLNombreyApellido.setText("NOMBRE / APELLIDO");
+        jLNombreyApellido.setOpaque(true);
 
-        jLTelefono.setText("Telefono");
+        jLTelefono.setBackground(new java.awt.Color(51, 51, 51));
+        jLTelefono.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jLTelefono.setForeground(new java.awt.Color(245, 249, 250));
+        jLTelefono.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLTelefono.setText("TELEFONO");
+        jLTelefono.setOpaque(true);
 
-        jLabel1.setText("E-Mail");
+        jLabel1.setBackground(new java.awt.Color(51, 51, 51));
+        jLabel1.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(245, 249, 250));
+        jLabel1.setText("E-MAIL");
+        jLabel1.setOpaque(true);
 
-        jBGuardar.setBackground(new java.awt.Color(204, 204, 255));
-        jBGuardar.setForeground(new java.awt.Color(0, 0, 0));
+        jBGuardar.setBackground(new java.awt.Color(42, 105, 95));
+        jBGuardar.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jBGuardar.setForeground(new java.awt.Color(255, 255, 255));
         jBGuardar.setText("Guardar");
+        jBGuardar.setContentAreaFilled(false);
+        jBGuardar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jBGuardar.setOpaque(true);
         jBGuardar.addActionListener(this::jBGuardarActionPerformed);
 
-        jBNuevo.setBackground(new java.awt.Color(204, 204, 255));
-        jBNuevo.setForeground(new java.awt.Color(0, 0, 0));
+        jBNuevo.setBackground(new java.awt.Color(55, 70, 83));
+        jBNuevo.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jBNuevo.setForeground(new java.awt.Color(245, 249, 250));
         jBNuevo.setText("Nuevo");
+        jBNuevo.setContentAreaFilled(false);
+        jBNuevo.setOpaque(true);
         jBNuevo.addActionListener(this::jBNuevoActionPerformed);
 
-        jBEliminar.setBackground(new java.awt.Color(204, 204, 255));
-        jBEliminar.setForeground(new java.awt.Color(0, 0, 0));
+        jBEliminar.setBackground(new java.awt.Color(133, 49, 65));
+        jBEliminar.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jBEliminar.setForeground(new java.awt.Color(245, 249, 250));
         jBEliminar.setText("Eliminar");
+        jBEliminar.setContentAreaFilled(false);
+        jBEliminar.setOpaque(true);
         jBEliminar.addActionListener(this::jBEliminarActionPerformed);
 
-        jLListado.setText("Listado");
+        jLListado.setBackground(new java.awt.Color(51, 51, 51));
+        jLListado.setFont(new java.awt.Font("Dubai", 1, 18)); // NOI18N
+        jLListado.setForeground(new java.awt.Color(245, 249, 250));
+        jLListado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLListado.setText("LISTADO");
+        jLListado.setOpaque(true);
 
         jTListado.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -94,71 +136,98 @@ public class VistaSocio extends javax.swing.JInternalFrame {
         ));
         jSPListado.setViewportView(jTListado);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(64, 64, 64)
-                .addComponent(jBEliminar)
-                .addGap(17, 636, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
+        javax.swing.GroupLayout panelControlesLayout = new javax.swing.GroupLayout(panelControles);
+        panelControles.setLayout(panelControlesLayout);
+        panelControlesLayout.setHorizontalGroup(
+            panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelControlesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLNombreyApellido)
-                    .addComponent(jLTelefono, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTEmail)
-                    .addComponent(jTTelefono)
-                    .addComponent(jTNombreyApellido)
-                    .addComponent(jTDNI)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jBGuardar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
-                        .addComponent(jBNuevo)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSPListado, javax.swing.GroupLayout.DEFAULT_SIZE, 575, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLNombreyApellido)
+                        .addComponent(jTEmail)
+                        .addComponent(jTTelefono)
+                        .addComponent(jTNombreyApellido)
+                        .addGroup(panelControlesLayout.createSequentialGroup()
+                            .addComponent(jBGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(66, 66, 66)
+                            .addComponent(jBNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLTelefono)
+                        .addComponent(jLabel1))
+                    .addComponent(jTDNI, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelControlesLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLListado, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(207, 207, 207))))
+                        .addGap(222, 222, 222))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelControlesLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSPListado, javax.swing.GroupLayout.DEFAULT_SIZE, 516, Short.MAX_VALUE)
+                        .addGap(15, 15, 15))))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLDNI))
+        panelControlesLayout.setVerticalGroup(
+            panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelControlesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLDNI)
                     .addComponent(jLListado))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelControlesLayout.createSequentialGroup()
                         .addComponent(jTDNI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLNombreyApellido)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLNombreyApellido)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jTNombreyApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLTelefono)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                        .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jBGuardar)
                             .addComponent(jBNuevo))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(14, 14, 14)
                         .addComponent(jBEliminar))
                     .addComponent(jSPListado, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
+        );
+
+        lblFondo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/fondos/socio.jpg"))); // NOI18N
+
+        panelCapas.setLayer(panelControles, javax.swing.JLayeredPane.PALETTE_LAYER);
+        panelCapas.setLayer(lblFondo, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        javax.swing.GroupLayout panelCapasLayout = new javax.swing.GroupLayout(panelCapas);
+        panelCapas.setLayout(panelCapasLayout);
+        panelCapasLayout.setHorizontalGroup(
+            panelCapasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panelControles, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblFondo, 0, 0, Short.MAX_VALUE)
+        );
+        panelCapasLayout.setVerticalGroup(
+            panelCapasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panelControles, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblFondo, 0, 0, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panelCapas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panelCapas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -428,5 +497,8 @@ public class VistaSocio extends javax.swing.JInternalFrame {
     private javax.swing.JTable jTListado;
     private javax.swing.JTextField jTNombreyApellido;
     private javax.swing.JTextField jTTelefono;
+    private javax.swing.JLabel lblFondo;
+    private javax.swing.JLayeredPane panelCapas;
+    private javax.swing.JPanel panelControles;
     // End of variables declaration//GEN-END:variables
 }

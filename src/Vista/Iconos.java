@@ -12,7 +12,7 @@ import javax.swing.JInternalFrame;
  * @author Nestor Marchizone
  */
 public class Iconos {
-       private static final String RUTA = "/imagenes/aborigym_icono.png";
+       private static final String RUTA = "/Recursos/aborigym_icono.png";
     private static final int TAMANIO = 20;
 
     private static ImageIcon icono;

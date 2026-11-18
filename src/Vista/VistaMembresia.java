@@ -22,6 +22,7 @@ public class VistaMembresia extends javax.swing.JInternalFrame {
     public VistaMembresia() {
         initComponents();
         Iconos.aplicar(this);
+        pack();
         configurarTabla();
         initEventos();
         cargarMembresias();
@@ -75,6 +76,8 @@ public class VistaMembresia extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        panelCapas = new javax.swing.JLayeredPane();
+        panelControles = new javax.swing.JPanel();
         jLTipoDeMembresia = new javax.swing.JLabel();
         jTTipoDeMembresia = new javax.swing.JTextField();
         jLPrecio = new javax.swing.JLabel();
@@ -89,28 +92,55 @@ public class VistaMembresia extends javax.swing.JInternalFrame {
         jBModificar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jTCantidadDeClases = new javax.swing.JTextField();
+        lblFondo = new javax.swing.JLabel();
 
-        setTitle("Membresia");
+        setTitle("Membresía");
 
-        jLTipoDeMembresia.setText("Tipo de Membresia");
+        panelControles.setOpaque(false);
 
-        jLPrecio.setText("Precio");
+        jLTipoDeMembresia.setBackground(new java.awt.Color(51, 51, 51));
+        jLTipoDeMembresia.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jLTipoDeMembresia.setForeground(new java.awt.Color(245, 249, 250));
+        jLTipoDeMembresia.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLTipoDeMembresia.setText("TIPO DE MEMBRESÍA");
+        jLTipoDeMembresia.setOpaque(true);
 
-        jLDuracion.setText("Duracion  (Dias)");
+        jLPrecio.setBackground(new java.awt.Color(51, 51, 51));
+        jLPrecio.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jLPrecio.setForeground(new java.awt.Color(245, 249, 250));
+        jLPrecio.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLPrecio.setText("PRECIO");
+        jLPrecio.setOpaque(true);
 
-        jBGuardar.setBackground(new java.awt.Color(204, 204, 255));
-        jBGuardar.setForeground(new java.awt.Color(0, 0, 0));
-        jBGuardar.setText("Guardar");
+        jLDuracion.setBackground(new java.awt.Color(51, 51, 51));
+        jLDuracion.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jLDuracion.setForeground(new java.awt.Color(245, 249, 250));
+        jLDuracion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLDuracion.setText("DURACIÓN (DÍAS)");
+        jLDuracion.setOpaque(true);
+
+        jBGuardar.setBackground(new java.awt.Color(42, 105, 95));
+        jBGuardar.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jBGuardar.setForeground(new java.awt.Color(245, 249, 250));
+        jBGuardar.setText("GUARDAR");
+        jBGuardar.setContentAreaFilled(false);
+        jBGuardar.setOpaque(true);
         jBGuardar.addActionListener(this::jBGuardarActionPerformed);
 
-        jBNueva.setBackground(new java.awt.Color(204, 204, 255));
-        jBNueva.setForeground(new java.awt.Color(0, 0, 0));
-        jBNueva.setText("Nueva");
+        jBNueva.setBackground(new java.awt.Color(55, 169, 183));
+        jBNueva.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jBNueva.setForeground(new java.awt.Color(245, 249, 250));
+        jBNueva.setText("NUEVA");
+        jBNueva.setContentAreaFilled(false);
+        jBNueva.setOpaque(true);
         jBNueva.addActionListener(this::jBNuevaActionPerformed);
 
-        jBEliminar.setBackground(new java.awt.Color(204, 204, 255));
-        jBEliminar.setForeground(new java.awt.Color(0, 0, 0));
-        jBEliminar.setText("Eliminar");
+        jBEliminar.setBackground(new java.awt.Color(133, 49, 65));
+        jBEliminar.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jBEliminar.setForeground(new java.awt.Color(245, 249, 250));
+        jBEliminar.setText("ELIMINAR");
+        jBEliminar.setContentAreaFilled(false);
+        jBEliminar.setOpaque(true);
         jBEliminar.addActionListener(this::jBEliminarActionPerformed);
 
         jTMembresia.setModel(new javax.swing.table.DefaultTableModel(
@@ -134,73 +164,111 @@ public class VistaMembresia extends javax.swing.JInternalFrame {
         });
         jSPMembresia.setViewportView(jTMembresia);
 
-        jBModificar.setBackground(new java.awt.Color(204, 204, 255));
-        jBModificar.setForeground(new java.awt.Color(0, 0, 0));
-        jBModificar.setText("Modificar");
+        jBModificar.setBackground(new java.awt.Color(255, 189, 87));
+        jBModificar.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jBModificar.setForeground(new java.awt.Color(245, 249, 250));
+        jBModificar.setText("MODIFICAR");
+        jBModificar.setContentAreaFilled(false);
+        jBModificar.setOpaque(true);
         jBModificar.addActionListener(this::jBModificarActionPerformed);
 
-        jLabel1.setText("Cantidad de Clases");
+        jLabel1.setBackground(new java.awt.Color(51, 51, 51));
+        jLabel1.setFont(new java.awt.Font("Dubai", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(245, 249, 250));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("CANTIDAD DE CLASES");
+        jLabel1.setOpaque(true);
 
         jTCantidadDeClases.addActionListener(this::jTCantidadDeClasesActionPerformed);
+
+        javax.swing.GroupLayout panelControlesLayout = new javax.swing.GroupLayout(panelControles);
+        panelControles.setLayout(panelControlesLayout);
+        panelControlesLayout.setHorizontalGroup(
+            panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelControlesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jTTipoDeMembresia, 0, 194, 194)
+                    .addComponent(jLPrecio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTPrecio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTCantidadDeClases, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLDuracion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTDuracion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(panelControlesLayout.createSequentialGroup()
+                        .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jBNueva, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jBGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jBModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jBEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jLTipoDeMembresia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSPMembresia, javax.swing.GroupLayout.DEFAULT_SIZE, 472, Short.MAX_VALUE)
+                .addGap(4, 4, 4))
+        );
+        panelControlesLayout.setVerticalGroup(
+            panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelControlesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jSPMembresia, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(panelControlesLayout.createSequentialGroup()
+                        .addComponent(jLTipoDeMembresia)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTTipoDeMembresia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLPrecio)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTCantidadDeClases, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLDuracion)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jBGuardar)
+                            .addComponent(jBModificar))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jBNueva)
+                            .addComponent(jBEliminar))))
+                .addGap(16, 16, 16))
+        );
+
+        lblFondo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/fondos/membresia.jpg"))); // NOI18N
+
+        panelCapas.setLayer(panelControles, javax.swing.JLayeredPane.PALETTE_LAYER);
+        panelCapas.setLayer(lblFondo, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        javax.swing.GroupLayout panelCapasLayout = new javax.swing.GroupLayout(panelCapas);
+        panelCapas.setLayout(panelCapasLayout);
+        panelCapasLayout.setHorizontalGroup(
+            panelCapasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panelControles, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblFondo, 0, 0, Short.MAX_VALUE)
+        );
+        panelCapasLayout.setVerticalGroup(
+            panelCapasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panelControles, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblFondo, 0, 0, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLTipoDeMembresia, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jBModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jBEliminar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jBNueva, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jBGuardar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTDuracion, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLDuracion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
-                            .addComponent(jTPrecio, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLPrecio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTTipoDeMembresia, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTCantidadDeClases))
-                        .addGap(18, 18, 18)
-                        .addComponent(jSPMembresia, javax.swing.GroupLayout.DEFAULT_SIZE, 511, Short.MAX_VALUE)))
-                .addContainerGap())
+            .addComponent(panelCapas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLTipoDeMembresia)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTTipoDeMembresia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLPrecio)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTCantidadDeClases, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLDuracion)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jBGuardar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jBNueva)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jBEliminar))
-                    .addComponent(jSPMembresia, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jBModificar)
-                .addContainerGap())
+            .addComponent(panelCapas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -458,5 +526,8 @@ public class VistaMembresia extends javax.swing.JInternalFrame {
     private javax.swing.JTable jTMembresia;
     private javax.swing.JTextField jTPrecio;
     private javax.swing.JTextField jTTipoDeMembresia;
+    private javax.swing.JLabel lblFondo;
+    private javax.swing.JLayeredPane panelCapas;
+    private javax.swing.JPanel panelControles;
     // End of variables declaration//GEN-END:variables
 }
