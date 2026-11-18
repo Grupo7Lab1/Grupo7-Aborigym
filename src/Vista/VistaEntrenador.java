@@ -19,6 +19,7 @@ public class VistaEntrenador extends javax.swing.JInternalFrame {
 
     public VistaEntrenador() {
         initComponents();
+        Iconos.aplicar(this);
         cargarTabla();
     }
 
@@ -491,24 +492,28 @@ public class VistaEntrenador extends javax.swing.JInternalFrame {
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
 
-        // VALIDAR CAMPOS
+        if (!jtID.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Ese entrenador ya existe. Usá MODIFICAR para guardar cambios o LIMPIAR para crear uno nuevo.");
+            return;
+        }
+
         if (!validarCampos()) {
             return;
         }
-        // VALIDAR DNI DUPLICADO
+
         if (entrenadorData.existeDni(jtDni.getText().trim())) {
             JOptionPane.showMessageDialog(this,
                     "Ya existe un entrenador registrado con ese DNI");
             return;
         }
+
         try {
-
             Entrenador entrenador = new Entrenador();
-
-            entrenador.setDni(jtDni.getText());
-            entrenador.setNombre(jtNombre.getText());
-            entrenador.setApellido(jtApellido.getText());
-            entrenador.setEspecialidad(jtEspecialidad.getText());
+            entrenador.setDni(jtDni.getText().trim());
+            entrenador.setNombre(jtNombre.getText().trim());
+            entrenador.setApellido(jtApellido.getText().trim());
+            entrenador.setEspecialidad(jtEspecialidad.getText().trim());
             entrenador.setEstado(true);
 
             if (entrenadorData.insertar(entrenador)) {
@@ -518,9 +523,8 @@ public class VistaEntrenador extends javax.swing.JInternalFrame {
             } else {
                 JOptionPane.showMessageDialog(this, "Error al guardar el entrenador");
             }
-
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Ocuurio un error.." + ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Ocurrió un error: " + ex.getMessage());
         }
 
 
@@ -548,20 +552,13 @@ public class VistaEntrenador extends javax.swing.JInternalFrame {
             return;
         }
 
-        if (jtDni.getText().trim().isEmpty()
-                || jtNombre.getText().trim().isEmpty()
-                || jtApellido.getText().trim().isEmpty()
-                || jtEspecialidad.getText().trim().isEmpty()) {
-
-            JOptionPane.showMessageDialog(this, "Complete todos los campos");
+        if (!validarCampos()) {
             return;
         }
-        //VALIDACION SI AL MODIFICAR YA EXITE DNI
-        int id = Integer.parseInt(jtID.getText());
 
-        if (entrenadorData.existeDniEnOtroEntrenador(
-                jtDni.getText().trim(), id)) {
+        int id = Integer.parseInt(jtID.getText().trim());
 
+        if (entrenadorData.existeDniEnOtroEntrenador(jtDni.getText().trim(), id)) {
             JOptionPane.showMessageDialog(this,
                     "Ese DNI ya pertenece a otro entrenador");
             jtDni.requestFocus();
@@ -569,29 +566,25 @@ public class VistaEntrenador extends javax.swing.JInternalFrame {
         }
 
         try {
-
+            Entrenador actual = entrenadorData.buscarPorId(id);
             Entrenador entrenador = new Entrenador();
-
-            entrenador.setIdEntrenador(Integer.parseInt(jtID.getText()));
-            entrenador.setDni(jtDni.getText());
-            entrenador.setNombre(jtNombre.getText());
-            entrenador.setApellido(jtApellido.getText());
-            entrenador.setEspecialidad(jtEspecialidad.getText());
+            entrenador.setIdEntrenador(id);
+            entrenador.setDni(jtDni.getText().trim());
+            entrenador.setNombre(jtNombre.getText().trim());
+            entrenador.setApellido(jtApellido.getText().trim());
+            entrenador.setEspecialidad(jtEspecialidad.getText().trim());
+            entrenador.setEstado(actual != null ? actual.isEstado() : true);
 
             if (entrenadorData.modificar(entrenador)) {
-
                 JOptionPane.showMessageDialog(this, "Entrenador modificado correctamente");
                 cargarTabla();
-
+                limpiarCampos();
             } else {
-
                 JOptionPane.showMessageDialog(this, "No se pudo modificar el entrenador");
             }
-
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Ocurrió un error: " + ex.getMessage());
         }
-
     }//GEN-LAST:event_jbModificarActionPerformed
 
     private void jtApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtApellidoActionPerformed
