@@ -774,9 +774,10 @@ public class TestDeConsola {
                 + " | $" + p.getCosto()
                 + " | " + (p.isEstado() ? "Activo" : "Inactivo"));
     }
+    
 
     private static int leerId(Scanner teclado) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    return leerEntero(teclado, "Ingrese el ID: ");
+}
 }
      

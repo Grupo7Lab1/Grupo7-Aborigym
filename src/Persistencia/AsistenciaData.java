@@ -266,5 +266,29 @@ public List<Asistencia> listarAsistencia() {
 
     return lista;
 }
+// BUSCAR ASISTENCIA POR ID
+public Asistencia buscarAsistencia(int id) {
 
+    String sql = "SELECT * FROM asistencia WHERE ID_Asistencia = ?";
+
+    if (con == null) {
+        return null;
+    }
+
+    try (PreparedStatement ps = con.prepareStatement(sql)) {
+
+        ps.setInt(1, id);
+
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return cargarAsistencia(rs);
+            }
+        }
+
+    } catch (SQLException e) {
+        System.out.println("Error al buscar asistencia: " + e.getMessage());
+    }
+
+    return null;
+}
 }
