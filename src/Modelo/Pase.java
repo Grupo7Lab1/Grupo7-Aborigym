@@ -5,10 +5,7 @@
 package Modelo;
 
 import java.time.LocalDate;
-/**
- *
- * @author Mrjoshep
- */
+
 public class Pase {
     private int idPase;
     private int idSocio;
@@ -20,7 +17,35 @@ public class Pase {
     private double costo;
     private boolean estado;
 
+    // Constructor vacío
     public Pase() {
+    }
+
+    // Constructor sin ID (para crear un pase nuevo)
+    public Pase(int idSocio, int idMembresia, int entradasIniciales, int cantidadEntradas,
+                LocalDate fechaInicio, LocalDate fechaFin, double costo, boolean estado) {
+        this.idSocio = idSocio;
+        this.idMembresia = idMembresia;
+        this.entradasIniciales = entradasIniciales;
+        this.cantidadEntradas = cantidadEntradas;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+        this.costo = costo;
+        this.estado = estado;
+    }
+
+    // Constructor completo (con ID)
+    public Pase(int idPase, int idSocio, int idMembresia, int entradasIniciales, int cantidadEntradas,
+                LocalDate fechaInicio, LocalDate fechaFin, double costo, boolean estado) {
+        this.idPase = idPase;
+        this.idSocio = idSocio;
+        this.idMembresia = idMembresia;
+        this.entradasIniciales = entradasIniciales;
+        this.cantidadEntradas = cantidadEntradas;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+        this.costo = costo;
+        this.estado = estado;
     }
 
     public int getIdPase() {
@@ -93,5 +118,10 @@ public class Pase {
 
     public void setEstado(boolean estado) {
         this.estado = estado;
+    }
+
+    @Override
+    public String toString() {
+        return "Pase N° " + idPase + " - Entradas disponibles: " + cantidadEntradas + " (Vence: " + fechaFin + ")";
     }
 }

@@ -9,18 +9,17 @@ package Modelo;
  * @author User
  */
 public class Entrenador {
-     private int idEntrenador;
+
+    private int idEntrenador;
     private String dni;
     private String nombre;
     private String apellido;
     private String especialidad;
     private boolean estado;
 
-   
     public Entrenador() {
     }
 
-    
     public Entrenador(int idEntrenador, String dni,
             String nombre, String apellido,
             String especialidad, boolean estado) {
@@ -33,7 +32,6 @@ public class Entrenador {
         this.estado = estado;
     }
 
-    
     public int getIdEntrenador() {
         return idEntrenador;
     }
@@ -82,6 +80,9 @@ public class Entrenador {
         this.estado = estado;
     }
 
-   
-    
+    @Override
+    public String toString() {
+        return idEntrenador + " - " + apellido + ", " + nombre + " (" + especialidad + ")";
+    }
+
 }
