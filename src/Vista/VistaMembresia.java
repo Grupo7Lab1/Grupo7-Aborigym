@@ -15,7 +15,6 @@ import Persistencia.MembresiaData;
 public class VistaMembresia extends javax.swing.JInternalFrame {
 
     private final List<Membresia> membresias = new ArrayList<>();
-    private int proximoId = 1;
     private Membresia seleccionada = null;
     private DefaultTableModel modelo;
 
@@ -365,8 +364,10 @@ public class VistaMembresia extends javax.swing.JInternalFrame {
                 avisar("No se pudo guardar la membresía.");
             }
 
-            return;
+        } else {
+            avisar("Esa membresía ya existe. Usá MODIFICAR para guardar cambios o NUEVA para crear otra.");
         }
+       
     }//GEN-LAST:event_jBGuardarActionPerformed
 
     private void jBNuevaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBNuevaActionPerformed
@@ -375,19 +376,24 @@ public class VistaMembresia extends javax.swing.JInternalFrame {
 
     private void jBEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEliminarActionPerformed
         if (seleccionada == null) {
+            avisar("Primero seleccioná una membresía de la tabla.");
             return;
         }
         int r = JOptionPane.showConfirmDialog(this, "¿Eliminar esta membresía?",
                 "Confirmar", JOptionPane.YES_NO_OPTION);
         if (r == JOptionPane.YES_OPTION) {
-            membresias.remove(seleccionada);
-            refrescarTabla();
-            modoNuevo();
+            MembresiaData data = new MembresiaData();
+            if (data.eliminarMembresia(seleccionada.getId())) {
+                JOptionPane.showMessageDialog(this, "Membresía eliminada correctamente.");
+                cargarMembresias();
+                modoNuevo();
+            } else {
+                avisar("No se pudo eliminar la membresía (verifica que no este asociada a un pase).");
+            }
         }
     }//GEN-LAST:event_jBEliminarActionPerformed
 
     private void jBModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBModificarActionPerformed
-
         if (seleccionada == null) {
             avisar("Primero seleccioná una membresía de la tabla.");
             return;
@@ -395,13 +401,14 @@ public class VistaMembresia extends javax.swing.JInternalFrame {
 
         String tipo = jTTipoDeMembresia.getText().trim();
 
-        if (tipo.isEmpty()) {
-            avisar("Escribí el tipo de membresía.");
+        if (tipo.isEmpty() || tipo.length() < 3) {
+            avisar("El tipo de membresía debe tener al menos 3 caracteres.");
             return;
         }
 
         double precio;
         int duracion;
+        int cantidadClases;
 
         String textoPrecio = jTPrecio.getText().trim().replace(",", ".");
 
@@ -412,46 +419,55 @@ public class VistaMembresia extends javax.swing.JInternalFrame {
 
         try {
             precio = Double.parseDouble(textoPrecio);
-
             if (precio <= 0 || Double.isInfinite(precio) || Double.isNaN(precio)) {
                 throw new NumberFormatException();
             }
-
         } catch (NumberFormatException e) {
-            avisar("El precio debe ser un número válido y mayor que 0.");
+            avisar("El precio debe ser un número válido y mayor que 0");
+            return;
+        }
+
+        try {
+            cantidadClases = Integer.parseInt(jTCantidadDeClases.getText().trim());
+            if (cantidadClases <= 0) {
+                throw new NumberFormatException();
+            }
+        } catch (NumberFormatException e) {
+            avisar("La cantidad de clases debe ser un número entero mayor que 0");
             return;
         }
 
         try {
             duracion = Integer.parseInt(jTDuracion.getText().trim());
-
             if (duracion <= 0) {
                 throw new NumberFormatException();
             }
         } catch (NumberFormatException e) {
-            avisar("La duración debe ser mayor a 0.");
+            avisar("La duración debe ser mayor a 0");
             return;
         }
 
+        for (Membresia m : membresias) {
+            if (m.getNombre().equalsIgnoreCase(tipo) && m.getId() != seleccionada.getId()) {
+                avisar("Ya existe otra membresía con ese tipo.");
+                return;
+            }
+        }
+
         seleccionada.setNombre(tipo);
-        // seleccionada.setCantidadClases(cantidadClases);
+        seleccionada.setCantidadClases(cantidadClases);
         seleccionada.setPrecio(precio);
         seleccionada.setDuracionDias(duracion);
 
         MembresiaData data = new MembresiaData();
 
         if (data.modificarMembresia(seleccionada)) {
-
-            JOptionPane.showMessageDialog(this,
-                    "Membresía modificada correctamente.");
-
+            JOptionPane.showMessageDialog(this, "Membresía modificada correctamente.");
             cargarMembresias();
             modoNuevo();
-
         } else {
             avisar("No se pudo modificar la membresía.");
         }
-
 
     }//GEN-LAST:event_jBModificarActionPerformed
 

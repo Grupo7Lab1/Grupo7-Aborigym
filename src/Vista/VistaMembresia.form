@@ -2,7 +2,7 @@
 
 <Form version="1.9" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JInternalFrameFormInfo">
   <Properties>
-    <Property name="title" type="java.lang.String" value="Membresía"/>
+    <Property name="title" type="java.lang.String" value="Membres&#xed;a"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -141,7 +141,7 @@
                   <Color blue="fa" green="f9" red="f5" type="rgb"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="TIPO DE MEMBRESÍA"/>
+                <Property name="text" type="java.lang.String" value="TIPO DE MEMBRES&#xcd;A"/>
                 <Property name="opaque" type="boolean" value="true"/>
               </Properties>
             </Component>
@@ -177,7 +177,7 @@
                   <Color blue="fa" green="f9" red="f5" type="rgb"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="DURACIÓN (DÍAS)"/>
+                <Property name="text" type="java.lang.String" value="DURACI&#xd3;N (D&#xcd;AS)"/>
                 <Property name="opaque" type="boolean" value="true"/>
               </Properties>
             </Component>
