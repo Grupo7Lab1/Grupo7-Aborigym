@@ -4,6 +4,7 @@
  */
 package Vista;
 
+import Modelo.Membresia;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,9 +13,17 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import Modelo.Pase;
 import Modelo.Socio;
+import Persistencia.MembresiaData;
 import Persistencia.PaseData;
+import Persistencia.SocioData;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import javax.swing.ListSelectionModel;
 
 /**
  *
@@ -23,6 +32,9 @@ import java.util.List;
 public class VistaPases extends javax.swing.JInternalFrame {
 
     private List<Socio> sociosDisponibles = new ArrayList<>();
+    private List<Membresia> membresiasDisponibles = new ArrayList<>();
+    private List<Pase> pasesCargados = new ArrayList<>();
+    private Pase paseSeleccionado = null;
 
     /**
      * Creates new form VistaPases
@@ -36,8 +48,58 @@ public class VistaPases extends javax.swing.JInternalFrame {
         cargarSocios();
         configurarTiposDePase();
         configurarEstado();
+        initEventos();
         listarPases();
         setClosable(true);
+    }
+
+    private void initEventos() {
+        jTPases.getSelectionModel().addListSelectionListener(e -> {
+            int fila = jTPases.getSelectedRow();
+            if (!e.getValueIsAdjusting() && fila >= 0 && fila < pasesCargados.size()) {
+                cargarPaseEnFormulario(pasesCargados.get(fila));
+            }
+        });
+
+        jDCFechaDeInicio.getDateEditor().addPropertyChangeListener("date", evt -> actualizarFechaFinAutomatica());
+    }
+
+    private void actualizarFechaFinAutomatica() {
+        int indiceMembresia = jCBTipoDePase.getSelectedIndex();
+        if (indiceMembresia >= 0 && indiceMembresia < membresiasDisponibles.size()
+                && jDCFechaDeInicio.getDate() != null) {
+            Membresia m = membresiasDisponibles.get(indiceMembresia);
+            LocalDate inicio = jDCFechaDeInicio.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate fin = inicio.plusDays(m.getDuracionDias());
+            jDCFechaDeFinalizacion.setDate(Date.from(fin.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        }
+    }
+
+    private void cargarPaseEnFormulario(Pase p) {
+        paseSeleccionado = p;
+
+        for (int i = 0; i < sociosDisponibles.size(); i++) {
+            if (sociosDisponibles.get(i).getIdSocio() == p.getIdSocio()) {
+                jCBSocio.setSelectedIndex(i);
+                break;
+            }
+        }
+
+        for (int i = 0; i < membresiasDisponibles.size(); i++) {
+            if (membresiasDisponibles.get(i).getId() == p.getIdMembresia()) {
+                jCBTipoDePase.setSelectedIndex(i);
+                break;
+            }
+        }
+
+        if (p.getFechaInicio() != null) {
+            jDCFechaDeInicio.setDate(Date.from(p.getFechaInicio().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        }
+        if (p.getFechaFin() != null) {
+            jDCFechaDeFinalizacion.setDate(Date.from(p.getFechaFin().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        }
+
+        jCBEstado.setSelectedItem(p.isEstado() ? "Activo" : "Vencido");
     }
 
     /**
@@ -267,18 +329,7 @@ public class VistaPases extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jCBSocioActionPerformed
 
     private void jCBTipoDePaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBTipoDePaseActionPerformed
-        if (jCBTipoDePase.getSelectedItem() == null) {
-            return;
-        }
-
-        if (jDCFechaDeInicio.getDate() != null) {
-            java.util.Calendar calendario = java.util.Calendar.getInstance();
-            calendario.setTime(jDCFechaDeInicio.getDate());
-
-            calendario.add(java.util.Calendar.DAY_OF_MONTH, 30);
-
-            jDCFechaDeFinalizacion.setDate(calendario.getTime());
-        }
+        actualizarFechaFinAutomatica();
     }//GEN-LAST:event_jCBTipoDePaseActionPerformed
 
     private void jCBEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBEstadoActionPerformed
@@ -287,305 +338,214 @@ public class VistaPases extends javax.swing.JInternalFrame {
 
     private void jBAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAgregarActionPerformed
 
-        // 1. Validar socio
-        int indiceSocio = jCBSocio.getSelectedIndex();
+        if (paseSeleccionado != null) {
+            JOptionPane.showMessageDialog(this,
+                    "Ese pase ya existe. Usá MODIFICAR para guardar cambios o LIMPIAR para crear uno nuevo.");
+            return;
+        }
 
-        if (indiceSocio == -1) {
+        int indiceSocio = jCBSocio.getSelectedIndex();
+        if (indiceSocio < 0 || indiceSocio >= sociosDisponibles.size()) {
             JOptionPane.showMessageDialog(this, "Seleccioná un socio.");
             return;
         }
 
-        // 2. Validar tipo de pase
         int indiceMembresia = jCBTipoDePase.getSelectedIndex();
-
-        if (indiceMembresia == -1) {
-            JOptionPane.showMessageDialog(this, "Seleccioná un tipo de pase.");
+        if (indiceMembresia < 0 || indiceMembresia >= membresiasDisponibles.size()) {
+            JOptionPane.showMessageDialog(this, "Seleccioná un tipo de pase (membresía).");
             return;
         }
 
-        // 3. Validar fechas
-        if (jDCFechaDeInicio.getDate() == null
-                || jDCFechaDeFinalizacion.getDate() == null) {
-
-            JOptionPane.showMessageDialog(this,
-                    "Seleccioná las fechas de inicio y finalización.");
+        if (jDCFechaDeInicio.getDate() == null || jDCFechaDeFinalizacion.getDate() == null) {
+            JOptionPane.showMessageDialog(this, "Seleccioná las fechas de inicio y finalización.");
             return;
         }
 
-        java.time.LocalDate inicio = jDCFechaDeInicio.getDate()
-                .toInstant()
-                .atZone(java.time.ZoneId.systemDefault())
-                .toLocalDate();
+        LocalDate inicio = jDCFechaDeInicio.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate fin = jDCFechaDeFinalizacion.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-        java.time.LocalDate fin = jDCFechaDeFinalizacion.getDate()
-                .toInstant()
-                .atZone(java.time.ZoneId.systemDefault())
-                .toLocalDate();
-
-        if (inicio.isBefore(java.time.LocalDate.now())) {
-            JOptionPane.showMessageDialog(this,
-                    "La fecha de inicio no puede ser anterior al día actual.");
+        if (inicio.isBefore(LocalDate.now())) {
+            JOptionPane.showMessageDialog(this, "La fecha de inicio no puede ser anterior al día actual.");
             return;
         }
 
         if (fin.isBefore(inicio)) {
-            JOptionPane.showMessageDialog(this,
-                    "La fecha de finalización no puede ser anterior al inicio.");
+            JOptionPane.showMessageDialog(this, "La fecha de finalización no puede ser anterior al inicio.");
             return;
         }
 
-        // 4. Recuperar el socio seleccionado
         Socio socioSeleccionado = sociosDisponibles.get(indiceSocio);
-
         if (!socioSeleccionado.isEstado()) {
-            JOptionPane.showMessageDialog(this,
-                    "No se puede asignar un pase a un socio inactivo.");
+            JOptionPane.showMessageDialog(this, "No se puede asignar un pase a un socio inactivo.");
             return;
         }
 
         PaseData paseData = new PaseData();
+        boolean estado = "Activo".equals(jCBEstado.getSelectedItem());
 
-        if (paseData.tienePaseActivo(socioSeleccionado.getIdSocio())) {
-            JOptionPane.showMessageDialog(this,
-                    "Este socio ya tiene un pase activo.");
+        if (estado && paseData.tienePaseActivo(socioSeleccionado.getIdSocio())) {
+            JOptionPane.showMessageDialog(this, "Este socio ya tiene un pase activo.");
             return;
         }
 
-        // 5. Obtener los datos de la membresía
-        int[] idsMembresia = {1, 2, 3};
-        int[] entradas = {8, 12, 20};
-        double[] precios = {18000, 25000, 35000};
+        Membresia membresiaSeleccionada = membresiasDisponibles.get(indiceMembresia);
 
-        int idMembresia = idsMembresia[indiceMembresia];
-        int cantidadEntradas = entradas[indiceMembresia];
-        double costo = precios[indiceMembresia];
-
-        // 6. Recuperar el estado
-        boolean estado = "Activo".equals(
-                jCBEstado.getSelectedItem()
-        );
-
-        // 7. Crear el objeto Pase
         Pase pase = new Pase();
-
         pase.setIdSocio(socioSeleccionado.getIdSocio());
-        pase.setIdMembresia(idMembresia);
-        pase.setEntradasIniciales(cantidadEntradas);
-        pase.setCantidadEntradas(cantidadEntradas);
+        pase.setIdMembresia(membresiaSeleccionada.getId());
+        pase.setEntradasIniciales(membresiaSeleccionada.getCantidadClases());
+        pase.setCantidadEntradas(membresiaSeleccionada.getCantidadClases());
         pase.setFechaInicio(inicio);
         pase.setFechaFin(fin);
-        pase.setCosto(costo);
+        pase.setCosto(membresiaSeleccionada.getPrecio());
         pase.setEstado(estado);
 
- 
-
         if (paseData.guardarPase(pase)) {
-
-            JOptionPane.showMessageDialog(this,
-                    "¡Pase guardado correctamente!");
-
-            // Actualizar la tabla
+            JOptionPane.showMessageDialog(this, "¡Pase guardado correctamente!");
             listarPases();
-
-            // Limpiar los campos
-            jCBSocio.setSelectedIndex(-1);
-            jCBTipoDePase.setSelectedIndex(0);
-            jDCFechaDeInicio.setDate(null);
-            jDCFechaDeFinalizacion.setDate(null);
-            jCBEstado.setSelectedIndex(0);
-
+            limpiarFormulario();
         } else {
-
             JOptionPane.showMessageDialog(this,
-                    "No se pudo guardar el pase. Revisá la consola de NetBeans.",
+                    "No se pudo guardar el pase.",
                     "Error al guardar",
                     JOptionPane.ERROR_MESSAGE);
         }
+
     }//GEN-LAST:event_jBAgregarActionPerformed
 
     private void jBModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBModificarActionPerformed
 
-        int fila = jTPases.getSelectedRow();
-
-        if (fila == -1) {
-            JOptionPane.showMessageDialog(this,
-                    "Seleccioná un pase de la tabla para modificarlo.");
+        if (paseSeleccionado == null) {
+            JOptionPane.showMessageDialog(this, "Seleccioná un pase de la tabla para modificarlo.");
             return;
         }
 
-        // Recuperar el ID del pase seleccionado
-        int idPase = (int) jTPases.getValueAt(fila, 0);
-
-        // Validar socio
         int indiceSocio = jCBSocio.getSelectedIndex();
-
-        if (indiceSocio == -1) {
-            JOptionPane.showMessageDialog(this,
-                    "Seleccioná un socio.");
+        if (indiceSocio < 0 || indiceSocio >= sociosDisponibles.size()) {
+            JOptionPane.showMessageDialog(this, "Seleccioná un socio.");
             return;
         }
 
-        // Validar membresía
         int indiceMembresia = jCBTipoDePase.getSelectedIndex();
-
-        if (indiceMembresia == -1) {
-            JOptionPane.showMessageDialog(this,
-                    "Seleccioná un tipo de pase.");
+        if (indiceMembresia < 0 || indiceMembresia >= membresiasDisponibles.size()) {
+            JOptionPane.showMessageDialog(this, "Seleccioná un tipo de pase.");
             return;
         }
 
-        // Validar fechas
-        if (jDCFechaDeInicio.getDate() == null
-                || jDCFechaDeFinalizacion.getDate() == null) {
-            JOptionPane.showMessageDialog(this,
-                    "Seleccioná las fechas de inicio y finalización.");
+        if (jDCFechaDeInicio.getDate() == null || jDCFechaDeFinalizacion.getDate() == null) {
+            JOptionPane.showMessageDialog(this, "Seleccioná las fechas de inicio y finalización.");
             return;
         }
 
-        java.time.LocalDate inicio = jDCFechaDeInicio.getDate()
-                .toInstant()
-                .atZone(java.time.ZoneId.systemDefault())
-                .toLocalDate();
-
-        java.time.LocalDate fin = jDCFechaDeFinalizacion.getDate()
-                .toInstant()
-                .atZone(java.time.ZoneId.systemDefault())
-                .toLocalDate();
-
-        if (inicio.isBefore(java.time.LocalDate.now())) {
-            JOptionPane.showMessageDialog(this,
-                    "La fecha de inicio no puede ser anterior al día actual.");
-            return;
-        }
+        LocalDate inicio = jDCFechaDeInicio.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate fin = jDCFechaDeFinalizacion.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
         if (fin.isBefore(inicio)) {
-            JOptionPane.showMessageDialog(this,
-                    "La fecha de finalización no puede ser anterior al inicio.");
+            JOptionPane.showMessageDialog(this, "La fecha de finalización no puede ser anterior al inicio.");
             return;
         }
-        fin = fin.plusDays(7);
 
-        int confirmacion = JOptionPane.showConfirmDialog(
-                this,
-                "Validación correcta.\n"
-                + "Fecha de finalización actualizada: " + fin
-                + "\n¿Deseás actualizar el pase?",
-                "Actualizar pase",
-                JOptionPane.YES_NO_OPTION
-        );
-
-        if (confirmacion != JOptionPane.YES_OPTION) {
-            return;
-        }
-        // Recuperar socio
         Socio socioSeleccionado = sociosDisponibles.get(indiceSocio);
-
         if (!socioSeleccionado.isEstado()) {
-            JOptionPane.showMessageDialog(this,
-                    "No se puede asignar un pase a un socio inactivo.");
+            JOptionPane.showMessageDialog(this, "No se puede asignar un pase a un socio inactivo.");
             return;
         }
 
-        // Datos de membresía
-        int[] idsMembresia = {1, 2, 3};
-        int[] entradas = {8, 12, 20};
-        double[] precios = {18000, 25000, 35000};
+        Membresia membresiaSeleccionada = membresiasDisponibles.get(indiceMembresia);
+        boolean estado = "Activo".equals(jCBEstado.getSelectedItem());
 
-        int idMembresia = idsMembresia[indiceMembresia];
-        int cantidadEntradas = entradas[indiceMembresia];
-        double costo = precios[indiceMembresia];
+        int entradasIniciales = membresiaSeleccionada.getCantidadClases();
+        int entradasDisponibles = paseSeleccionado.getCantidadEntradas();
+        if (paseSeleccionado.getIdMembresia() != membresiaSeleccionada.getId()) {
+            entradasDisponibles = entradasIniciales;
+        } else if (entradasDisponibles > entradasIniciales) {
+            entradasDisponibles = entradasIniciales;
+        }
 
-        // Estado
-        boolean estado = "Activo".equals(
-                jCBEstado.getSelectedItem());
+        paseSeleccionado.setIdSocio(socioSeleccionado.getIdSocio());
+        paseSeleccionado.setIdMembresia(membresiaSeleccionada.getId());
+        paseSeleccionado.setEntradasIniciales(entradasIniciales);
+        paseSeleccionado.setCantidadEntradas(entradasDisponibles);
+        paseSeleccionado.setFechaInicio(inicio);
+        paseSeleccionado.setFechaFin(fin);
+        paseSeleccionado.setCosto(membresiaSeleccionada.getPrecio());
+        paseSeleccionado.setEstado(estado);
 
-        // Construir objeto Pase
-        Pase pase = new Pase();
-
-        pase.setIdPase(idPase);
-        pase.setIdSocio(socioSeleccionado.getIdSocio());
-        pase.setIdMembresia(idMembresia);
-        pase.setEntradasIniciales(cantidadEntradas);
-        pase.setCantidadEntradas(cantidadEntradas);
-        pase.setFechaInicio(inicio);
-        pase.setFechaFin(fin);
-        pase.setCosto(costo);
-        pase.setEstado(estado);
-
-// Actualizar MariaDB
         PaseData paseData = new PaseData();
-
-        if (paseData.modificarPase(pase)) {
-
-            JOptionPane.showMessageDialog(this,
-                    "Pase modificado correctamente.");
-
+        if (paseData.modificarPase(paseSeleccionado)) {
+            JOptionPane.showMessageDialog(this, "Pase modificado correctamente.");
             listarPases();
-
+            limpiarFormulario();
         } else {
-
-            JOptionPane.showMessageDialog(this,
-                    "No se pudo modificar el pase.",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "No se pudo modificar el pase.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jBModificarActionPerformed
 
     private void jBEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEliminarActionPerformed
 
-        int fila = jTPases.getSelectedRow();
-
-        if (fila == -1) {
-            JOptionPane.showMessageDialog(this,
-                    "Seleccioná un pase de la tabla para eliminarlo.");
+        if (paseSeleccionado == null) {
+            JOptionPane.showMessageDialog(this, "Seleccioná un pase de la tabla.");
             return;
         }
 
-        int confirmacion = JOptionPane.showConfirmDialog(
-                this,
-                "¿Estás seguro de que querés eliminar este pase?",
-                "Confirmar eliminación",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.WARNING_MESSAGE
-        );
-
-        if (confirmacion != JOptionPane.YES_OPTION) {
-            return;
-        }
-
-        // Recuperar el ID del pase seleccionado
-        int idPase = (int) jTPases.getValueAt(fila, 0);
-
-        // Eliminar de la base de datos
         PaseData paseData = new PaseData();
 
-        if (paseData.eliminarPase(idPase)) {
+        if (paseSeleccionado.isEstado()) {
+            int confirmacion = JOptionPane.showConfirmDialog(
+                    this,
+                    "¿Deseás dar de baja (inactivar) este pase?",
+                    "Confirmar baja lógica",
+                    JOptionPane.YES_NO_OPTION);
 
-            JOptionPane.showMessageDialog(this,
-                    "Pase eliminado correctamente.");
-
-            listarPases();
-
-            jTPases.clearSelection();
-
+            if (confirmacion == JOptionPane.YES_OPTION) {
+                if (paseData.bajaLogica(paseSeleccionado.getIdPase())) {
+                    JOptionPane.showMessageDialog(this, "Pase dado de baja correctamente.");
+                    listarPases();
+                    limpiarFormulario();
+                } else {
+                    JOptionPane.showMessageDialog(this, "No se pudo dar de baja el pase.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
         } else {
+            int confirmacion = JOptionPane.showConfirmDialog(
+                    this,
+                    "El pase ya está inactivo/vencido. ¿Deseás eliminarlo definitivamente de la base de datos?",
+                    "Confirmar eliminación",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE);
 
-            JOptionPane.showMessageDialog(this,
-                    "No se pudo eliminar el pase.",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
+            if (confirmacion == JOptionPane.YES_OPTION) {
+                if (paseData.eliminarPase(paseSeleccionado.getIdPase())) {
+                    JOptionPane.showMessageDialog(this, "Pase eliminado correctamente.");
+                    listarPases();
+                    limpiarFormulario();
+                } else {
+                    JOptionPane.showMessageDialog(this,
+                            "No se pudo eliminar el pase (puede tener asistencias asociadas).",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
         }
 
     }//GEN-LAST:event_jBEliminarActionPerformed
 
     private void jBLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBLimpiarActionPerformed
-        jCBSocio.setSelectedIndex(-1);
-        jCBTipoDePase.setSelectedIndex(0);
+        limpiarFormulario();
+    }//GEN-LAST:event_jBLimpiarActionPerformed
+    private void limpiarFormulario() {
+        paseSeleccionado = null;
+        jTPases.clearSelection();
+        if (jCBSocio.getItemCount() > 0) {
+            jCBSocio.setSelectedIndex(0);
+        }
+        if (jCBTipoDePase.getItemCount() > 0) {
+            jCBTipoDePase.setSelectedIndex(0);
+        }
         jDCFechaDeInicio.setDate(null);
         jDCFechaDeFinalizacion.setDate(null);
         jCBEstado.setSelectedIndex(0);
-        jTPases.clearSelection();
-    }//GEN-LAST:event_jBLimpiarActionPerformed
+    }
+
     private void configurarVentana() {
         setTitle("Gestión de Pases - AboriGym");
     }
@@ -593,50 +553,48 @@ public class VistaPases extends javax.swing.JInternalFrame {
 
     private void listarPases() {
 
-        DefaultTableModel modelo
-                = (DefaultTableModel) jTPases.getModel();
-
+        DefaultTableModel modelo = (DefaultTableModel) jTPases.getModel();
         modelo.setRowCount(0);
 
-        String sql = "SELECT ID_Pase, ID_Socio, ID_Membresia, "
-                + "EntradasIniciales, CantidadEntradas, "
-                + "Fecha_Inicio, Fecha_Fin, Costo, Estado "
-                + "FROM pase ORDER BY ID_Pase";
+        Map<Integer, String> mapaSocios = new HashMap<>();
+        for (Socio s : sociosDisponibles) {
+            mapaSocios.put(s.getIdSocio(), s.getApellido() + ", " + s.getNombre());
+        }
 
-        try (Connection con = Modelo.Conexion.conectar(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+        Map<Integer, String> mapaMembresias = new HashMap<>();
+        for (Membresia m : membresiasDisponibles) {
+            mapaMembresias.put(m.getId(), m.getNombre());
+        }
 
-            while (rs.next()) {
+        PaseData paseData = new PaseData();
+        pasesCargados = paseData.listarPases();
 
-                modelo.addRow(new Object[]{
-                    rs.getInt("ID_Pase"),
-                    rs.getInt("ID_Socio"),
-                    rs.getInt("ID_Membresia"),
-                    rs.getInt("EntradasIniciales"),
-                    rs.getInt("CantidadEntradas"),
-                    rs.getDate("Fecha_Inicio"),
-                    rs.getDate("Fecha_Fin"),
-                    rs.getDouble("Costo"),
-                    rs.getBoolean("Estado") ? "Activo" : "Inactivo"
-                });
-            }
-
-        } catch (SQLException e) {
-
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Error al listar los pases:\n" + e.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
+        for (Pase p : pasesCargados) {
+            modelo.addRow(new Object[]{
+                p.getIdPase(),
+                mapaSocios.getOrDefault(p.getIdSocio(), "Socio #" + p.getIdSocio()),
+                mapaMembresias.getOrDefault(p.getIdMembresia(), "Membresía #" + p.getIdMembresia()),
+                p.getEntradasIniciales(),
+                p.getCantidadEntradas(),
+                p.getFechaInicio(),
+                p.getFechaFin(),
+                p.getCosto(),
+                p.isEstado() ? "Activo" : "Vencido"
+            });
         }
     }
 
 // Configurar los tipos de pase
     private void configurarTiposDePase() {
         jCBTipoDePase.removeAllItems();
-        jCBTipoDePase.addItem("8 entradas");
-        jCBTipoDePase.addItem("12 entradas");
-        jCBTipoDePase.addItem("20 entradas");
+        membresiasDisponibles.clear();
+
+        MembresiaData membresiaData = new MembresiaData();
+        membresiasDisponibles = membresiaData.listarMembresias();
+
+        for (Membresia m : membresiasDisponibles) {
+            jCBTipoDePase.addItem(m.getNombre() + " (" + m.getCantidadClases() + " clases)");
+        }
     }
 
 // Configurar el estado
@@ -651,13 +609,13 @@ public class VistaPases extends javax.swing.JInternalFrame {
         DefaultTableModel modelo = new DefaultTableModel(
                 new Object[][]{},
                 new String[]{
-                    "ID Pase",
-                    "ID Socio",
-                    "ID Membresía",
-                    "Entradas Iniciales",
-                    "Entradas Disponibles",
-                    "Fecha Inicio",
-                    "Fecha Finalización",
+                    "ID",
+                    "Socio",
+                    "Membresía",
+                    "Iniciales",
+                    "Disponibles",
+                    "Inicio",
+                    "Fin",
                     "Costo",
                     "Estado"
                 }
@@ -669,14 +627,14 @@ public class VistaPases extends javax.swing.JInternalFrame {
         };
 
         jTPases.setModel(modelo);
+        jTPases.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
     private void cargarSocios() {
         jCBSocio.removeAllItems();
         sociosDisponibles.clear();
 
-        Persistencia.SocioData socioData = new Persistencia.SocioData();
-
+        SocioData socioData = new SocioData();
         sociosDisponibles = socioData.listarSocio();
 
         for (Socio socio : sociosDisponibles) {

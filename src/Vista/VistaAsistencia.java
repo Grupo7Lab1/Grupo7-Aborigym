@@ -17,6 +17,9 @@ import Modelo.Pase;
 import Persistencia.PaseData;
 import javax.swing.table.DefaultTableModel;
 import Modelo.Asistencia;
+import java.time.ZoneId;
+import java.util.Date;
+import javax.swing.ListSelectionModel;
 
 /**
  *
@@ -27,73 +30,138 @@ public class VistaAsistencia extends javax.swing.JInternalFrame {
     private List<Socio> listaSocios = new ArrayList<>();
     private List<ClaseGym> listaClases = new ArrayList<>();
     private List<Pase> listaPases = new ArrayList<>();
+    private List<Asistencia> listaAsistencias = new ArrayList<>();
 
-    /**
-     * Creates new form VistaAsistencia
-     */
     public VistaAsistencia() {
         initComponents();
+        Iconos.aplicar(this);
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        configurarTabla();
         cargarSocios();
         cargarClases();
-        cargarPases();
+        initEventos();
         cargarTabla();
-        jCBSocios.addActionListener(this::jCBSociosActionPerformed);
+    }
+
+    private void configurarTabla() {
+        DefaultTableModel modelo = new DefaultTableModel(
+                new Object[]{"ID", "Socio", "Clase", "Pase N°", "Fecha"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        jTAsistencia.setModel(modelo);
+        jTAsistencia.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        jTIdSocio.setEditable(false);
+        jTEntradasDisponibles.setEditable(false);
+    }
+
+    private void initEventos() {
+        jTAsistencia.getSelectionModel().addListSelectionListener(e -> {
+            int fila = jTAsistencia.getSelectedRow();
+            if (!e.getValueIsAdjusting() && fila >= 0 && fila < listaAsistencias.size()) {
+                cargarAsistenciaEnFormulario(listaAsistencias.get(fila));
+            }
+        });
+    }
+
+    private void cargarAsistenciaEnFormulario(Asistencia a) {
+        if (a.getSocio() != null) {
+            for (int i = 0; i < listaSocios.size(); i++) {
+                if (listaSocios.get(i).getIdSocio() == a.getSocio().getIdSocio()) {
+                    jCBSocios.setSelectedIndex(i);
+                    break;
+                }
+            }
+        }
+
+        if (a.getPase() != null) {
+            for (int i = 0; i < listaPases.size(); i++) {
+                if (listaPases.get(i).getIdPase() == a.getPase().getIdPase()) {
+                    jCBPases.setSelectedIndex(i);
+                    break;
+                }
+            }
+        }
+
+        if (a.getClase() != null) {
+            for (int i = 0; i < listaClases.size(); i++) {
+                if (listaClases.get(i).getId() == a.getClase().getId()) {
+                    jCBClase.setSelectedIndex(i);
+                    break;
+                }
+            }
+        }
+
+        if (a.getFechaAsistencia() != null) {
+            jDCFechaDeAsistencia.setDate(Date.from(a.getFechaAsistencia().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        }
     }
 
     private void cargarSocios() {
 
         jCBSocios.removeAllItems();
-
         SocioData socioData = new SocioData();
-
         listaSocios = socioData.listarSocio();
 
         for (Socio socio : listaSocios) {
-
-            jCBSocios.addItem(
-                    socio.getApellido() + ", " + socio.getNombre()
-            );
+            jCBSocios.addItem(socio.getApellido() + ", " + socio.getNombre() + " (DNI: " + socio.getDni() + ")");
         }
 
-        System.out.println("Socios cargados: " + listaSocios.size());
+        if (!listaSocios.isEmpty()) {
+            jCBSocios.setSelectedIndex(0);
+            actualizarDatosSocioSeleccionado();
+        }
     }
 
     private void cargarClases() {
 
         jCBClase.removeAllItems();
-
         ClaseGymData claseData = new ClaseGymData();
-
-        listaClases = claseData.listarClases();
+        listaClases = claseData.listarClasesActivas();
 
         for (ClaseGym clase : listaClases) {
-
             jCBClase.addItem(clase.toString());
         }
-
-        System.out.println("Clases cargadas: " + listaClases.size());
     }
 
-    private void cargarPases() {
+    private void cargarPasesDelSocio(int idSocio) {
 
         jCBPases.removeAllItems();
+        listaPases.clear();
+        jTEntradasDisponibles.setText("");
 
         PaseData paseData = new PaseData();
-
-        listaPases = paseData.listarPases();
+        listaPases = paseData.listarPasesDisponiblesPorSocio(idSocio);
 
         for (Pase pase : listaPases) {
-
-            jCBPases.addItem(
-                    "Pase N° " + pase.getIdPase()
-                    + " - Socio ID: " + pase.getIdSocio()
-                    + " - Entradas: " + pase.getCantidadEntradas()
-            );
+            jCBPases.addItem("Pase N° " + pase.getIdPase()
+                    + " (Vence: " + pase.getFechaFin() + ")");
         }
 
-        System.out.println("Pases cargados: " + listaPases.size());
+        if (!listaPases.isEmpty()) {
+            jCBPases.setSelectedIndex(0);
+            jTEntradasDisponibles.setText(String.valueOf(listaPases.get(0).getCantidadEntradas()));
+        } else {
+            jTEntradasDisponibles.setText("0 (Sin pase activo)");
+        }
+    }
+
+    private void actualizarDatosSocioSeleccionado() {
+        int indice = jCBSocios.getSelectedIndex();
+        if (indice >= 0 && indice < listaSocios.size()) {
+            Socio socio = listaSocios.get(indice);
+            jTIdSocio.setText(String.valueOf(socio.getIdSocio()));
+            cargarPasesDelSocio(socio.getIdSocio());
+        } else {
+            jTIdSocio.setText("");
+            jCBPases.removeAllItems();
+            listaPases.clear();
+            jTEntradasDisponibles.setText("");
+        }
     }
 
     /**
@@ -342,22 +410,8 @@ public class VistaAsistencia extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jCBSociosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBSociosActionPerformed
+        actualizarDatosSocioSeleccionado();
 
-    int indice = jCBSocios.getSelectedIndex();
-
-    if (indice >= 0 && indice < listaSocios.size()) {
-
-        Socio socio = listaSocios.get(indice);
-
-        jTIdSocio.setText(String.valueOf(socio.getIdSocio()));
-
-        System.out.println("Socio seleccionado: " + socio.getNombre());
-        System.out.println("ID del socio: " + socio.getIdSocio());
-
-    } else {
-
-        jTIdSocio.setText("");
-    }
     }//GEN-LAST:event_jCBSociosActionPerformed
 
     private void jCBClaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBClaseActionPerformed
@@ -384,116 +438,88 @@ public class VistaAsistencia extends javax.swing.JInternalFrame {
 
     private void jBRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBRegistrarActionPerformed
 
-        // Obtener socio seleccionado
         int indice = jCBSocios.getSelectedIndex();
-
-        if (indice == -1) {
-            JOptionPane.showMessageDialog(this,
-                    "Debe seleccionar un socio.");
+        if (indice < 0 || indice >= listaSocios.size()) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un socio.");
             return;
         }
-
         Socio socio = listaSocios.get(indice);
 
-// Obtener clase seleccionada
-        int indiceClase = jCBClase.getSelectedIndex();
-
-        if (indiceClase == -1) {
-            JOptionPane.showMessageDialog(this,
-                    "Debe seleccionar una clase.");
+        if (!socio.isEstado()) {
+            JOptionPane.showMessageDialog(this, "El socio seleccionado está inactivo.");
             return;
         }
 
-        ClaseGym clase = listaClases.get(indiceClase);
-
-// Obtener pase seleccionado
         int indicePase = jCBPases.getSelectedIndex();
-
-        if (indicePase == -1) {
-            JOptionPane.showMessageDialog(this,
-                    "Debe seleccionar un pase.");
+        if (indicePase < 0 || indicePase >= listaPases.size()) {
+            JOptionPane.showMessageDialog(this, "El socio no tiene un pase activo con entradas disponibles.");
             return;
         }
-
         Pase pase = listaPases.get(indicePase);
 
-// Verificar que el pase pertenezca al socio seleccionado
-        if (pase.getIdSocio() != socio.getIdSocio()) {
-            JOptionPane.showMessageDialog(this,
-                    "El pase seleccionado no pertenece al socio.");
+        int indiceClase = jCBClase.getSelectedIndex();
+        if (indiceClase < 0 || indiceClase >= listaClases.size()) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una clase.");
             return;
         }
+        ClaseGym clase = listaClases.get(indiceClase);
 
-// Obtener fecha seleccionada
         java.util.Date fecha = jDCFechaDeAsistencia.getDate();
-
-// Validar campos
         if (fecha == null) {
-            JOptionPane.showMessageDialog(this,
-                    "Debe seleccionar una fecha.");
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una fecha de asistencia.");
             return;
         }
 
-// Convertir Date a LocalDate
-        LocalDate fechaLocal = new java.sql.Date(
-                fecha.getTime()).toLocalDate();
+        LocalDate fechaLocal = fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-// Crear objeto Asistencia
-        Asistencia asistencia = new Asistencia(
-                0,
-                socio,
-                clase,
-                pase,
-                fechaLocal
-        );
-
-// Guardar en la base de datos
         AsistenciaData asistenciaData = new AsistenciaData();
 
-        if (asistenciaData.guardarAsistencia(asistencia)) {
-
+        if (!asistenciaData.hayCupoDisponible(clase.getId(), fechaLocal)) {
             JOptionPane.showMessageDialog(this,
-                    "Asistencia registrada correctamente.");
-
-        } else {
-
-            JOptionPane.showMessageDialog(this,
-                    "Error al registrar la asistencia.",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-        if (asistenciaData.guardarAsistencia(asistencia)) {
-
-            JOptionPane.showMessageDialog(this,
-                    "Asistencia registrada correctamente.");
-
-            cargarTabla();
-    }//GEN-LAST:event_jBRegistrarActionPerformed
-    }
-    private void jBModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBModificarActionPerformed
-
-        // Obtener fila seleccionada
-        int fila = jTAsistencia.getSelectedRow();
-
-        if (fila == -1) {
-            JOptionPane.showMessageDialog(this,
-                    "Debe seleccionar una asistencia de la tabla.");
+                    "La clase de " + clase.getDisciplina() + " ya alcanzó su cupo máximo (" + clase.getCapacidad() + ") para esa fecha.",
+                    "Sin cupo", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        // Obtener ID de la asistencia
-        int id = Integer.parseInt(
-                jTAsistencia.getValueAt(fila, 0).toString()
-        );
+        if (asistenciaData.existeAsistencia(socio.getIdSocio(), clase.getId(), fechaLocal)) {
+            JOptionPane.showMessageDialog(this,
+                    "El socio ya tiene registrada una asistencia a esa clase en la fecha seleccionada.",
+                    "Asistencia duplicada", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
-        // Obtener socio, clase y pase
+        Asistencia asistencia = new Asistencia(0, socio, clase, pase, fechaLocal);
+
+        if (asistenciaData.guardarAsistencia(asistencia)) {
+            JOptionPane.showMessageDialog(this, "Asistencia registrada correctamente.");
+            cargarTabla();
+            actualizarDatosSocioSeleccionado();
+            jDCFechaDeAsistencia.setDate(null);
+            jTAsistencia.clearSelection();
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "No se pudo registrar la asistencia. Verificá que el pase esté vigente para la fecha elegida.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+
+    }//GEN-LAST:event_jBRegistrarActionPerformed
+
+    private void jBModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBModificarActionPerformed
+        int fila = jTAsistencia.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una asistencia de la tabla.");
+            return;
+        }
+
+        int id = Integer.parseInt(jTAsistencia.getValueAt(fila, 0).toString());
+
         int indiceSocio = jCBSocios.getSelectedIndex();
         int indiceClase = jCBClase.getSelectedIndex();
         int indicePase = jCBPases.getSelectedIndex();
 
-        if (indiceSocio == -1 || indiceClase == -1 || indicePase == -1) {
-            JOptionPane.showMessageDialog(this,
-                    "Debe seleccionar un socio, una clase y un pase.");
+        if (indiceSocio < 0 || indiceClase < 0 || indicePase < 0) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un socio, un pase activo y una clase.");
             return;
         }
 
@@ -501,166 +527,118 @@ public class VistaAsistencia extends javax.swing.JInternalFrame {
         ClaseGym clase = listaClases.get(indiceClase);
         Pase pase = listaPases.get(indicePase);
 
-        // Verificar que el pase pertenezca al socio
         if (pase.getIdSocio() != socio.getIdSocio()) {
-            JOptionPane.showMessageDialog(this,
-                    "El pase seleccionado no pertenece al socio.");
+            JOptionPane.showMessageDialog(this, "El pase seleccionado no pertenece al socio.");
             return;
         }
 
-        // Obtener fecha
         java.util.Date fecha = jDCFechaDeAsistencia.getDate();
-
         if (fecha == null) {
-            JOptionPane.showMessageDialog(this,
-                    "Debe seleccionar una fecha.");
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una fecha.");
             return;
         }
 
-        // Convertir fecha
-        LocalDate fechaLocal = new java.sql.Date(
-                fecha.getTime()).toLocalDate();
+        LocalDate fechaLocal = fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-        // Crear objeto Asistencia
-        Asistencia asistencia = new Asistencia(
-                id,
-                socio,
-                clase,
-                pase,
-                fechaLocal
-        );
-
-        // Modificar en la base de datos
+        Asistencia asistencia = new Asistencia(id, socio, clase, pase, fechaLocal);
         AsistenciaData asistenciaData = new AsistenciaData();
 
         if (asistenciaData.modificarAsistencia(asistencia)) {
-
-            JOptionPane.showMessageDialog(this,
-                    "Asistencia modificada correctamente.");
-
+            JOptionPane.showMessageDialog(this, "Asistencia modificada correctamente.");
+            cargarTabla();
+            actualizarDatosSocioSeleccionado();
         } else {
-
-            JOptionPane.showMessageDialog(this,
-                    "No se pudo modificar la asistencia.",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "No se pudo modificar la asistencia.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
+
     }//GEN-LAST:event_jBModificarActionPerformed
 
     private void jBBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBorrarActionPerformed
 
-        // Obtener fila seleccionada
         int fila = jTAsistencia.getSelectedRow();
-
         if (fila == -1) {
-            JOptionPane.showMessageDialog(this,
-                    "Debe seleccionar una asistencia de la tabla.");
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una asistencia de la tabla.");
             return;
         }
 
-        // Obtener ID de la asistencia
-        int id = Integer.parseInt(
-                jTAsistencia.getValueAt(fila, 0).toString()
-        );
+        int id = Integer.parseInt(jTAsistencia.getValueAt(fila, 0).toString());
 
-        // Confirmar eliminación
         int respuesta = JOptionPane.showConfirmDialog(
                 this,
-                "¿Está seguro de eliminar esta asistencia?",
+                "¿Está seguro de eliminar esta asistencia? (Se reintegrará 1 entrada al pase)",
                 "Confirmar eliminación",
-                JOptionPane.YES_NO_OPTION
-        );
+                JOptionPane.YES_NO_OPTION);
 
         if (respuesta != JOptionPane.YES_OPTION) {
             return;
         }
 
-        // Eliminar de la base de datos
         AsistenciaData asistenciaData = new AsistenciaData();
 
         if (asistenciaData.eliminarAsistencia(id)) {
-
-            JOptionPane.showMessageDialog(this,
-                    "Asistencia eliminada correctamente.");
-
+            JOptionPane.showMessageDialog(this, "Asistencia eliminada y entrada reintegrada correctamente.");
+            cargarTabla();
+            actualizarDatosSocioSeleccionado();
+            jTAsistencia.clearSelection();
         } else {
-
-            JOptionPane.showMessageDialog(this,
-                    "No se pudo eliminar la asistencia.",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "No se pudo eliminar la asistencia.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jBBorrarActionPerformed
 
     private void jBLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBLimpiarActionPerformed
-
-        // Limpiar selección de socio
-        jCBSocios.setSelectedIndex(-1);
-
-        // Limpiar selección de clase
-        jCBClase.setSelectedIndex(-1);
-
-        // Limpiar fecha
+        if (jCBSocios.getItemCount() > 0) {
+            jCBSocios.setSelectedIndex(0);
+        }
+        if (jCBClase.getItemCount() > 0) {
+            jCBClase.setSelectedIndex(0);
+        }
         jDCFechaDeAsistencia.setDate(null);
-
-        // Quitar selección de la tabla
         jTAsistencia.clearSelection();
 
     }//GEN-LAST:event_jBLimpiarActionPerformed
 
     private void jCBPasesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBPasesActionPerformed
-        
-    int indice = jCBPases.getSelectedIndex();
 
-    if (indice >= 0 && indice < listaPases.size()) {
-
-        Pase pase = listaPases.get(indice);
-
-        jTEntradasDisponibles.setText(
-                String.valueOf(pase.getCantidadEntradas())
-        );
-
-    } else {
-
-        jTEntradasDisponibles.setText("");
-    }
+        int indice = jCBPases.getSelectedIndex();
+        if (indice >= 0 && indice < listaPases.size()) {
+            Pase pase = listaPases.get(indice);
+            jTEntradasDisponibles.setText(String.valueOf(pase.getCantidadEntradas()));
+        } else {
+            jTEntradasDisponibles.setText("0");
+        }
     }//GEN-LAST:event_jCBPasesActionPerformed
 
     private void jTIdSocioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTIdSocioActionPerformed
-    
+
     }//GEN-LAST:event_jTIdSocioActionPerformed
 
-    private void cargarTabla() {
-        
-    // Evitar que el usuario modifique manualmente los campos
-    jTIdSocio.setEditable(false);
-    jTEntradasDisponibles.setEditable(false);
+        private void cargarTabla() {
+            DefaultTableModel modelo = (DefaultTableModel) jTAsistencia.getModel();
+            modelo.setRowCount(0);
 
-    // Obtener el modelo de la tabla
-    DefaultTableModel modelo =
-            (DefaultTableModel) jTAsistencia.getModel();
+            AsistenciaData asistenciaData = new AsistenciaData();
+            listaAsistencias = asistenciaData.listarAsistencia();
 
-    // Limpiar los registros anteriores
-    modelo.setRowCount(0);
+            for (Asistencia asistencia : listaAsistencias) {
+                String nombreSocio = asistencia.getSocio() != null
+                        ? asistencia.getSocio().getApellido() + ", " + asistencia.getSocio().getNombre()
+                        : "N/A";
+                String nombreClase = asistencia.getClase() != null
+                        ? asistencia.getClase().getDisciplina() + " (" + asistencia.getClase().getHorario() + ")"
+                        : "N/A";
+                int idPase = asistencia.getPase() != null ? asistencia.getPase().getIdPase() : 0;
 
-    // Consultar las asistencias de la base de datos
-    AsistenciaData asistenciaData = new AsistenciaData();
-
-    List<Asistencia> lista = asistenciaData.listarAsistencia();
-
-    // Recorrer la lista y cargar los registros
-    for (Asistencia asistencia : lista) {
-
-        modelo.addRow(new Object[]{
-            asistencia.getId(),
-            asistencia.getSocio().getIdSocio(),
-            asistencia.getClase().getId(),
-            asistencia.getFechaAsistencia()
-        });
-    }
-
-    System.out.println("Asistencias cargadas: " + lista.size());
-    }
+                modelo.addRow(new Object[]{
+                    asistencia.getId(),
+                    nombreSocio,
+                    nombreClase,
+                    "Pase #" + idPase,
+                    asistencia.getFechaAsistencia()
+                });
+            }
+        }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -5,9 +5,12 @@
 package Vista;
 
 import Modelo.Socio;
+import Persistencia.PaseData;
 import Persistencia.SocioData;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -17,18 +20,36 @@ import javax.swing.table.DefaultTableModel;
 public class VistaSocio extends javax.swing.JInternalFrame {
 
     private final SocioData socioData = new SocioData();
+    private final PaseData paseData = new PaseData();
+    private List<Socio> sociosCargados = new ArrayList<>();
+    private Socio socioSeleccionado = null;
     private DefaultTableModel modeloTabla;
 
-    /**
-     * Creates new form VistaSocio
-     */
     public VistaSocio() {
         initComponents();
         Iconos.aplicar(this);
         pack();
         configurarTabla();
+        initEventos();
         listarSocios();
         setClosable(true);
+    }
+
+    private void initEventos() {
+        jTListado.getSelectionModel().addListSelectionListener(e -> {
+            int fila = jTListado.getSelectedRow();
+            if (!e.getValueIsAdjusting() && fila >= 0 && fila < sociosCargados.size()) {
+                cargarSocioEnFormulario(sociosCargados.get(fila));
+            }
+        });
+    }
+
+    private void cargarSocioEnFormulario(Socio s) {
+        socioSeleccionado = s;
+        jTDNI.setText(s.getDni());
+        jTNombreyApellido.setText(s.getNombre() + " " + s.getApellido());
+        jTTelefono.setText(s.getTelefono());
+        jTEmail.setText(s.getCorreo());
     }
 
     /**
@@ -240,170 +261,202 @@ public class VistaSocio extends javax.swing.JInternalFrame {
         String telefono = jTTelefono.getText().trim();
         String correo = jTEmail.getText().trim();
 
-        //CONTROLA CAMPOS VACIOS
         if (dni.isEmpty() || nombreCompleto.isEmpty()
                 || telefono.isEmpty() || correo.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Completá todos los campos.");
             return;
         }
 
-        // CONTROLA CATIDAD DE DIGITOS DNI
         if (dni.length() < 7 || dni.length() > 8) {
-            JOptionPane.showMessageDialog(this,
-                    "El DNI debe tener entre 7 y 8 números.");
+            JOptionPane.showMessageDialog(this, "El DNI debe tener entre 7 y 8 números.");
             return;
         }
 
         for (int i = 0; i < dni.length(); i++) {
             if (!Character.isDigit(dni.charAt(i))) {
-                JOptionPane.showMessageDialog(this,
-                        "El DNI solo debe contener números.");
+                JOptionPane.showMessageDialog(this, "El DNI solo debe contener números.");
                 return;
             }
         }
-        //CONTROLA DNI DUPLICADO
 
-        if (socioData.buscarPorDni(dni) != null) {
+        if (!esNombreValido(nombreCompleto)) {
             JOptionPane.showMessageDialog(this,
-                    "Ya existe un socio con ese DNI.");
+                    "El nombre y apellido solo deben contener letras y no más de 30 caracteres.");
             return;
         }
 
         String[] partes = nombreCompleto.split("\\s+", 2);
-
-        if (!esNombreValido(nombreCompleto)) {
-            JOptionPane.showMessageDialog(this,
-                    "El nombre y apellido solo deben contener letras y no mas 30 caracteres.");
-            return;
-        }
-
         if (partes.length < 2) {
-            JOptionPane.showMessageDialog(this,
-                    "Ingresá nombre y apellido.");
+            JOptionPane.showMessageDialog(this, "Ingresá nombre y apellido separados por espacio.");
             return;
         }
 
         if (!esTelefonoValido(telefono)) {
             JOptionPane.showMessageDialog(this,
-                    "El telefono debe tener 10 numeros, sin guiones ni espacios (Ej: 2664121512)");
+                    "El teléfono debe tener 10 números, sin guiones ni espacios (Ej: 2664121512).");
             return;
         }
 
-        if (socioData.buscarPorDni(dni) != null) {
-            JOptionPane.showMessageDialog(this, "Ya existe un socio con ese DNI.");
+        if (!esEmailValido(correo)) {
+            JOptionPane.showMessageDialog(this, "Ingresá un email válido.");
             return;
         }
 
-        String email = jTEmail.getText().trim(); // OBTIENE EL EMAIL Y ELIMINA LOS ESPACIOS
-
-        if (!esEmailValido(email)) {
-            JOptionPane.showMessageDialog(this, "Ingrese un email válido");
-            return;
-        }
-
-        String entradaEdad = JOptionPane.showInputDialog(this, "Ingresá la edad del socio:");
-
-        if (entradaEdad == null) {
-            return;
-        }
-
-        int edad;
-
-        try {
-            edad = Integer.parseInt(entradaEdad.trim());
-
-            if (edad <= 0) {
-                JOptionPane.showMessageDialog(this, "La edad debe ser mayor que cero.");
+        // MODO ALTA (nuevo socio)
+        if (socioSeleccionado == null) {
+            if (socioData.buscarPorDni(dni) != null) {
+                JOptionPane.showMessageDialog(this, "Ya existe un socio registrado con ese DNI.");
                 return;
             }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Ingresá una edad válida.");
-            return;
+
+            String entradaEdad = JOptionPane.showInputDialog(this, "Ingresá la edad del socio:");
+            if (entradaEdad == null) {
+                return;
+            }
+
+            int edad;
+            try {
+                edad = Integer.parseInt(entradaEdad.trim());
+                if (edad <= 0 || edad > 120) {
+                    JOptionPane.showMessageDialog(this, "La edad debe ser un número válido mayor que cero.");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Ingresá una edad válida.");
+                return;
+            }
+
+            Socio socio = new Socio(dni, partes[0], partes[1], edad, correo, telefono, true);
+
+            if (socioData.guardarSocio(socio)) {
+                JOptionPane.showMessageDialog(this, "Socio guardado correctamente.");
+                listarSocios();
+                limpiarFormulario();
+            } else {
+                JOptionPane.showMessageDialog(this, "No se pudo guardar el socio.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } else {
+            // MODO MODIFICACIÓN (socio seleccionado de la tabla)
+            if (socioData.existeDniEnOtroSocio(dni, socioSeleccionado.getIdSocio())) {
+                JOptionPane.showMessageDialog(this, "Ya existe otro socio registrado con ese DNI.");
+                return;
+            }
+
+            String entradaEdad = JOptionPane.showInputDialog(this,
+                    "Confirmá o modificá la edad del socio:",
+                    socioSeleccionado.getEdad());
+            if (entradaEdad == null) {
+                return;
+            }
+
+            int edad;
+            try {
+                edad = Integer.parseInt(entradaEdad.trim());
+                if (edad <= 0 || edad > 120) {
+                    JOptionPane.showMessageDialog(this, "La edad debe ser un número válido mayor que cero.");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Ingresá una edad válida.");
+                return;
+            }
+
+            socioSeleccionado.setDni(dni);
+            socioSeleccionado.setNombre(partes[0]);
+            socioSeleccionado.setApellido(partes[1]);
+            socioSeleccionado.setEdad(edad);
+            socioSeleccionado.setTelefono(telefono);
+            socioSeleccionado.setCorreo(correo);
+
+            if (!socioSeleccionado.isEstado()) {
+                int reactivar = JOptionPane.showConfirmDialog(this,
+                        "Este socio está inactivo. ¿Deseás reactivarlo?",
+                        "Reactivar socio", JOptionPane.YES_NO_OPTION);
+                if (reactivar == JOptionPane.YES_OPTION) {
+                    socioSeleccionado.setEstado(true);
+                }
+            }
+
+            if (socioData.modificar(socioSeleccionado)) {
+                JOptionPane.showMessageDialog(this, "Socio modificado correctamente.");
+                listarSocios();
+                limpiarFormulario();
+            } else {
+                JOptionPane.showMessageDialog(this, "No se pudo modificar el socio.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
 
-        Socio socio = new Socio(dni, partes[0], partes[1], edad, correo, telefono, true);
-
-        if (socioData.guardarSocio(socio)) {
-            JOptionPane.showMessageDialog(this, "Socio guardado correctamente.");
-            listarSocios();
-            limpiarFormulario();
-        } else {
-            JOptionPane.showMessageDialog(this, "No se pudo guardar el socio.");
-
     }//GEN-LAST:event_jBGuardarActionPerformed
-    }
+
     private void jBNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBNuevoActionPerformed
         limpiarFormulario();
     }//GEN-LAST:event_jBNuevoActionPerformed
 
 
     private void jBEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEliminarActionPerformed
-        int fila = jTListado.getSelectedRow();
-
-        if (fila == -1) {
-            JOptionPane.showMessageDialog(this,
-                    "Seleccioná un socio de la tabla.");
+        if (socioSeleccionado == null) {
+            JOptionPane.showMessageDialog(this, "Seleccioná un socio de la tabla.");
             return;
         }
 
-        String dni = modeloTabla.getValueAt(fila, 0).toString();
-        Socio socio = socioData.buscarPorDni(dni);
+        if (socioSeleccionado.isEstado()) {
+            int confirmacion = JOptionPane.showConfirmDialog(this,
+                    "¿Querés dar de baja (inactivar) al socio " + socioSeleccionado.getApellido() + ", " + socioSeleccionado.getNombre() + "?",
+                    "Confirmar baja lógica", JOptionPane.YES_NO_OPTION);
 
-        if (socio == null) {
-            JOptionPane.showMessageDialog(this,
-                    "No se encontró el socio seleccionado.");
-            listarSocios();
-            return;
-        }
-
-        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Querés eliminar al socio " + dni + "?",
-                "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
-
-        if (confirmacion != JOptionPane.YES_OPTION) {
-            return;
-        }
-
-        if (socioData.eliminar(socio.getIdSocio())) {
-            JOptionPane.showMessageDialog(this, "Socio eliminado correctamente.");
-            listarSocios();
-            limpiarFormulario();
+            if (confirmacion == JOptionPane.YES_OPTION) {
+                if (socioData.darDeBaja(socioSeleccionado.getIdSocio())) {
+                    JOptionPane.showMessageDialog(this, "Socio dado de baja correctamente.");
+                    listarSocios();
+                    limpiarFormulario();
+                } else {
+                    JOptionPane.showMessageDialog(this, "No se pudo dar de baja al socio.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
         } else {
-            JOptionPane.showMessageDialog(this, "No se pudo eliminar el socio.");
+            int confirmacion = JOptionPane.showConfirmDialog(this,
+                    "El socio ya está inactivo. ¿Deseás eliminarlo definitivamente de la base de datos?",
+                    "Confirmar eliminación definitiva", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+
+            if (confirmacion == JOptionPane.YES_OPTION) {
+                if (socioData.eliminar(socioSeleccionado.getIdSocio())) {
+                    JOptionPane.showMessageDialog(this, "Socio eliminado definitivamente.");
+                    listarSocios();
+                    limpiarFormulario();
+                } else {
+                    JOptionPane.showMessageDialog(this,
+                            "No se pudo eliminar el socio (tiene pases o asistencias asociadas).",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
         }
     }//GEN-LAST:event_jBEliminarActionPerformed
 
     private boolean esNombreValido(String nombreCompleto) {
 
-        if (nombreCompleto.length() > 30) { // LIMITE DE CARACTERES
+        if (nombreCompleto.length() > 30) {
             return false;
         }
-
         for (int i = 0; i < nombreCompleto.length(); i++) {
             char c = nombreCompleto.charAt(i);
-
             if (!Character.isLetter(c) && c != ' ') {
                 return false;
             }
         }
-
         return true;
     }
 
     private boolean esTelefonoValido(String telefono) {
 
-        // VERIFICA QUE TENGA 10 DIGITOS
         if (telefono.length() != 10) {
             return false;
         }
-
-        // RECORRE Y VERIFICA QUE SEA NUMERO, RECHAZA GUIONES,ESPACIOS,LETRAS
         for (int i = 0; i < telefono.length(); i++) {
             if (!Character.isDigit(telefono.charAt(i))) {
                 return false;
             }
         }
-
-        // VERIFICA QUE NO ESCRIBAN 10 VECES EL MISMO NUMERO
         char primero = telefono.charAt(0);
         boolean todosIguales = true;
         for (int i = 1; i < telefono.length(); i++) {
@@ -412,11 +465,7 @@ public class VistaSocio extends javax.swing.JInternalFrame {
                 break;
             }
         }
-        if (todosIguales) {
-            return false;
-        }
-
-        return true;
+        return !todosIguales;
     }
 
     private boolean esEmailValido(String email) {
@@ -424,28 +473,14 @@ public class VistaSocio extends javax.swing.JInternalFrame {
         if (email.contains(" ")) {
             return false;
         }
-
         int arroba = email.indexOf("@");
         int punto = email.lastIndexOf(".");
-
-        if (arroba <= 0) {
-            return false;
-        }
-
-        if (punto <= arroba + 1) {
-            return false;
-        }
-
-        if (punto == email.length() - 1) {
-            return false;
-        }
-
-        return true;
+        return arroba > 0 && punto > arroba + 1 && punto < email.length() - 1;
     }
 
     private void configurarTabla() {
-        modeloTabla = new DefaultTableModel(new Object[]{"DNI", "Nombre y Apellido", "Teléfono", "E-Mail"}, 0
-        ) {
+        modeloTabla = new DefaultTableModel(
+                new Object[]{"DNI", "Nombre y Apellido", "Teléfono", "E-Mail", "Entradas Disp.", "Estado"}, 0) {
             @Override
             public boolean isCellEditable(int fila, int columna) {
                 return false;
@@ -453,32 +488,35 @@ public class VistaSocio extends javax.swing.JInternalFrame {
         };
 
         jTListado.setModel(modeloTabla);
-        jTListado.setSelectionMode(
-                javax.swing.ListSelectionModel.SINGLE_SELECTION
-        );
+        jTListado.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
     private void listarSocios() {
         modeloTabla.setRowCount(0);
+        sociosCargados = socioData.listarSocio();
 
-        List<Socio> socios = socioData.listarSocio();
-
-        for (Socio socio : socios) {
+        for (Socio socio : sociosCargados) {
+            int entradasDisp = paseData.buscarEntradasDisponibles(socio.getIdSocio());
+            if (entradasDisp < 0) {
+                entradasDisp = 0;
+            }
             modeloTabla.addRow(new Object[]{
                 socio.getDni(),
                 socio.getApellido() + ", " + socio.getNombre(),
                 socio.getTelefono(),
-                socio.getCorreo()
+                socio.getCorreo(),
+                entradasDisp,
+                socio.isEstado() ? "Activo" : "Inactivo"
             });
         }
     }
 
     private void limpiarFormulario() {
+        socioSeleccionado = null;
         jTDNI.setText("");
         jTNombreyApellido.setText("");
         jTTelefono.setText("");
         jTEmail.setText("");
-
         jTListado.clearSelection();
         jTDNI.requestFocus();
     }

@@ -173,6 +173,34 @@ public class ClaseGymData {
         return clases;
     }
 
+    // LISTAR SOLAMENTE CLASES ACTIVAS
+    public List<ClaseGym> listarClasesActivas() {
+
+        List<ClaseGym> clases = new ArrayList<>();
+
+        String sql = "SELECT c.*, "
+                + "e.DNI, e.Nombre, e.Apellido, "
+                + "e.Especialidad, e.Estado AS EstadoEntrenador "
+                + "FROM clasegym c "
+                + "INNER JOIN entrenador e "
+                + "ON c.ID_Entrenador = e.ID_Entrenador "
+                + "WHERE c.Estado = 1 "
+                + "AND e.Estado = 1 "
+                + "ORDER BY c.ID_Clase";
+
+        try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                clases.add(cargarClase(rs));
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al listar clases activas: " + e.getMessage());
+        }
+
+        return clases;
+    }
+
     // MODIFICAR CLASE
     public boolean modificarClase(ClaseGym clase) {
         if (entrenadorOcupadoEnHorario(clase.getEntrenador().getIdEntrenador(), clase.getHorario(), clase.getId())) {
