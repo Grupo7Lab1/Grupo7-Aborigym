@@ -13,9 +13,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
 public class SocioData {
 
     // GUARDAR ENTIDAD
@@ -233,5 +230,23 @@ public class SocioData {
                     + e.getMessage());
             return false;
         }
+    }
+
+    // VALIDAR DNI DUPLICADO AL MODIFICAR SOCIO
+    public boolean existeDniEnOtroSocio(String dni, int idSocio) {
+        String sql = "SELECT COUNT(*) FROM Socio WHERE DNI = ? AND ID_Socio <> ?";
+
+        try (Connection con = Conexion.conectar(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, dni);
+            ps.setInt(2, idSocio);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al verificar DNI en otro socio: " + e.getMessage());
+        }
+        return false;
     }
 }

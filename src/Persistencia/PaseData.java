@@ -368,4 +368,35 @@ public class PaseData {
         }
         return null;
     }
+
+    // CONSULTA INFORME: RESUMEN DEL PASE ACTUAL (INICIALES, CONSUMIDAS Y RESTANTES)
+    public Object[] obtenerResumenPaseActual(int idSocio) {
+        String sql = "SELECT p.ID_Pase, m.Nombre AS Membresia, p.EntradasIniciales, "
+                + "(p.EntradasIniciales - p.CantidadEntradas) AS Consumidas, "
+                + "p.CantidadEntradas AS Restantes, p.Fecha_Inicio, p.Fecha_Fin "
+                + "FROM pase p "
+                + "INNER JOIN membresia m ON p.ID_Membresia = m.ID_Membresia "
+                + "WHERE p.ID_Socio = ? AND p.Estado = 1 "
+                + "ORDER BY p.Fecha_Inicio DESC, p.ID_Pase DESC LIMIT 1";
+
+        try (Connection con = Conexion.conectar(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, idSocio);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new Object[]{
+                        rs.getInt("ID_Pase"),
+                        rs.getString("Membresia"),
+                        rs.getInt("EntradasIniciales"),
+                        rs.getInt("Consumidas"),
+                        rs.getInt("Restantes"),
+                        rs.getDate("Fecha_Inicio"),
+                        rs.getDate("Fecha_Fin")
+                    };
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al obtener resumen del pase actual: " + e.getMessage());
+        }
+        return null;
+    }
 }
