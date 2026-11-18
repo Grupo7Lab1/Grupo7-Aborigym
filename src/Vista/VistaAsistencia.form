@@ -25,26 +25,36 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jCBSocios" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jDCFechaDeAsistencia" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jLabel1" alignment="0" pref="108" max="32767" attributes="0"/>
-                  <Component id="jCBClase" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jLClase" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jLSocios" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jBLimpiar" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jBBorrar" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jBRegistrar" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jBModificar" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jLPase" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jCBPases" max="32767" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <Component id="jLRegistrodeAsistencia" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="179" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="jLId" min="-2" pref="44" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTIdSocio" pref="134" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="jSPAsistencia" pref="0" max="32767" attributes="0"/>
+                  <Component id="JLEntradasDisponibles" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="jDCFechaDeAsistencia" alignment="0" max="32767" attributes="0"/>
+                  <Component id="jCBPases" max="32767" attributes="0"/>
+                  <Component id="jCBSocios" max="32767" attributes="0"/>
+                  <Component id="jCBClase" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="jLabel1" alignment="0" pref="108" max="32767" attributes="0"/>
+                      <Component id="jLClase" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jLSocios" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jBLimpiar" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jBBorrar" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jBRegistrar" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jBModificar" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jLPase" alignment="0" max="32767" attributes="0"/>
+                  </Group>
+                  <Component id="jTEntradasDisponibles" alignment="0" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jSPAsistencia" pref="729" max="32767" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="jLRegistrodeAsistencia" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="260" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -61,14 +71,23 @@
                   <Group type="102" attributes="0">
                       <Component id="jCBSocios" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jLId" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTIdSocio" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLPase" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="jCBPases" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="JLEntradasDisponibles" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTEntradasDisponibles" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLClase" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="jCBClase" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jDCFechaDeAsistencia" min="-2" max="-2" attributes="0"/>
@@ -228,6 +247,23 @@
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLId">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="id:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="jTIdSocio">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTIdSocioActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="JLEntradasDisponibles">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Entradas Disponibles"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="jTEntradasDisponibles">
     </Component>
   </SubComponents>
 </Form>

@@ -9,13 +9,14 @@ import Modelo.ClaseGym;
 import Persistencia.AsistenciaData;
 import java.time.LocalDate;
 import javax.swing.JOptionPane;
-import Modelo.Asistencia;
 import Persistencia.SocioData;
 import java.util.List;
 import java.util.ArrayList;
 import Persistencia.ClaseGymData;
 import Modelo.Pase;
 import Persistencia.PaseData;
+import javax.swing.table.DefaultTableModel;
+import Modelo.Asistencia;
 
 /**
  *
@@ -37,7 +38,8 @@ public class VistaAsistencia extends javax.swing.JInternalFrame {
         cargarSocios();
         cargarClases();
         cargarPases();
-        
+        cargarTabla();
+        jCBSocios.addActionListener(this::jCBSociosActionPerformed);
     }
 
     private void cargarSocios() {
@@ -118,6 +120,10 @@ public class VistaAsistencia extends javax.swing.JInternalFrame {
         jTAsistencia = new javax.swing.JTable();
         jLPase = new javax.swing.JLabel();
         jCBPases = new javax.swing.JComboBox<>();
+        jLId = new javax.swing.JLabel();
+        jTIdSocio = new javax.swing.JTextField();
+        JLEntradasDisponibles = new javax.swing.JLabel();
+        jTEntradasDisponibles = new javax.swing.JTextField();
 
         setTitle("Gestion de Asistencia");
 
@@ -170,6 +176,12 @@ public class VistaAsistencia extends javax.swing.JInternalFrame {
 
         jCBPases.addActionListener(this::jCBPasesActionPerformed);
 
+        jLId.setText("id:");
+
+        jTIdSocio.addActionListener(this::jTIdSocioActionPerformed);
+
+        JLEntradasDisponibles.setText("Entradas Disponibles");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -177,24 +189,32 @@ public class VistaAsistencia extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jCBSocios, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jDCFechaDeAsistencia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
-                    .addComponent(jCBClase, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLClase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLSocios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jBLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jBBorrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jBRegistrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jBModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLPase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jCBPases, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(31, 31, 31)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLId, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTIdSocio, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE))
+                    .addComponent(JLEntradasDisponibles)
+                    .addComponent(jDCFechaDeAsistencia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jCBPases, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jCBSocios, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jCBClase, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                        .addComponent(jLClase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLSocios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jBLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jBBorrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jBRegistrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jBModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLPase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jTEntradasDisponibles))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSPAsistencia, javax.swing.GroupLayout.DEFAULT_SIZE, 729, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLRegistrodeAsistencia)
-                        .addGap(0, 179, Short.MAX_VALUE))
-                    .addComponent(jSPAsistencia, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addGap(260, 260, 260)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -208,14 +228,22 @@ public class VistaAsistencia extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jCBSocios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLId)
+                            .addComponent(jTIdSocio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLPase)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCBPases, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(JLEntradasDisponibles)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTEntradasDisponibles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLClase)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jCBClase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jDCFechaDeAsistencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -236,15 +264,21 @@ public class VistaAsistencia extends javax.swing.JInternalFrame {
 
     private void jCBSociosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBSociosActionPerformed
 
-        int indice = jCBSocios.getSelectedIndex();
+    int indice = jCBSocios.getSelectedIndex();
 
-        if (indice >= 0) {
+    if (indice >= 0 && indice < listaSocios.size()) {
 
-            Socio socio = listaSocios.get(indice);
+        Socio socio = listaSocios.get(indice);
 
-            System.out.println("Socio seleccionado: "
-                    + socio.getIdSocio());
-        }
+        jTIdSocio.setText(String.valueOf(socio.getIdSocio()));
+
+        System.out.println("Socio seleccionado: " + socio.getNombre());
+        System.out.println("ID del socio: " + socio.getIdSocio());
+
+    } else {
+
+        jTIdSocio.setText("");
+    }
     }//GEN-LAST:event_jCBSociosActionPerformed
 
     private void jCBClaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBClaseActionPerformed
@@ -349,9 +383,14 @@ public class VistaAsistencia extends javax.swing.JInternalFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
         }
+        if (asistenciaData.guardarAsistencia(asistencia)) {
 
+            JOptionPane.showMessageDialog(this,
+                    "Asistencia registrada correctamente.");
+
+            cargarTabla();
     }//GEN-LAST:event_jBRegistrarActionPerformed
-
+    }
     private void jBModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBModificarActionPerformed
 
         // Obtener fila seleccionada
@@ -491,11 +530,62 @@ public class VistaAsistencia extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBLimpiarActionPerformed
 
     private void jCBPasesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBPasesActionPerformed
-        // TODO add your handling code here:
+        
+    int indice = jCBPases.getSelectedIndex();
+
+    if (indice >= 0 && indice < listaPases.size()) {
+
+        Pase pase = listaPases.get(indice);
+
+        jTEntradasDisponibles.setText(
+                String.valueOf(pase.getCantidadEntradas())
+        );
+
+    } else {
+
+        jTEntradasDisponibles.setText("");
+    }
     }//GEN-LAST:event_jCBPasesActionPerformed
+
+    private void jTIdSocioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTIdSocioActionPerformed
+    
+    }//GEN-LAST:event_jTIdSocioActionPerformed
+
+    private void cargarTabla() {
+        
+    // Evitar que el usuario modifique manualmente los campos
+    jTIdSocio.setEditable(false);
+    jTEntradasDisponibles.setEditable(false);
+
+    // Obtener el modelo de la tabla
+    DefaultTableModel modelo =
+            (DefaultTableModel) jTAsistencia.getModel();
+
+    // Limpiar los registros anteriores
+    modelo.setRowCount(0);
+
+    // Consultar las asistencias de la base de datos
+    AsistenciaData asistenciaData = new AsistenciaData();
+
+    List<Asistencia> lista = asistenciaData.listarAsistencia();
+
+    // Recorrer la lista y cargar los registros
+    for (Asistencia asistencia : lista) {
+
+        modelo.addRow(new Object[]{
+            asistencia.getId(),
+            asistencia.getSocio().getIdSocio(),
+            asistencia.getClase().getId(),
+            asistencia.getFechaAsistencia()
+        });
+    }
+
+    System.out.println("Asistencias cargadas: " + lista.size());
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel JLEntradasDisponibles;
     private javax.swing.JButton jBBorrar;
     private javax.swing.JButton jBLimpiar;
     private javax.swing.JButton jBModificar;
@@ -505,11 +595,14 @@ public class VistaAsistencia extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> jCBSocios;
     private com.toedter.calendar.JDateChooser jDCFechaDeAsistencia;
     private javax.swing.JLabel jLClase;
+    private javax.swing.JLabel jLId;
     private javax.swing.JLabel jLPase;
     private javax.swing.JLabel jLRegistrodeAsistencia;
     private javax.swing.JLabel jLSocios;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jSPAsistencia;
     private javax.swing.JTable jTAsistencia;
+    private javax.swing.JTextField jTEntradasDisponibles;
+    private javax.swing.JTextField jTIdSocio;
     // End of variables declaration//GEN-END:variables
 }

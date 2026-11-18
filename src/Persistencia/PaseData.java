@@ -145,4 +145,187 @@ public class PaseData {
 
         return false;
     }
+    private Pase cargarPase(ResultSet rs) throws SQLException {
+
+    Pase p = new Pase();
+
+    p.setIdPase(rs.getInt("ID_Pase"));
+    p.setIdSocio(rs.getInt("ID_Socio"));
+    p.setIdMembresia(rs.getInt("ID_Membresia"));
+    p.setEntradasIniciales(rs.getInt("EntradasIniciales"));
+    p.setCantidadEntradas(rs.getInt("CantidadEntradas"));
+
+    Date inicio = rs.getDate("Fecha_Inicio");
+    Date fin = rs.getDate("Fecha_Fin");
+
+    p.setFechaInicio(
+        inicio == null ? null : inicio.toLocalDate()
+    );
+
+    p.setFechaFin(
+        fin == null ? null : fin.toLocalDate()
+    );
+
+    p.setCosto(rs.getDouble("Costo"));
+    p.setEstado(rs.getBoolean("Estado"));
+
+    return p;
 }
+    public Pase buscarPasePorSocio(int idSocio) {
+
+    String sql = "SELECT * FROM pase "
+            + "WHERE ID_Socio = ? "
+            + "ORDER BY Fecha_Inicio DESC, ID_Pase DESC "
+            + "LIMIT 1";
+
+    try (Connection con = Conexion.conectar();
+         PreparedStatement ps = con.prepareStatement(sql)) {
+
+        ps.setInt(1, idSocio);
+
+        try (ResultSet rs = ps.executeQuery()) {
+
+            if (rs.next()) {
+                return cargarPase(rs);
+            }
+        }
+
+    } catch (SQLException e) {
+        System.err.println("Error al buscar pase: " + e.getMessage());
+    }
+
+    return null;
+}
+    public int buscarEntradasDisponibles(int idSocio) {
+
+    String sql = "SELECT CantidadEntradas FROM pase "
+            + "WHERE ID_Socio = ? "
+            + "AND Estado = 1 "
+            + "AND Fecha_Fin >= CURDATE() "
+            + "AND CantidadEntradas > 0 "
+            + "ORDER BY Fecha_Inicio DESC, ID_Pase DESC "
+            + "LIMIT 1";
+
+    try (Connection con = Conexion.conectar();
+         PreparedStatement ps = con.prepareStatement(sql)) {
+
+        ps.setInt(1, idSocio);
+
+        try (ResultSet rs = ps.executeQuery()) {
+
+            if (rs.next()) {
+                return rs.getInt("CantidadEntradas");
+            }
+        }
+
+    } catch (SQLException e) {
+        System.err.println("Error al consultar entradas: " + e.getMessage());
+    }
+
+    return -1;
+}
+    public List<Pase> buscarPasesVencidosPorFecha() {
+
+    List<Pase> lista = new ArrayList<>();
+
+    String sql = "SELECT * FROM pase "
+            + "WHERE Estado = 1 "
+            + "AND Fecha_Fin < CURDATE() "
+            + "ORDER BY Fecha_Fin";
+
+    try (Connection con = Conexion.conectar();
+         PreparedStatement ps = con.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+            lista.add(cargarPase(rs));
+        }
+
+    } catch (SQLException e) {
+        System.err.println("Error al buscar vencimientos: " + e.getMessage());
+    }
+
+    return lista;
+}
+public List<Pase> buscarPasesAgotados() {
+
+    List<Pase> lista = new ArrayList<>();
+
+    String sql = "SELECT * FROM pase "
+            + "WHERE Estado = 1 "
+            + "AND CantidadEntradas <= 0 "
+            + "ORDER BY ID_Pase";
+
+    try (Connection con = Conexion.conectar();
+         PreparedStatement ps = con.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+            lista.add(cargarPase(rs));
+        }
+
+    } catch (SQLException e) {
+        System.err.println("Error al buscar pases agotados: " + e.getMessage());
+    }
+
+    return lista;
+}
+public List<Pase> buscarTodosLosPasesVencidos() {
+
+    List<Pase> lista = new ArrayList<>();
+
+    String sql = "SELECT * FROM pase "
+            + "WHERE Estado = 1 "
+            + "AND (Fecha_Fin < CURDATE() "
+            + "OR CantidadEntradas <= 0) "
+            + "ORDER BY Fecha_Fin";
+
+    try (Connection con = Conexion.conectar();
+         PreparedStatement ps = con.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+            lista.add(cargarPase(rs));
+        }
+
+    } catch (SQLException e) {
+        System.err.println("Error al buscar pases vencidos: " + e.getMessage());
+    }
+
+    return lista;
+}
+public List<Pase> listarPasesDisponiblesPorSocio(int idSocio) {
+
+    List<Pase> lista = new ArrayList<>();
+
+    String sql = "SELECT * FROM pase "
+            + "WHERE ID_Socio = ? "
+            + "AND Estado = 1 "
+            + "AND Fecha_Inicio <= CURDATE() "
+            + "AND Fecha_Fin >= CURDATE() "
+            + "AND CantidadEntradas > 0 "
+            + "ORDER BY Fecha_Fin ASC";
+
+    try (Connection con = Conexion.conectar();
+         PreparedStatement ps = con.prepareStatement(sql)) {
+
+        ps.setInt(1, idSocio);
+
+        try (ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                lista.add(cargarPase(rs));
+            }
+        }
+
+    } catch (SQLException e) {
+        System.err.println(
+                "Error al listar pases disponibles del socio: "
+                + e.getMessage()
+        );
+    }
+
+    return lista;
+}
+}
+

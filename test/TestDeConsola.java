@@ -645,7 +645,7 @@ public class TestDeConsola {
                 }
                 case 2: {
                     System.out.println("\n--- LISTADO DE ASISTENCIAS ---");
-                    List<Asistencia> lista = asistenciaData.listarAsistencias();
+                    List<Asistencia> lista = asistenciaData.listarAsistencia();
                     if (lista.isEmpty()) {
                         System.out.println("No hay asistencias registradas.");
                     } else {
