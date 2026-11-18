@@ -1,3 +1,4 @@
+
 import Modelo.Asistencia;
 import Modelo.ClaseGym;
 import Modelo.Conexion;
@@ -57,14 +58,22 @@ public class TestDeConsola {
             opcion = leerEntero(teclado, "Seleccione una opcion: ");
 
             switch (opcion) {
-                case 1 -> menuSocios(teclado, socioData, paseData);
-                case 2 -> menuEntrenadores(teclado, entrenadorData);
-                case 3 -> menuMembresias(teclado, membresiaData);
-                case 4 -> menuClases(teclado, claseData, entrenadorData);
-                case 5 -> menuPases(teclado, paseData, socioData, membresiaData);
-                case 6 -> menuAsistencias(teclado, asistenciaData, socioData, claseData, paseData);
-                case 0 -> System.out.println("Prueba de consola finalizada.");
-                default -> System.out.println("Opcion invalida.");
+                case 1 ->
+                    menuSocios(teclado, socioData, paseData);
+                case 2 ->
+                    menuEntrenadores(teclado, entrenadorData);
+                case 3 ->
+                    menuMembresias(teclado, membresiaData);
+                case 4 ->
+                    menuClases(teclado, claseData, entrenadorData);
+                case 5 ->
+                    menuPases(teclado, paseData, socioData, membresiaData);
+                case 6 ->
+                    menuAsistencias(teclado, asistenciaData, socioData, claseData, paseData);
+                case 0 ->
+                    System.out.println("Prueba de consola finalizada.");
+                default ->
+                    System.out.println("Opcion invalida.");
             }
         } while (opcion != 0);
 
@@ -120,12 +129,18 @@ public class TestDeConsola {
                     }
                 }
                 case 2 -> {
-                    List<Socio> socios = socioData.listarTodosLosSocios();
+                    List<Socio> socios = socioData.listarSocio();
+                    List<Pase> pases = paseData.listarPases();
                     if (socios.isEmpty()) {
                         System.out.println("No hay socios registrados.");
                     } else {
                         for (Socio s : socios) {
-                            int entradas = paseData.obtenerTotalEntradasDisponibles(s.getIdSocio());
+                            int entradas = 0;
+                            for (Pase p : pases) {
+                                if (p.getIdSocio() == s.getIdSocio() && p.isEstado()) {
+                                    entradas += p.getCantidadEntradas();
+                                }
+                            }
                             System.out.println(s + " | Entradas disp.: " + entradas + " | Estado: " + (s.isEstado() ? "Activo" : "Inactivo"));
                         }
                     }
@@ -159,7 +174,8 @@ public class TestDeConsola {
                     System.out.println("Datos actuales: " + s);
                     System.out.print("Nuevo DNI: ");
                     String nuevoDni = teclado.nextLine().trim();
-                    if (socioData.existeDniEnOtroSocio(nuevoDni, id)) {
+                    Socio otro = socioData.buscarPorDni(nuevoDni);
+                    if (otro != null && otro.getIdSocio() != id) {
                         System.out.println("Ese DNI ya pertenece a otro socio.");
                         break;
                     }
@@ -177,7 +193,7 @@ public class TestDeConsola {
                     System.out.print("Nuevo Telefono: ");
                     s.setTelefono(teclado.nextLine().trim());
 
-                    if (socioData.modificarSocio(s)) {
+                    if (socioData.modificar(s)) {
                         System.out.println("Socio actualizado correctamente.");
                     } else {
                         System.out.println("No se pudo actualizar el socio.");
@@ -185,7 +201,7 @@ public class TestDeConsola {
                 }
                 case 6 -> {
                     int id = leerEntero(teclado, "ID del socio para baja logica: ");
-                    if (id > 0 && socioData.bajaLogica(id)) {
+                    if (id > 0 && socioData.darDeBaja(id)) {
                         System.out.println("Socio dado de baja correctamente.");
                     } else {
                         System.out.println("No se pudo dar de baja al socio.");
@@ -193,7 +209,7 @@ public class TestDeConsola {
                 }
                 case 7 -> {
                     int id = leerEntero(teclado, "ID del socio para alta logica: ");
-                    if (id > 0 && socioData.altaLogica(id)) {
+                    if (id > 0 && socioData.darDeAlta(id)) {
                         System.out.println("Socio reactivado correctamente.");
                     } else {
                         System.out.println("No se pudo dar de alta al socio.");
@@ -218,8 +234,10 @@ public class TestDeConsola {
                         System.out.println("Operacion cancelada.");
                     }
                 }
-                case 0 -> System.out.println("Volviendo al menu principal.");
-                default -> System.out.println("Opcion invalida.");
+                case 0 ->
+                    System.out.println("Volviendo al menu principal.");
+                default ->
+                    System.out.println("Opcion invalida.");
             }
         } while (opcion != 0);
     }
@@ -323,8 +341,10 @@ public class TestDeConsola {
                         System.out.println("No se pudo dar de alta al entrenador.");
                     }
                 }
-                case 0 -> System.out.println("Volviendo al menu principal.");
-                default -> System.out.println("Opcion invalida.");
+                case 0 ->
+                    System.out.println("Volviendo al menu principal.");
+                default ->
+                    System.out.println("Opcion invalida.");
             }
         } while (opcion != 0);
     }
@@ -383,16 +403,24 @@ public class TestDeConsola {
                     }
                     System.out.print("Nuevo nombre (" + m.getNombre() + "): ");
                     String nombre = teclado.nextLine().trim();
-                    if (!nombre.isEmpty()) m.setNombre(nombre);
+                    if (!nombre.isEmpty()) {
+                        m.setNombre(nombre);
+                    }
 
                     int clases = leerEntero(teclado, "Nueva cantidad de clases: ");
-                    if (clases > 0) m.setCantidadClases(clases);
+                    if (clases > 0) {
+                        m.setCantidadClases(clases);
+                    }
 
                     int dias = leerEntero(teclado, "Nueva duracion en dias: ");
-                    if (dias > 0) m.setDuracionDias(dias);
+                    if (dias > 0) {
+                        m.setDuracionDias(dias);
+                    }
 
                     double precio = leerDecimal(teclado, "Nuevo precio: ");
-                    if (precio >= 0) m.setPrecio(precio);
+                    if (precio >= 0) {
+                        m.setPrecio(precio);
+                    }
 
                     if (data.modificarMembresia(m)) {
                         System.out.println("Membresia modificada correctamente.");
@@ -408,8 +436,10 @@ public class TestDeConsola {
                         System.out.println("No se pudo eliminar (puede estar asociada a un pase).");
                     }
                 }
-                case 0 -> System.out.println("Volviendo al menu principal.");
-                default -> System.out.println("Opcion invalida.");
+                case 0 ->
+                    System.out.println("Volviendo al menu principal.");
+                default ->
+                    System.out.println("Opcion invalida.");
             }
         } while (opcion != 0);
     }
@@ -495,7 +525,9 @@ public class TestDeConsola {
                     if (!cap.isEmpty()) {
                         try {
                             int nueva = Integer.parseInt(cap);
-                            if (nueva > 0) c.setCapacidad(nueva);
+                            if (nueva > 0) {
+                                c.setCapacidad(nueva);
+                            }
                         } catch (NumberFormatException ex) {
                             System.out.println("Capacidad invalida.");
                         }
@@ -514,8 +546,10 @@ public class TestDeConsola {
                         System.out.println("No se pudo dar de baja la clase.");
                     }
                 }
-                case 0 -> System.out.println("Volviendo al menu principal.");
-                default -> System.out.println("Opcion invalida.");
+                case 0 ->
+                    System.out.println("Volviendo al menu principal.");
+                default ->
+                    System.out.println("Opcion invalida.");
             }
         } while (opcion != 0);
     }
@@ -612,8 +646,10 @@ public class TestDeConsola {
                         System.out.println("No se pudo dar de baja el pase.");
                     }
                 }
-                case 0 -> System.out.println("Volviendo al menu principal.");
-                default -> System.out.println("Opcion invalida.");
+                case 0 ->
+                    System.out.println("Volviendo al menu principal.");
+                default ->
+                    System.out.println("Opcion invalida.");
             }
         } while (opcion != 0);
     }
@@ -699,8 +735,10 @@ public class TestDeConsola {
                         System.out.println("No se pudo eliminar la asistencia.");
                     }
                 }
-                case 0 -> System.out.println("Volviendo al menu principal.");
-                default -> System.out.println("Opcion invalida.");
+                case 0 ->
+                    System.out.println("Volviendo al menu principal.");
+                default ->
+                    System.out.println("Opcion invalida.");
             }
         } while (opcion != 0);
     }
@@ -738,9 +776,13 @@ public class TestDeConsola {
     }
 
     private static Pase buscarPase(PaseData paseData, int id) {
-        if (id <= 0) return null;
+        if (id <= 0) {
+            return null;
+        }
         for (Pase p : paseData.listarPases()) {
-            if (p.getIdPase() == id) return p;
+            if (p.getIdPase() == id) {
+                return p;
+            }
         }
         return null;
     }
