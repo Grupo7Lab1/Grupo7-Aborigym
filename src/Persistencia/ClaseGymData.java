@@ -12,7 +12,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +30,11 @@ public class ClaseGymData {
         }
     }
 
+    private static Time horaDeInicio(String horario) {
+        String inicio = horario.split(" - ", 2)[0].trim();
+        return Time.valueOf(LocalTime.parse(inicio));
+    }
+
     // VALIDA SUPERPOSICIN HORARIA DEL ENTRENADOR (idClaseExcluir = 0 si es nueva)
     public boolean entrenadorOcupadoEnHorario(int idEntrenador, String horario, int idClaseExcluir) {
         String sql = "SELECT COUNT(*) FROM clasegym "
@@ -35,7 +42,7 @@ public class ClaseGymData {
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, idEntrenador);
-            ps.setString(2, horario);
+            ps.setTime(2, horaDeInicio(horario));
             ps.setInt(3, idClaseExcluir);
 
             try (ResultSet rs = ps.executeQuery()) {
@@ -51,7 +58,7 @@ public class ClaseGymData {
 
     // GUARDAR CLASE
     public boolean guardarClase(ClaseGym clase) {
-        if (entrenadorOcupadoEnHorario(clase.getEntrenador().getIdEntrenador(), clase.getHorario(), 0)) {
+        if (clase.isEstado() && entrenadorOcupadoEnHorario(clase.getEntrenador().getIdEntrenador(), clase.getHorario(), 0)) {
             System.out.println("El entrenador ya tiene otra clase asignada en ese horario.");
             return false;
         }
@@ -65,7 +72,7 @@ public class ClaseGymData {
 
             ps.setString(1, clase.getDisciplina());
             ps.setInt(2, clase.getEntrenador().getIdEntrenador());
-            ps.setString(3, clase.getHorario());
+            ps.setTime(3, horaDeInicio(clase.getHorario()));
             ps.setInt(4, clase.getCapacidad());
             ps.setBoolean(5, clase.isEstado());
 
@@ -203,7 +210,7 @@ public class ClaseGymData {
 
     // MODIFICAR CLASE
     public boolean modificarClase(ClaseGym clase) {
-        if (entrenadorOcupadoEnHorario(clase.getEntrenador().getIdEntrenador(), clase.getHorario(), clase.getId())) {
+        if (clase.isEstado() && entrenadorOcupadoEnHorario(clase.getEntrenador().getIdEntrenador(), clase.getHorario(), clase.getId())) {
             System.out.println("El entrenador ya tiene otra clase asignada en ese horario.");
             return false;
         }
@@ -219,7 +226,7 @@ public class ClaseGymData {
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, clase.getDisciplina());
             ps.setInt(2, clase.getEntrenador().getIdEntrenador());
-            ps.setString(3, clase.getHorario());
+            ps.setTime(3, horaDeInicio(clase.getHorario()));
             ps.setInt(4, clase.getCapacidad());
             ps.setBoolean(5, clase.isEstado());
             ps.setInt(6, clase.getId());

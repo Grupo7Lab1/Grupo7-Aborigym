@@ -8,6 +8,8 @@ import Modelo.ClaseGym;
 import Modelo.Entrenador;
 import Persistencia.ClaseGymData;
 import Persistencia.EntrenadorData;
+import java.text.Collator;
+import java.util.Locale;
 import java.util.List;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -136,6 +138,7 @@ public class VistaClaseGym extends javax.swing.JInternalFrame {
         jCBDisciplina.addItem("Spinning");
         jCBDisciplina.addItem("Funcional");
         jCBDisciplina.addItem("Pilates");
+        jCBDisciplina.addItem("CrossFit");
     }
 
     private void cargarHorarios() {
@@ -392,11 +395,13 @@ public class VistaClaseGym extends javax.swing.JInternalFrame {
 
         EntrenadorData entrenadorData = new EntrenadorData();
         List<Entrenador> lista = entrenadorData.listarEntrenadores();
+        Collator comparador = Collator.getInstance(Locale.forLanguageTag("es-AR"));
+        comparador.setStrength(Collator.PRIMARY);
 
         for (Entrenador entrenador : lista) {
             if (entrenador.isEstado()
                     && entrenador.getEspecialidad() != null
-                    && entrenador.getEspecialidad().equalsIgnoreCase(disciplina)) {
+                    && comparador.compare(entrenador.getEspecialidad().trim(), disciplina) == 0) {
 
                 entrenadoresCargados.add(entrenador);
                 jCBEntrenador.addItem(

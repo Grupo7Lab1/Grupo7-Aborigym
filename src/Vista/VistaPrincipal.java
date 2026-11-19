@@ -76,10 +76,10 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
         jMIPase = new javax.swing.JMenuItem();
         jMEntrenador = new javax.swing.JMenu();
         jMIEntrenador = new javax.swing.JMenuItem();
-        jMAsistencia = new javax.swing.JMenu();
-        jMIAsistencia = new javax.swing.JMenuItem();
         jMClaseGym = new javax.swing.JMenu();
         jMIClaseGym = new javax.swing.JMenuItem();
+        jMAsistencia = new javax.swing.JMenu();
+        jMIAsistencia = new javax.swing.JMenuItem();
         jMArchivo = new javax.swing.JMenu();
         jMISalir = new javax.swing.JMenuItem();
 
@@ -152,14 +152,6 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
 
         jMBPrincipal.add(jMEntrenador);
 
-        jMAsistencia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/asistencia.png"))); // NOI18N
-
-        jMIAsistencia.setText("Asistencia");
-        jMIAsistencia.addActionListener(this::jMIAsistenciaActionPerformed);
-        jMAsistencia.add(jMIAsistencia);
-
-        jMBPrincipal.add(jMAsistencia);
-
         jMClaseGym.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/clasegym.png"))); // NOI18N
 
         jMIClaseGym.setText("ClaseGym");
@@ -167,6 +159,14 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
         jMClaseGym.add(jMIClaseGym);
 
         jMBPrincipal.add(jMClaseGym);
+
+        jMAsistencia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/asistencia.png"))); // NOI18N
+
+        jMIAsistencia.setText("Asistencia");
+        jMIAsistencia.addActionListener(this::jMIAsistenciaActionPerformed);
+        jMAsistencia.add(jMIAsistencia);
+
+        jMBPrincipal.add(jMAsistencia);
 
         jMArchivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/logout.png"))); // NOI18N
         jMArchivo.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
