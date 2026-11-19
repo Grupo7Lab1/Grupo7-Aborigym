@@ -78,15 +78,30 @@ public class VistaAsistencia extends javax.swing.JInternalFrame {
             }
         }
 
-        if (a.getPase() != null) {
+        actualizarDatosSocioSeleccionado();
+        if (a.getPase() != null && a.getPase().getIdPase() > 0) {
+            int idPase = a.getPase().getIdPase();
+            int indicePase = -1;
             for (int i = 0; i < listaPases.size(); i++) {
-                if (listaPases.get(i).getIdPase() == a.getPase().getIdPase()) {
-                    jCBPases.setSelectedIndex(i);
+                if (listaPases.get(i).getIdPase() == idPase) {
+                    indicePase = i;
                     break;
                 }
             }
+            if (indicePase < 0) {
+                Pase paseOriginal = new PaseData().buscarPasePorId(idPase);
+                if (paseOriginal != null) {
+                    indicePase = listaPases.size();
+                    listaPases.add(paseOriginal);
+                    jCBPases.addItem("Pase N° " + idPase + " (asignado a esta asistencia)");
+                }
+            }
+            jCBPases.setSelectedIndex(indicePase);
+        } else {
+            jCBPases.setSelectedIndex(-1);
         }
 
+        jCBClase.setSelectedIndex(-1);
         if (a.getClase() != null) {
             for (int i = 0; i < listaClases.size(); i++) {
                 if (listaClases.get(i).getId() == a.getClase().getId()) {
@@ -548,7 +563,7 @@ public class VistaAsistencia extends javax.swing.JInternalFrame {
             cargarTabla();
             actualizarDatosSocioSeleccionado();
         } else {
-            JOptionPane.showMessageDialog(this, "No se pudo modificar la asistencia.",
+            JOptionPane.showMessageDialog(this, "No se pudo modificar la asistencia. Revisá la vigencia del pase, el cupo y las asistencias duplicadas.",
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
 

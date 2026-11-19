@@ -70,10 +70,10 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
         jMBPrincipal = new javax.swing.JMenuBar();
         jMSocio = new javax.swing.JMenu();
         jMIsocio = new javax.swing.JMenuItem();
-        jMPases = new javax.swing.JMenu();
-        jMIPase = new javax.swing.JMenuItem();
         jMMembresia = new javax.swing.JMenu();
         jMIMembresia = new javax.swing.JMenuItem();
+        jMPases = new javax.swing.JMenu();
+        jMIPase = new javax.swing.JMenuItem();
         jMEntrenador = new javax.swing.JMenu();
         jMIEntrenador = new javax.swing.JMenuItem();
         jMAsistencia = new javax.swing.JMenu();
@@ -111,7 +111,7 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
         );
         jDesktopPanelLayout.setVerticalGroup(
             jDesktopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 433, Short.MAX_VALUE)
+            .addGap(0, 437, Short.MAX_VALUE)
         );
 
         jMBPrincipal.setBackground(new java.awt.Color(153, 153, 255));
@@ -126,15 +126,6 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
 
         jMBPrincipal.add(jMSocio);
 
-        jMPases.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/Pase.png"))); // NOI18N
-        jMPases.addActionListener(this::jMPasesActionPerformed);
-
-        jMIPase.setText("Pase");
-        jMIPase.addActionListener(this::jMIPaseActionPerformed);
-        jMPases.add(jMIPase);
-
-        jMBPrincipal.add(jMPases);
-
         jMMembresia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/membership.png"))); // NOI18N
         jMMembresia.addActionListener(this::jMMembresiaActionPerformed);
 
@@ -143,6 +134,15 @@ private void abrirVentana(javax.swing.JInternalFrame ventana) {
         jMMembresia.add(jMIMembresia);
 
         jMBPrincipal.add(jMMembresia);
+
+        jMPases.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/Pase.png"))); // NOI18N
+        jMPases.addActionListener(this::jMPasesActionPerformed);
+
+        jMIPase.setText("Pase");
+        jMIPase.addActionListener(this::jMIPaseActionPerformed);
+        jMPases.add(jMIPase);
+
+        jMBPrincipal.add(jMPases);
 
         jMEntrenador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/coach.png"))); // NOI18N
 

@@ -434,7 +434,8 @@ public class VistaEntrenador extends javax.swing.JInternalFrame {
 
             } else {
 
-                JOptionPane.showMessageDialog(this, "No se pudo dar de baja al entrenador");
+                JOptionPane.showMessageDialog(this,
+                        "No se pudo dar de baja al entrenador. Verificá que no tenga clases activas asignadas.");
             }
         }
 

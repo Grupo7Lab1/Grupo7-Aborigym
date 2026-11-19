@@ -48,6 +48,7 @@ public class VistaPases extends javax.swing.JInternalFrame {
         cargarSocios();
         configurarTiposDePase();
         configurarEstado();
+        jDCFechaDeFinalizacion.setEnabled(false);
         initEventos();
         listarPases();
         setClosable(true);
@@ -70,7 +71,14 @@ public class VistaPases extends javax.swing.JInternalFrame {
                 && jDCFechaDeInicio.getDate() != null) {
             Membresia m = membresiasDisponibles.get(indiceMembresia);
             LocalDate inicio = jDCFechaDeInicio.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            LocalDate fin = inicio.plusDays(m.getDuracionDias());
+            boolean vigenciaExistente = paseSeleccionado != null
+                    && inicio.equals(paseSeleccionado.getFechaInicio())
+                    && m.getId() == paseSeleccionado.getIdMembresia();
+            LocalDate fin = vigenciaExistente ? paseSeleccionado.getFechaFin() : inicio.plusDays(m.getDuracionDias());
+            if (fin == null) {
+                jDCFechaDeFinalizacion.setDate(null);
+                return;
+            }
             jDCFechaDeFinalizacion.setDate(Date.from(fin.atStartOfDay(ZoneId.systemDefault()).toInstant()));
         }
     }
@@ -227,28 +235,30 @@ public class VistaPases extends javax.swing.JInternalFrame {
             panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelControlesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jCBSocio, 0, 194, 194)
+                .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCBTipoDePase, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLFechaDeInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jDCFechaDeInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLFechaDeFinalizacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jDCFechaDeFinalizacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jCBEstado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelControlesLayout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jBAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jBLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jBEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jBModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 42, Short.MAX_VALUE))
+                    .addComponent(jLEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLTipoDePase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jCBTipoDePase, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLFechaDeInicio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jDCFechaDeInicio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLFechaDeFinalizacion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jDCFechaDeFinalizacion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jCBEstado, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(panelControlesLayout.createSequentialGroup()
-                        .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jBLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jBAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jBModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jBEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(jLEstado, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jCBSocio, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLSocio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSPPases, javax.swing.GroupLayout.DEFAULT_SIZE, 472, Short.MAX_VALUE)
-                .addGap(4, 4, 4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSPPases, javax.swing.GroupLayout.PREFERRED_SIZE, 572, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         panelControlesLayout.setVerticalGroup(
             panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -277,13 +287,13 @@ public class VistaPases extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCBEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jBAgregar)
-                            .addComponent(jBModificar))
+                        .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jBModificar)
+                            .addComponent(jBAgregar))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jBLimpiar)
-                            .addComponent(jBEliminar))))
+                        .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jBEliminar)
+                            .addComponent(jBLimpiar))))
                 .addGap(16, 16, 16))
         );
 
@@ -356,21 +366,15 @@ public class VistaPases extends javax.swing.JInternalFrame {
             return;
         }
 
-        if (jDCFechaDeInicio.getDate() == null || jDCFechaDeFinalizacion.getDate() == null) {
-            JOptionPane.showMessageDialog(this, "Seleccioná las fechas de inicio y finalización.");
+        if (jDCFechaDeInicio.getDate() == null) {
+            JOptionPane.showMessageDialog(this, "Seleccioná la fecha de inicio.");
             return;
         }
 
         LocalDate inicio = jDCFechaDeInicio.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        LocalDate fin = jDCFechaDeFinalizacion.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
         if (inicio.isBefore(LocalDate.now())) {
             JOptionPane.showMessageDialog(this, "La fecha de inicio no puede ser anterior al día actual.");
-            return;
-        }
-
-        if (fin.isBefore(inicio)) {
-            JOptionPane.showMessageDialog(this, "La fecha de finalización no puede ser anterior al inicio.");
             return;
         }
 
@@ -390,6 +394,7 @@ public class VistaPases extends javax.swing.JInternalFrame {
 
         Membresia membresiaSeleccionada = membresiasDisponibles.get(indiceMembresia);
 
+        LocalDate fin = inicio.plusDays(membresiaSeleccionada.getDuracionDias());
         Pase pase = new Pase();
         pase.setIdSocio(socioSeleccionado.getIdSocio());
         pase.setIdMembresia(membresiaSeleccionada.getId());
@@ -432,18 +437,12 @@ public class VistaPases extends javax.swing.JInternalFrame {
             return;
         }
 
-        if (jDCFechaDeInicio.getDate() == null || jDCFechaDeFinalizacion.getDate() == null) {
-            JOptionPane.showMessageDialog(this, "Seleccioná las fechas de inicio y finalización.");
+        if (jDCFechaDeInicio.getDate() == null) {
+            JOptionPane.showMessageDialog(this, "Seleccioná la fecha de inicio.");
             return;
         }
 
         LocalDate inicio = jDCFechaDeInicio.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        LocalDate fin = jDCFechaDeFinalizacion.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
-        if (fin.isBefore(inicio)) {
-            JOptionPane.showMessageDialog(this, "La fecha de finalización no puede ser anterior al inicio.");
-            return;
-        }
 
         Socio socioSeleccionado = sociosDisponibles.get(indiceSocio);
         if (!socioSeleccionado.isEstado()) {
@@ -453,6 +452,11 @@ public class VistaPases extends javax.swing.JInternalFrame {
 
         Membresia membresiaSeleccionada = membresiasDisponibles.get(indiceMembresia);
         boolean estado = "Activo".equals(jCBEstado.getSelectedItem());
+
+        boolean cambioVigencia = !inicio.equals(paseSeleccionado.getFechaInicio())
+                || paseSeleccionado.getIdMembresia() != membresiaSeleccionada.getId();
+        LocalDate fin = cambioVigencia ? inicio.plusDays(membresiaSeleccionada.getDuracionDias())
+                : paseSeleccionado.getFechaFin();
 
         int entradasIniciales = membresiaSeleccionada.getCantidadClases();
         int entradasDisponibles = paseSeleccionado.getCantidadEntradas();

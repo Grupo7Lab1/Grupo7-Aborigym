@@ -84,7 +84,7 @@
                           <Component id="jLTipoDeMembresia" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jSPMembresia" pref="472" max="32767" attributes="0"/>
+                      <Component id="jSPMembresia" pref="569" max="32767" attributes="0"/>
                       <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                   </Group>
               </Group>

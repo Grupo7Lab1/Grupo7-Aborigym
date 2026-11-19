@@ -81,7 +81,12 @@ public class VistaClaseGym extends javax.swing.JInternalFrame {
 
     private void cargarClaseEnFormulario(ClaseGym c) {
         claseSeleccionada = c;
-        jCBDisciplina.setSelectedItem(c.getDisciplina());
+        String disciplina = c.getDisciplina();
+        if (((javax.swing.DefaultComboBoxModel<String>) jCBDisciplina.getModel()).getIndexOf(disciplina) < 0) {
+            jCBDisciplina.addItem(disciplina);
+        }
+        jCBDisciplina.setSelectedItem(disciplina);
+        jCBEntrenador.setSelectedIndex(-1);
 
         if (c.getEntrenador() != null) {
             for (int i = 0; i < entrenadoresCargados.size(); i++) {
@@ -92,7 +97,18 @@ public class VistaClaseGym extends javax.swing.JInternalFrame {
             }
         }
 
-        jCBHorario.setSelectedItem(c.getHorario());
+        String horario = java.time.LocalTime.parse(c.getHorario().split(" - ", 2)[0].trim()).toString();
+        for (int i = 0; i < jCBHorario.getItemCount(); i++) {
+            if (jCBHorario.getItemAt(i).split(" - ", 2)[0].equals(horario)) {
+                jCBHorario.setSelectedIndex(i);
+                horario = null;
+                break;
+            }
+        }
+        if (horario != null) {
+            jCBHorario.addItem(horario);
+            jCBHorario.setSelectedItem(horario);
+        }
         jCBCapacidad.setSelectedItem(String.valueOf(c.getCapacidad()));
         jCBEstado.setSelectedItem(c.isEstado() ? "Activa" : "Inactiva");
     }
